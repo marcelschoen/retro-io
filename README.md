@@ -25,3 +25,20 @@ ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);
 VirtualDisk stDisk = handler.loadImage(imageFile);
 VirtualDirectory root = stDisk.getRootContents();
 ```
+
+## Disk Image Format Support
+
+Currently support is planned for these formats:
+
+* DOS (FAT12/FAT16/FAT32)
+* Atari ST (.ST)
+* Amiga (.ADF)
+* C64 (.D64)
+
+Future support might include write support (at least for some formats), and other formats, like
+
+* Atari ST (.MSA)
+* Atari XL (.ATR)
+* C64 (.T64)
+
+Of course any contributions to include support for any retro system floppy format is welcome.
