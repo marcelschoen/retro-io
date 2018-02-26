@@ -6,6 +6,10 @@ Java library for reading and extracting floppy disk images of 8- and 16-bit comp
 The goal of this Java library is to allow to read, extract the contents of, and eventually also write various 
 legacy floppy disk image formats of old 8- and 16-bit computer systems such as Commodore 64, Atari XL, ST or Amiga.
 
+Most of the actual image processing code will not be implemented in this project; it uses other, existing libraries
+and code and bundles them in one library, with one common API. The "Credits" section below lists projects and people
+whose code was used to implement this library.
+
 As a simple proof-of-concept and utility, the code will come as an executable Jar and contain a simple GUI tool that
 allows to load an image file and extract its contents.
 
