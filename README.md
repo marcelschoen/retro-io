@@ -14,7 +14,7 @@ allows to load an image file and extract its contents.
 To use the library in your own code to read an image file, you need the following classes / interface:
 
 * `ImageHandler` - a factory-provided implementation of a class that reads the image file
-* `VirtualDisk` - a POJO representation of the disk's contents, as read by the =ImageHandler=
+* `VirtualDisk` - a POJO representation of the disk's contents, as read by the `ImageHandler`
 * `VirtualDirectory` - Allows to iterate through the disks' contents
 * `VirtualFile` - Gives access to the details and contents of a file.
 
