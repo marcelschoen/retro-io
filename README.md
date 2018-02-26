@@ -30,7 +30,7 @@ VirtualDirectory root = stDisk.getRootContents();
 
 Currently support is planned for these formats:
 
-* DOS (FAT12/FAT16/FAT32)
+* PC DOS FAT12/FAT16/FAT32 (.IMG)
 * Atari ST (.ST)
 * Amiga (.ADF)
 * C64 (.D64)
@@ -42,3 +42,7 @@ Future support might include write support (at least for some formats), and othe
 * C64 (.T64)
 
 Of course any contributions to include support for any retro system floppy format is welcome.
+
+## Credits
+
+* https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST)
