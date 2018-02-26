@@ -42,6 +42,7 @@ public class ImageHandlerTest {
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
         VirtualDirectory root = virtualDisk.getRootContents();
+        root.getContents().forEach(f -> System.out.println("Entry: " + f.getName() + ", is file: " + f.isFile()));
 //        list(root);
         File targetDir = new File("target");
 //        handler.extractVirtualDisk(virtualDisk, targetDir);

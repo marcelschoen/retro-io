@@ -28,6 +28,7 @@ Example for reading an Atari ST "`.ST`" image file and accessing its root direct
 ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);
 VirtualDisk stDisk = handler.loadImage(imageFile);
 VirtualDirectory root = stDisk.getRootContents();
+root.getContents().forEach(f -> System.out.println("Entry: " + f.getName() + ", is file: " + f.isFile()));
 ```
 
 ## Disk Image Format Support
