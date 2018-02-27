@@ -31,6 +31,12 @@ VirtualDirectory root = stDisk.getRootContents();
 root.getContents().forEach(f -> System.out.println("Entry: " + f.getName() + ", is file: " + f.isFile()));
 ```
 
+Then extract the contents with
+
+```
+handler.extractImage(stDisk, new File("/tmp/"));
+```
+
 ## Disk Image Format Support
 
 Currently support is planned for these formats:
