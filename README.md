@@ -1,5 +1,5 @@
 # retro-io
-Java library for reading and extracting floppy disk images of 8- and 16-bit computers
+Java library and tool for reading and extracting floppy disk images of 8- and 16-bit computers
 
 ## Description
 
@@ -37,28 +37,11 @@ Then extract the contents with
 handler.extractImage(stDisk, new File("/tmp/"));
 ```
 
-## Disk Image Format Support
-
-Currently support is planned for these formats:
-
-* PC DOS FAT12/FAT16/FAT32 (.IMG)
-* Atari ST (.ST)
-* Amiga (.ADF)
-* C64 (.D64)
-
-Future releases might include write support (at least for some formats), and other formats, like
-
-* Atari ST (.MSA)
-* Atari XL (.ATR)
-* C64 (.T64)
-
-Of course any contributions to include support for any retro system floppy format is welcome.
-
 ## Credits
 
 * https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST)
 
-## Status / Format Support
+## Status / Disk Image Format Support
 
 Currently supported disk image formats are:
 
@@ -68,8 +51,14 @@ Currently supported disk image formats are:
 
 Planned for the future / currently looking into:
 
+* Atari ST (.MSA)
 * Commodore Amiga (.ADF)
 * Atari XL (.ATR)
+* Commodore 64 Tapes (.T64)
+
+Future releases might include write support (at least for some formats). Of course any contributions to 
+include support for any missing retro system floppy format is welcome.
+
 
 ## Build
 
