@@ -40,7 +40,7 @@ Currently support is planned for these formats:
 * Amiga (.ADF)
 * C64 (.D64)
 
-Future support might include write support (at least for some formats), and other formats, like
+Future releases might include write support (at least for some formats), and other formats, like
 
 * Atari ST (.MSA)
 * Atari XL (.ATR)
