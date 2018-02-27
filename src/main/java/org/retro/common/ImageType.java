@@ -15,6 +15,9 @@ public enum ImageType {
     // Atari ST uncompressed image
     atarist_ST("ST"),
 
+    // Atari XL/XE image
+    atarixl_ATR("ATR"),
+
     // Atari ST RLE-compressed image
     atarist_MSA("MSA"),
 

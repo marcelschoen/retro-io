@@ -1,5 +1,6 @@
 package org.retro.common.impl.c64;
 
+import org.retro.common.ImageType;
 import org.retro.common.impl.AbstractBaseVirtualDisk;
 
 /**
@@ -8,5 +9,7 @@ import org.retro.common.impl.AbstractBaseVirtualDisk;
  * @author Marcel Schoen
  */
 public class C64VirtualDisk extends AbstractBaseVirtualDisk {
-
+    public C64VirtualDisk() {
+        super(ImageType.c64_D64);
+    }
 }

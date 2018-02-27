@@ -46,10 +46,6 @@ public class DosImageHandler extends AbstractBaseImageHandler {
             iterateReadDirectory(root, rootDirectory);
 
             virtualDisk.setRootContent(root);
-            virtualDisk.setCapacity(fileDisk.getSize());
-            virtualDisk.setSectorSize(fileDisk.getSectorSize());
-            virtualDisk.setFreeSpace(fs.getFreeSpace());
-            virtualDisk.setUsableSpace(fs.getUsableSpace());
 
         } catch(IOException e) {
             throw new VirtualDiskException("Failed to read DOS files from image; reason: " + e.toString(), e);

@@ -1,11 +1,14 @@
 package org.retro.common;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * GUI- or commandline tool for extracting contents
@@ -18,7 +21,10 @@ public class ExtractorTool {
     private final static String UI_ACTION_LOAD = "Load image";
     private final static String UI_ACTION_EXTRACT = "Extract to...";
 
-    private String currentDirectory = "";
+    private File currentImageDirectory = new File(".");
+    private File currentTargetDirectory = new File(".");
+
+    private VirtualDisk currentDisk;
 
     public static void main(String ... args) {
         boolean showUsage = true;
@@ -55,18 +61,25 @@ public class ExtractorTool {
         }
     }
 
-
+    /**
+     * Runs the UI tool.
+     */
     public void runUI() {
         MainWindow mainWindow = new MainWindow();
         mainWindow.setVisible(true);
     }
 
+    /**
+     * The AWT-based GUI tool.
+     */
     class MainWindow extends Frame implements WindowListener, ActionListener {
+
+        Button extractButton;
 
         public MainWindow() {
             addWindowListener(this);
 
-            setSize(new Dimension(400,300));
+            setSize(new Dimension(500,600));
             Panel mainPanel = new Panel();
             add(mainPanel);
             LayoutManager mainLayout = new BorderLayout();
@@ -79,57 +92,99 @@ public class ExtractorTool {
             mainPanel.add(loadPanel, BorderLayout.SOUTH);
             Button loadButton=new Button(UI_ACTION_LOAD);
             loadButton.addActionListener(this);
-            Button extractButton=new Button(UI_ACTION_EXTRACT);
-            extractButton.addActionListener(this);
-            extractButton.setEnabled(false);
+            this.extractButton=new Button(UI_ACTION_EXTRACT);
+            this.extractButton.addActionListener(this);
+            this.extractButton.setEnabled(false);
             loadPanel.add(loadButton);
-            loadPanel.add(extractButton);
+            loadPanel.add(this.extractButton);
         }
 
         // The user has requested to open a file.
         // Show a FileDialog in LOAD mode.
         protected void selectFile(){
-            FileDialog dialog = new FileDialog(this,"Open File",FileDialog.LOAD);
-            dialog.setDirectory(currentDirectory);
-            dialog.setFile("");
-            dialog.show();
-
-            // Wait for the dialog to complete.
-            String filename = dialog.getFile();
-            if((filename != null) && (filename.length() != 0)){
-                // Prefix the directory name, if any.
-                String directory = dialog.getDirectory();
-                if((directory != null) && (directory.length() != 0)){
-                    currentDirectory = directory;
-                    filename = directory+filename;
-                }
-                try {
-                    if(filename.contains(".")) {
-                        // Load the file.
-                        ImageType type = ImageType.getTypeFromFileSuffix(filename.substring(filename.indexOf(".") + 1));
-                        System.out.println("Attempt to load image of type: " + type.name());
-                        if(type != null) {
-                            ImageHandler handler = ImageHandlerFactory.get(type);
-                            VirtualDisk disk = handler.loadImage(new File(dialog.getFile()));
-                            VirtualDirectory root = disk.getRootContents();
-                            StringBuffer txt = new StringBuffer();
-                            root.getContents().forEach(e -> txt.append(e.getName() + "\n\r"));
-                            fileList.setText(txt.toString());
-                        }
+            String[] suffixes = Arrays.stream(ImageType.values()).map(e -> e.getFileSuffix()).toArray(String[]::new);
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Load disk image", suffixes);
+            chooser.setCurrentDirectory(currentImageDirectory);
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                String filename = chooser.getSelectedFile().getName();
+                System.out.println("You chose to open this file: " + filename);
+                // Load the file.
+                ImageType type = ImageType.getTypeFromFileSuffix(filename.substring(filename.indexOf(".") + 1));
+                System.out.println("Attempt to load image of type: " + type.name());
+                if(type != null) {
+                    ImageHandler handler = ImageHandlerFactory.get(type);
+                    try {
+                        VirtualDisk disk = handler.loadImage(chooser.getSelectedFile());
+                        VirtualDirectory root = disk.getRootContents();
+                        String txt = getDirectoryContents("", root);
+                        fileList.setText(txt.toString());
+                        extractButton.setEnabled(true);
+                        currentDisk = disk;
+                        currentImageDirectory = chooser.getCurrentDirectory();
+                    } catch(Exception e) {
+                        e.printStackTrace();
                     }
-                } catch(Exception e){
-                    System.err.println(e);
                 }
             }
+        }
+
+        /**
+         * Opens the file dialog to choose the target directory
+         * and extracts the image into it.
+         */
+        protected void extractContents(){
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(currentTargetDirectory);
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnVal = chooser.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                System.out.println("You chose to extract to this directory: " + chooser.getCurrentDirectory().getAbsolutePath());
+                // Load the file.
+                ImageType type = currentDisk.getType();
+                System.out.println("Attempt to extract image of type: " + type.name());
+                if(type != null) {
+                    ImageHandler handler = ImageHandlerFactory.get(type);
+                    try {
+                        currentTargetDirectory = chooser.getCurrentDirectory();
+                        handler.extractVirtualDisk(currentDisk, currentTargetDirectory);
+                        System.out.println("Files extracted.");
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        /**
+         * Builds the directory contents text list.
+         *
+         * @param indent The current indentation spaces.
+         * @param directory The directory to process.
+         * @return The resulting text for that directory.
+         */
+        private String getDirectoryContents(String indent, VirtualDirectory directory) {
+            String txt = indent + directory.getName() + "/\n";
+            indent += "    ";
+            for(VirtualFile entry : directory.getContents()) {
+                if(entry.isDirectory()) {
+                    txt += getDirectoryContents(indent, (VirtualDirectory)entry);
+                } else {
+                    txt += indent + entry.getName() + "\n";
+                }
+            }
+            return txt;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals(UI_ACTION_LOAD)) {
-                System.out.println("Load image...");
                 selectFile();
             } if(e.getActionCommand().equals(UI_ACTION_EXTRACT)) {
-                System.out.println("Extract to...");
+                extractContents();
             }
         }
 

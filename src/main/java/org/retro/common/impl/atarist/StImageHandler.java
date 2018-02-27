@@ -43,10 +43,6 @@ public class StImageHandler extends AbstractBaseImageHandler {
             System.out.println("contents read.");
 
             virtualDisk.setRootContent(root);
-            virtualDisk.setCapacity(fileDisk.getSize());
-            virtualDisk.setSectorSize(fileDisk.getSectorSize());
-            virtualDisk.setFreeSpace(fs.getFreeSpace());
-            virtualDisk.setUsableSpace(fs.getUsableSpace());
         } catch(IOException e) {
             throw new VirtualDiskException("Failed to read ST files from image; reason: " + e.toString(), e);
         }
