@@ -54,8 +54,8 @@ Of course any contributions to include support for any retro system floppy forma
 
 ## Build
 
-This project requires Gradle to build it (I will probably add a Maven POM later too). To just compile it and run
-all the tests, run
+This project requires Java 8 and Gradle to build it (I will probably add a Maven POM later too). 
+To just compile it and run all the tests, run
 
 ```
 $ gradle build
