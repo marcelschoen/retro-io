@@ -51,3 +51,24 @@ Of course any contributions to include support for any retro system floppy forma
 ## Credits
 
 * https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST)
+
+## Build
+
+This project requires Gradle to build it (I will probably add a Maven POM later too). To just compile it and run
+all the tests, run
+
+```
+$ gradle build
+````
+
+To build the fat, executable Jar with the extractor tool, run
+
+```
+$ gradle build shadowJar
+````
+
+Then run the extractor tool with this command:
+
+```
+$ java -jar build\libs\retro-io-1.0-SNAPSHOT-all.jar -ui
+````
