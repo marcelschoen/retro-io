@@ -58,6 +58,19 @@ Of course any contributions to include support for any retro system floppy forma
 
 * https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST)
 
+## Status / Format Support
+
+Currently supported disk image formats are:
+
+* MS DOS (.IMG)
+* Atari ST (.ST)
+* Commodore 64 (.D64)
+
+Planned for the future / currently looking into:
+
+* Commodore Amiga (.ADF)
+* Atari XL (.ATR)
+
 ## Build
 
 This project requires Java 8 and Gradle to build it (I will probably add a Maven POM later too). 

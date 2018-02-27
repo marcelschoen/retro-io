@@ -63,7 +63,7 @@ public class ImageHandlerTest {
         VirtualDirectory root = virtualDisk.getRootContents();
         list(root);
         File targetDir = new File("target");
-//        handler.extractVirtualDisk(virtualDisk, targetDir);
+        handler.extractVirtualDisk(virtualDisk, targetDir);
     }
 
     private void list(VirtualDirectory virtualDirectory) {

@@ -21,13 +21,13 @@ import java.util.Iterator;
  *
  * Uses the fat32-lib library by Matthias Treydte:
  * https://github.com/waldheinz/fat32-lib
+ *
+ * @author Marcel Schoen
  */
 public class DosImageHandler extends AbstractBaseImageHandler {
 
     @Override
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
-        String diskName = imageFile.getName();
-
         FatFileSystem fs = null;
         FileDisk fileDisk = null;
         try {
@@ -60,7 +60,7 @@ public class DosImageHandler extends AbstractBaseImageHandler {
             FsDirectoryEntry entry = iterator.next();
             if(entry.isFile()) {
                 try {
-                    VirtualFile virtualFile = new VirtualFile(parent, entry.getName(), entry.getLastModified());
+                    VirtualFile virtualFile = new VirtualFile(parent, entry.getName());
                     FsFile fsFile = entry.getFile();
                     ByteBuffer bb = ByteBuffer.allocate((int) fsFile.getLength());
                     fsFile.read(0, bb);
@@ -77,9 +77,8 @@ public class DosImageHandler extends AbstractBaseImageHandler {
 
     @Override
     public void writeImage(VirtualDisk floppyDisk, File imageFile) throws VirtualDiskException {
+        throw new VirtualDiskException("*not implemented yet*");
 //        FileDisk fileDisk = new FileDisk(imageFile, false);
 //        FatFileSystem fs = FatFileSystem.read(fileDisk, true);
-
-
     }
 }

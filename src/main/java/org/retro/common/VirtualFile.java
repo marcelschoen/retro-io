@@ -1,10 +1,9 @@
 package org.retro.common;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
- * Represents a single file entry.
+ * Represents a single file (or directory).
  *
  * @author Marcel Schoen
  */
@@ -19,38 +18,37 @@ public class VirtualFile implements Comparable<String> {
     /** The file content (can be empty buffer). */
     private ByteBuffer content = ByteBuffer.allocate(0);
 
-    /** The last modification date. */
-    private long lastModified;
-
+    /**
+     * Creates a file.
+     *
+     * @param name The name of this file.
+     */
     public VirtualFile(String name) {
         this.name = name;
     }
 
-    public VirtualFile(String name, long lastModified) {
-        this(name);
-        this.lastModified = lastModified;
-    }
-
+    /**
+     * Creates a file.
+     *
+     * @param parent The parent directory of this file.
+     * @param name The name of this file.
+     */
     public VirtualFile(VirtualDirectory parent, String name) {
         this(name);
         this.parent = parent;
         parent.addFile(this);
     }
 
-    public VirtualFile(VirtualDirectory parent, String name, long lastModified) {
-        this(parent, name);
-        this.lastModified = lastModified;
-    }
-
+    /**
+     * Creates a file.
+     *
+     * @param parent The parent directory of this file.
+     * @param name The name of this file.
+     * @param content The data contents of this file.
+     */
     public VirtualFile(VirtualDirectory parent, String name, ByteBuffer content) {
         this(parent, name);
         setContent(content);
-    }
-
-    public VirtualFile(VirtualDirectory parent, String name, ByteBuffer content, long lastModified) {
-        this(parent, name);
-        setContent(content);
-        this.lastModified = lastModified;
     }
 
     @Override
@@ -58,61 +56,136 @@ public class VirtualFile implements Comparable<String> {
         return this.getName().compareTo(other);
     }
 
+    /**
+     * Determines if this is a file (rather than a directory).
+     *
+     * @return True if this is a file.
+     */
     public boolean isFile() {
         return !isDirectory();
     }
 
+    /**
+     * Determines if this is a directory (rather than a file).
+     *
+     * @return True if this is a directory.
+     */
     public boolean isDirectory() {
         return false;
     }
 
+    /**
+     * Returns the name of this file.
+     *
+     * @return The simple file or directory name.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Sets the name for this file.
+     *
+     * @param name The name of this file or directory.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the parent directory of this file,
+     * if there is one.
+     *
+     * @return The parent directory (null for the root directory).
+     */
     public VirtualDirectory getParent() {
         return this.parent;
     }
 
+    /**
+     * Sets the parent directory for this file or directory.
+     *
+     * @param parent The parent directory.
+     */
     public void setParent(VirtualDirectory parent) {
         this.parent = parent;
     }
 
-    public void copyTo(VirtualDirectory target) throws IOException {
+    /**
+     * Copies this file or diretory to another directory.
+     *
+     * @param target The target (aka new parent) directory.
+     */
+    public void copyTo(VirtualDirectory target) {
         target.addFile(this);
     }
 
-    public void moveTo(VirtualDirectory target) throws IOException {
+    /**
+     * Moves this file or directory to another directory.
+     *
+     * @param target The target (aka new parent) directory.
+     */
+    public void moveTo(VirtualDirectory target) {
         target.addFile(this);
         parent.remove(this);
     }
 
+    /**
+     * Gets this file's content data.
+     *
+     * @return The new content data.
+     * @throws IllegalStateException If the method was called for a directory.
+     */
     public ByteBuffer getContent() {
-        return this.content;
+        if(this.isFile()) {
+            return this.content;
+        } else {
+            throw new IllegalStateException("Cannot get content of a directory entry: " + getName());
+        }
     }
 
+    /**
+     * Sets this file's contents to the given content data.
+     *
+     * @param content The new content data.
+     * @throws IllegalStateException If the method was called for a directory.
+     */
     public void setContent(ByteBuffer content) {
-        this.content = content;
+        if(this.isFile()) {
+            this.content = content;
+        } else {
+            throw new IllegalStateException("Cannot set content for a directory entry: " + getName());
+        }
     }
 
+    /**
+     * Sets this file's contents to the given content data.
+     *
+     * @param content The new content data.
+     * @throws IllegalStateException If the method was called for a directory.
+     */
+    public void setContent(byte[] content) {
+        if(this.isFile()) {
+            this.content = ByteBuffer.wrap(content);
+        } else {
+            throw new IllegalStateException("Cannot set content for a directory entry: " + getName());
+        }
+    }
+
+    /**
+     * Clears this file's contents.
+     */
     public void clear() {
         this.content = ByteBuffer.allocate(0);
     }
 
+    /**
+     * Returns the size of this file in bytes.
+     *
+     * @return The content size.
+     */
     public long getLength() {
         return this.content.capacity();
-    }
-
-    public void setLastModified(long lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public long getLastModified() {
-        return this.lastModified;
     }
 
     @Override

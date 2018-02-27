@@ -13,26 +13,24 @@ public class FileTest {
     @Test
     public void testFileEquals() {
         String filename = "DUMMY.PRG";
-        long lastModified = 11223344L;
         VirtualDirectory parent = new VirtualDirectory("STUFF");
         ByteBuffer content = ByteBuffer.allocate(1000);
 
-        VirtualFile virtualFileOne = new VirtualFile(parent, filename, content, lastModified);
+        VirtualFile virtualFileOne = new VirtualFile(parent, filename, content);
 
         VirtualFile virtualFileTwo = new VirtualFile(filename);
         virtualFileTwo.setContent(content);
-        virtualFileTwo.setLastModified(lastModified);
         virtualFileTwo.setParent(parent);
 
         assertThat(virtualFileOne.equals(virtualFileTwo), is(true));
 
-        virtualFileOne = new VirtualFile(filename, lastModified);
-        virtualFileTwo = new VirtualFile(parent, filename, lastModified);
+        virtualFileOne = new VirtualFile(filename);
+        virtualFileTwo = new VirtualFile(parent, filename);
 
         assertThat(virtualFileOne.equals(virtualFileTwo), is(false));
 
-        virtualFileOne = new VirtualFile(parent, filename, lastModified);
-        virtualFileTwo = new VirtualFile(filename, lastModified);
+        virtualFileOne = new VirtualFile(parent, filename);
+        virtualFileTwo = new VirtualFile(filename);
 
         assertThat(virtualFileOne.equals(virtualFileTwo), is(false));
     }
@@ -40,26 +38,23 @@ public class FileTest {
     @Test
     public void testCreateFile() {
         String filename = "DUMMY.PRG";
-        long lastModified = 11223344L;
         VirtualDirectory parent = new VirtualDirectory("STUFF");
         ByteBuffer content = ByteBuffer.allocate(1000);
 
         VirtualFile virtualFile = new VirtualFile(filename);
         assertThat(virtualFile.getName(), is(filename));
 
-        virtualFile = new VirtualFile(filename, lastModified);
+        virtualFile = new VirtualFile(filename);
         assertThat(virtualFile.getName(), is(filename));
-        assertThat(virtualFile.getLastModified(), is(lastModified));
 
         virtualFile = new VirtualFile(parent, filename);
         assertThat(virtualFile.getName(), is(filename));
         assertThat(virtualFile.getParent(), is(parent));
 
-        virtualFile = new VirtualFile(parent, filename, lastModified);
+        virtualFile = new VirtualFile(parent, filename);
         assertThat(virtualFile.getName(), is(filename));
         assertThat(virtualFile.getParent(), is(notNullValue()));
         assertThat(virtualFile.getParent(), is(parent));
-        assertThat(virtualFile.getLastModified(), is(lastModified));
 
         virtualFile = new VirtualFile(parent, filename, content);
         assertThat(virtualFile.getName(), is(filename));

@@ -5,9 +5,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Simulates a C64 floppy drive VC1541.
@@ -8723,63 +8720,30 @@ FFFE   .WD $FE67   ; IRQ
 		System.out.println("[VC1541] loadFile(); File \"" + fileName + "\" not found");
 		return 0;
 	}
-	
 
-	
-	
-	
-	
-	
-	public int loadPrgFile(String fileName, int adress) {
-		Memory memory = MemoryMap.findSegment(adress);
-		if(!(memory instanceof Ram)) {
-			System.err.println("[VC1541] loadPrgFile(); memory at adress " + adress + " is Read-Only");
-			return 0;
-		}		
-		Ram ram = (Ram)memory;
-		System.out.println("[VC1541] loadFile(); writable memory segment defined for adress " + adress + " (Type=" + ram.getDesc() + ")");
-
-		Path path = Paths.get(fileName);
-		byte[] data = null;
-		try {
-			data = Files.readAllBytes(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public int loadFileToBuffer(VC1541File file, byte[] buffer) {
+		int track = file.getStartTrack();
+		int sector = file.getStartSector();
+		for(int b=0; b < file.getNumberOfBlocks(); b++) {
+			byte[] block = getSector(track, sector);
+			System.arraycopy(block, 2, buffer, b*254, 254);
+			// prepare for next block
+			track = toUnsignedInt(block[0]);
+			sector = toUnsignedInt(block[1]);
+			if(track == 0 && sector == 0)
+				break;
 		}
-		
-//		RandomAccessFile f = new RandomAccessFile(fileName, "r");
-//		byte[] completeFile = new byte[(int)f.length()];
-//		f.read(completeFile);
-
-		System.arraycopy(data, 0, ram.getMemBuffer(), 0, data.length);
-		return data.length;
+		return file.getNumberOfBlocks()*(BLOCK_SIZE-2);
 	}
 
+	public byte[] loadFile(VC1541File file) {
+		byte[] fileBuffer = new byte[file.getNumberOfBlocks() * BLOCK_SIZE];
+		System.out.println("[VC1541] loadFile(); Loading file " + file.getFileName() + ", " + file.getNumberOfBlocks());
+		int numberOfBlocksRead = loadFileToBuffer(file, fileBuffer);
+		return fileBuffer;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public byte[] getSector(int track, int sector) {
+	public byte[] getSector(int track, int sector) {
 
 		int blockOffset = 0;
 		if(debug)

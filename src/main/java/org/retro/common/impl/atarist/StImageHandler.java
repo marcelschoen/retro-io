@@ -17,6 +17,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 
+/**
+ * Handles Atari ST ".ST" images.
+ *
+ * @author Marcel Schoen
+ */
 public class StImageHandler extends AbstractBaseImageHandler {
 
     @Override
@@ -56,7 +61,7 @@ public class StImageHandler extends AbstractBaseImageHandler {
             FsDirectoryEntry entry = iterator.next();
             if(entry.isFile()) {
                 try {
-                    VirtualFile virtualFile = new VirtualFile(parent, entry.getName(), entry.getLastModified());
+                    VirtualFile virtualFile = new VirtualFile(parent, entry.getName());
                     FsFile fsFile = entry.getFile();
                     ByteBuffer bb = ByteBuffer.allocate((int) fsFile.getLength());
                     fsFile.read(0, bb);
@@ -76,6 +81,7 @@ public class StImageHandler extends AbstractBaseImageHandler {
 
     @Override
     public void writeImage(VirtualDisk floppyDisk, File imageFile) throws VirtualDiskException {
+        throw new VirtualDiskException("*not implemented yet*");
         /*
         FileDisk fileDisk = new FileDisk(imageFile, false);
         FatFileSystem fs = FatFileSystem.read(fileDisk, true);

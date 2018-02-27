@@ -1,6 +1,5 @@
 package org.retro.common;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -35,18 +34,6 @@ public class VirtualDirectory extends VirtualFile {
         super(parent, name);
     }
 
-    /**
-     * Creates a virtual directory which has a parent directory
-     * and a certain modification date.
-     *
-     * @param parent The parent directory.
-     * @param name The name of this directory.
-     * @param lastModified The date of last modification.
-     */
-    public VirtualDirectory(VirtualDirectory parent, String name, long lastModified) {
-        super(parent, name, lastModified);
-    }
-
     @Override
     public boolean isDirectory() {
         return true;
@@ -73,9 +60,8 @@ public class VirtualDirectory extends VirtualFile {
      *
      * @param name the name of the entry to get
      * @return the entry, if it existed
-     * @throws IOException on error retrieving the entry
      */
-    public VirtualFile getEntry(String name) throws IOException {
+    public VirtualFile getEntry(String name) {
         return this.virtualFiles.stream()
                 .filter(f -> f.getName().equals(name))
                 .findFirst()
@@ -87,7 +73,6 @@ public class VirtualDirectory extends VirtualFile {
      *
      * @param name the name of the file to add
      * @return the entry pointing to the new file
-     * @throws IOException on error creating the file
      */
     public VirtualFile addFile(String name) {
         VirtualFile newVirtualFile = new VirtualFile(name);
@@ -110,9 +95,8 @@ public class VirtualDirectory extends VirtualFile {
      *
      * @param name the name of the sub-directory to add
      * @return the entry pointing to the new directory
-     * @throws IOException on error creating the directory
      */
-    public VirtualDirectory addDirectory(String name) throws IOException {
+    public VirtualDirectory addDirectory(String name) {
         return new VirtualDirectory(this, name);
     }
 
@@ -120,9 +104,8 @@ public class VirtualDirectory extends VirtualFile {
      * Remove the given entry from this directory.
      *
      * @param virtualFile The entry toremove..
-     * @throws IOException on error deleting the entry
      */
-    public void remove(VirtualFile virtualFile) throws IOException {
+    public void remove(VirtualFile virtualFile) {
         this.virtualFiles.remove(virtualFile);
     }
 
@@ -130,9 +113,8 @@ public class VirtualDirectory extends VirtualFile {
      * Remove the entry with the given name from this directory.
      *
      * @param name name of the entry to remove
-     * @throws IOException on error deleting the entry
      */
-    public void remove(String name) throws IOException {
+    public void remove(String name) {
         this.virtualFiles.remove(getEntry(name));
     }
 }

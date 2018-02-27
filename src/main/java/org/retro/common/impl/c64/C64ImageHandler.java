@@ -17,11 +17,9 @@ public class C64ImageHandler extends AbstractBaseImageHandler {
 
     @Override
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
-        String diskName = imageFile.getName();
 
         VC1541 floppy = new VC1541(false);
         floppy.loadImage(imageFile);
-        System.out.println("[MACHINE] Number of files: " + floppy.getDirectory().getSize());
 
         C64VirtualDisk virtualDisk = new C64VirtualDisk();
         VirtualDirectory root = new VirtualDirectory("/");
@@ -30,8 +28,7 @@ public class C64ImageHandler extends AbstractBaseImageHandler {
         for(int i=0; i < floppy.getDirectory().getSize(); i++) {
             VC1541File file = floppy.getDirectory().getEntry(i);
             VirtualFile virtualFile = new VirtualFile(root, file.getFileName());
-            System.out.println("[MACHINE] Directory " + (i+1) + ": \"" + file.getFileName()
-                    + "\", Size: " + file.getNumberOfBlocks() + " blocks");
+            virtualFile.setContent(floppy.loadFile(file));
         }
         return virtualDisk;
     }
