@@ -34,7 +34,7 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '1.9.+'
 
     // for Atari ST / DOS file system support
-    compile group: 'de.waldheinz', name: 'fat32-lib', version: '0.6.6-SNAPSHOT'
+//    compile group: 'de.waldheinz', name: 'fat32-lib', version: '0.6.6-SNAPSHOT'
 
     // IO stuff
     compile("commons-io:commons-io:2.5")
