@@ -31,6 +31,26 @@ public class ImageHandlerTest {
     }
 
     @Test
+    public void testReadAtariMSAImage() throws Exception {
+        System.out.println("======== Atari MSA image ===========");
+        ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_MSA);
+
+        Path tempDirectory = Files.createTempDirectory("msa");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "720.MSA");
+
+        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/720.MSA"), new FileOutputStream(imageFile));
+
+        VirtualDisk virtualDisk = handler.loadImage(imageFile);
+
+        VirtualDirectory root = virtualDisk.getRootContents();
+//        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
+//        list(root);
+        File targetDir = new File("target");
+//        handler.extractVirtualDisk(virtualDisk, targetDir);
+//        handler.extractInZipArchive(virtualDisk, targetDir);
+    }
+
+    @Test
     public void testReadAtariSTImage() throws Exception {
         System.out.println("======== Atari ST image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);

@@ -4,7 +4,6 @@ import de.waldheinz.fs.FsDirectory;
 import de.waldheinz.fs.FsDirectoryEntry;
 import de.waldheinz.fs.FsFile;
 import de.waldheinz.fs.fat.FatFileSystem;
-import de.waldheinz.fs.util.FileDisk;
 import org.retro.common.VirtualDirectory;
 import org.retro.common.VirtualDisk;
 import org.retro.common.VirtualDiskException;
@@ -17,24 +16,26 @@ import java.nio.ByteBuffer;
 import java.util.Iterator;
 
 /**
- * Handles Atari ST ".ST" images.
+ * Handles Atari ST ".MSA" images.
  *
  * @author Marcel Schoen
  */
-public class StImageHandler extends AbstractBaseImageHandler {
+public class MsaImageHandler extends AbstractBaseImageHandler {
 
     @Override
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
-        String diskName = imageFile.getName();
 
-        FileDisk fileDisk = null;
         FatFileSystem fs = null;
         try {
-            fileDisk = new FileDisk(imageFile, false);
-            fs = FatFileSystem.read(fileDisk, true);
+            MsaDisk msaDisk = new MsaDisk(imageFile);
+
+            // Read (and decompress, if necessary) the MSA image
+            msaDisk.load();
+
+            // Read raw image data as FAT file system
+            fs = FatFileSystem.read(msaDisk, true);
         } catch(IOException e) {
-            throw new VirtualDiskException("Failed to read ST image; reason: " + e.toString()
-                    + ", image: " + imageFile.getAbsolutePath(), e);
+            throw new VirtualDiskException("Failed to read MSA files from image; reason: " + e.toString(), e);
         }
 
         StVirtualDisk virtualDisk = new StVirtualDisk(imageFile.getName());
