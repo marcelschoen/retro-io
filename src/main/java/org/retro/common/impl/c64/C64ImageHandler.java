@@ -21,7 +21,7 @@ public class C64ImageHandler extends AbstractBaseImageHandler {
         VC1541 floppy = new VC1541(false);
         floppy.loadImage(imageFile);
 
-        C64VirtualDisk virtualDisk = new C64VirtualDisk();
+        C64VirtualDisk virtualDisk = new C64VirtualDisk(imageFile.getName());
         VirtualDirectory root = new VirtualDirectory("/");
         virtualDisk.setRootContent(root);
 

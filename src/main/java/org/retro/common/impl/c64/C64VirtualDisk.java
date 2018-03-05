@@ -9,7 +9,7 @@ import org.retro.common.impl.AbstractBaseVirtualDisk;
  * @author Marcel Schoen
  */
 public class C64VirtualDisk extends AbstractBaseVirtualDisk {
-    public C64VirtualDisk() {
-        super(ImageType.c64_D64);
+    public C64VirtualDisk(String name) {
+        super(ImageType.c64_D64, name);
     }
 }

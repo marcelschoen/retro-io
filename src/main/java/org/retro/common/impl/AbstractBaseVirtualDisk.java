@@ -18,13 +18,25 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
     /** The disk image type. */
     private ImageType type;
 
+    /** The disk name (usually image name minus suffix). */
+    private String name;
+
     /**
      * Creates a virtual disk for a certain type.
      *
      * @param type The disk image type.
      */
-    protected AbstractBaseVirtualDisk(ImageType type) {
+    protected AbstractBaseVirtualDisk(ImageType type, String name) {
         this.type = type;
+        this.name = name;
+        if(this.name.toUpperCase().endsWith(this.type.getFileSuffix())) {
+            this.name = this.name.substring(0, this.name.lastIndexOf("."));
+        }
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override

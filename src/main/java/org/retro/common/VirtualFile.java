@@ -39,6 +39,14 @@ public class VirtualFile implements Comparable<String> {
         parent.addFile(this);
     }
 
+    public String getFullName() {
+        if(parent == null) {
+            // no parent - must be root directory
+            return "";
+        }
+        return parent.getFullName() + "/" + this.name;
+    }
+
     /**
      * Creates a file.
      *

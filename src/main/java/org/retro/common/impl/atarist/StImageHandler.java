@@ -10,7 +10,6 @@ import org.retro.common.VirtualDisk;
 import org.retro.common.VirtualDiskException;
 import org.retro.common.VirtualFile;
 import org.retro.common.impl.AbstractBaseImageHandler;
-import org.retro.common.impl.dos.DosVirtualDisk;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class StImageHandler extends AbstractBaseImageHandler {
                     + ", image: " + imageFile.getAbsolutePath(), e);
         }
 
-        DosVirtualDisk virtualDisk = new DosVirtualDisk(fs);
+        StVirtualDisk virtualDisk = new StVirtualDisk(fs, imageFile.getName());
         try {
             FsDirectory rootDirectory = fs.getRoot();
             VirtualDirectory root = new VirtualDirectory("/");

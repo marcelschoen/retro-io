@@ -38,7 +38,7 @@ public class DosImageHandler extends AbstractBaseImageHandler {
                     + ", image: " + imageFile.getAbsolutePath(), e);
         }
 
-        DosVirtualDisk virtualDisk = new DosVirtualDisk(fs);
+        DosVirtualDisk virtualDisk = new DosVirtualDisk(fs, imageFile.getName());
         try {
             FsDirectory rootDirectory = fs.getRoot();
             VirtualDirectory root = new VirtualDirectory("/");

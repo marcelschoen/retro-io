@@ -4,7 +4,7 @@ import org.retro.common.ImageType;
 import org.retro.common.impl.AbstractBaseVirtualDisk;
 
 public class AmigaVirtualDisk extends AbstractBaseVirtualDisk {
-    public AmigaVirtualDisk() {
-        super(ImageType.amiga_ADF);
+    public AmigaVirtualDisk(String name) {
+        super(ImageType.amiga_ADF, name);
     }
 }

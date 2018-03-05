@@ -20,7 +20,7 @@ public class AtariXLImageHandler extends AbstractBaseImageHandler {
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
         String diskName = imageFile.getName();
 
-        AtariXLVirtualDisk virtualDisk = new AtariXLVirtualDisk();
+        AtariXLVirtualDisk virtualDisk = new AtariXLVirtualDisk(imageFile.getName());
         VirtualDirectory root = new VirtualDirectory("/");
         virtualDisk.setRootContent(root);
 

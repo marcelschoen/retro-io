@@ -20,7 +20,7 @@ public class AmigaImageHandler extends AbstractBaseImageHandler {
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
         String diskName = imageFile.getName();
 
-        AmigaVirtualDisk virtualDisk = new AmigaVirtualDisk();
+        AmigaVirtualDisk virtualDisk = new AmigaVirtualDisk(diskName);
         VirtualDirectory root = new VirtualDirectory("/");
         virtualDisk.setRootContent(root);
 

@@ -11,15 +11,18 @@ import java.io.File;
 import java.util.Arrays;
 
 /**
- * GUI- or commandline tool for extracting contents
- * of a floppy disk image.
+ * Simple GUI- or commandline tool for extracting contents
+ * of a floppy disk image. This is really more meant as a
+ * proof-of-concept, and to make this library potentially
+ * immediately at least somewhat useful.
  */
 public class ExtractorTool {
 
-    private TextArea fileList = new TextArea();
+    private JTextArea fileList = new JTextArea();
 
     private final static String UI_ACTION_LOAD = "Load image";
-    private final static String UI_ACTION_EXTRACT = "Extract to...";
+    private final static String UI_ACTION_EXTRACT = "Extract files to...";
+    private final static String UI_ACTION_ZIP = "Create Zip file...";
 
     private File currentImageDirectory = new File(".");
     private File currentTargetDirectory = new File(".");
@@ -30,14 +33,15 @@ public class ExtractorTool {
         boolean showUsage = true;
         if(args != null && args.length > 0) {
             ExtractorTool tool = new ExtractorTool();
-            if(args[0].equalsIgnoreCase("-ui")) {
-                showUsage = false;
-                tool.runUI();
-            } else if(args[0].equalsIgnoreCase("-e")) {
-                // extract disk image
+            if(args[0].equalsIgnoreCase("-e")) {
+                // TODO - extract disk image into directory
             } else if(args[0].equalsIgnoreCase("-l")) {
-                // list disk image contents
+                // TODO - list disk image contents
+            } else if(args[0].equalsIgnoreCase("-z")) {
+                // TODO - create zip archive of disk image contents
             }
+        } else {
+            new ExtractorTool().runUI();
         }
         if(showUsage) {
             System.out.println("To run in GUI mode:");
@@ -70,33 +74,43 @@ public class ExtractorTool {
     }
 
     /**
-     * The AWT-based GUI tool.
+     * The Swing-based GUI tool.
      */
-    class MainWindow extends Frame implements WindowListener, ActionListener {
+    class MainWindow extends JFrame implements WindowListener, ActionListener {
 
-        Button extractButton;
+        JButton extractFilesButton;
+        JButton extractToZipButton;
 
         public MainWindow() {
             addWindowListener(this);
-
             setSize(new Dimension(500,600));
-            Panel mainPanel = new Panel();
+            JPanel mainPanel = new JPanel();
+
             add(mainPanel);
+            getContentPane().add(mainPanel);
+
+
             LayoutManager mainLayout = new BorderLayout();
             mainPanel.setLayout(mainLayout);
             mainPanel.add(new Label("Retro Image Extractor Tool"), BorderLayout.NORTH);
             mainPanel.add(fileList, BorderLayout.CENTER);
             fileList.setEditable(false);
 
-            Panel loadPanel = new Panel();
+            JPanel loadPanel = new JPanel();
             mainPanel.add(loadPanel, BorderLayout.SOUTH);
-            Button loadButton=new Button(UI_ACTION_LOAD);
+            
+            JButton loadButton = new JButton(UI_ACTION_LOAD);
             loadButton.addActionListener(this);
-            this.extractButton=new Button(UI_ACTION_EXTRACT);
-            this.extractButton.addActionListener(this);
-            this.extractButton.setEnabled(false);
+            this.extractFilesButton = new JButton(UI_ACTION_EXTRACT);
+            this.extractFilesButton.addActionListener(this);
+            this.extractFilesButton.setEnabled(false);
             loadPanel.add(loadButton);
-            loadPanel.add(this.extractButton);
+            loadPanel.add(this.extractFilesButton);
+
+            this.extractToZipButton = new JButton(UI_ACTION_ZIP);
+            this.extractToZipButton.addActionListener(this);
+            this.extractToZipButton.setEnabled(false);
+            loadPanel.add(this.extractToZipButton);
         }
 
         // The user has requested to open a file.
@@ -122,7 +136,8 @@ public class ExtractorTool {
                         VirtualDirectory root = disk.getRootContents();
                         String txt = getDirectoryContents("", root);
                         fileList.setText(txt.toString());
-                        extractButton.setEnabled(true);
+                        extractFilesButton.setEnabled(true);
+                        extractToZipButton.setEnabled(true);
                         currentDisk = disk;
                         currentImageDirectory = chooser.getCurrentDirectory();
                     } catch(Exception e) {
@@ -134,24 +149,28 @@ public class ExtractorTool {
 
         /**
          * Opens the file dialog to choose the target directory
-         * and extracts the image into it.
+         * and extracts the image into it, either as files and
+         * subdirectories, or in a ZIP archive.
+         *
+         * @param toZip True if the contents should be extracted into a ZIP archive.
          */
-        protected void extractContents(){
+        protected void extractToFile(boolean toZip){
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(currentTargetDirectory);
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int returnVal = chooser.showOpenDialog(this);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
-                System.out.println("You chose to extract to this directory: " + chooser.getCurrentDirectory().getAbsolutePath());
                 // Load the file.
                 ImageType type = currentDisk.getType();
-                System.out.println("Attempt to extract image of type: " + type.name());
                 if(type != null) {
                     ImageHandler handler = ImageHandlerFactory.get(type);
                     try {
-                        currentTargetDirectory = chooser.getCurrentDirectory();
-                        handler.extractVirtualDisk(currentDisk, currentTargetDirectory);
-                        System.out.println("Files extracted.");
+                        currentTargetDirectory = chooser.getSelectedFile();
+                        if(toZip) {
+                            handler.extractInZipArchive(currentDisk, currentTargetDirectory);
+                        } else {
+                            handler.extractVirtualDisk(currentDisk, currentTargetDirectory);
+                        }
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
@@ -184,7 +203,9 @@ public class ExtractorTool {
             if(e.getActionCommand().equals(UI_ACTION_LOAD)) {
                 selectFile();
             } if(e.getActionCommand().equals(UI_ACTION_EXTRACT)) {
-                extractContents();
+                extractToFile(false);
+            } if(e.getActionCommand().equals(UI_ACTION_ZIP)) {
+                extractToFile(true);
             }
         }
 

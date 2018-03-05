@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 
 public class ImageHandlerTest {
@@ -23,7 +24,7 @@ public class ImageHandlerTest {
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
         VirtualDirectory root = virtualDisk.getRootContents();
-//        list(root);
+        list(root);
 
         File targetDir = new File("target");
 //        handler.extractVirtualDisk(virtualDisk, targetDir);
@@ -34,18 +35,19 @@ public class ImageHandlerTest {
         System.out.println("======== Atari ST image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);
 
-        java.io.File imageFile = Files.createTempFile("st", "image").toFile();
-        imageFile.deleteOnExit();
+        Path tempDirectory = Files.createTempDirectory("st");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "A_000.ST");
 
         IOUtils.copy(getClass().getResourceAsStream("/images/atarist/A_000.ST"), new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
         VirtualDirectory root = virtualDisk.getRootContents();
-        root.getContents().forEach(f -> System.out.println("Entry: " + f.getName() + ", is file: " + f.isFile()));
+//        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
 //        list(root);
         File targetDir = new File("target");
 //        handler.extractVirtualDisk(virtualDisk, targetDir);
+        handler.extractInZipArchive(virtualDisk, targetDir);
     }
 
     @Test
@@ -71,10 +73,10 @@ public class ImageHandlerTest {
         while(iter.hasNext()) {
             VirtualFile virtualFile = (VirtualFile)iter.next();
             if(virtualFile.isDirectory()) {
-                System.out.println("> DIRECTORY: " + virtualFile.getName());
+                System.out.println("> DIRECTORY: " + virtualFile.getFullName() + " (" + virtualFile.getName() + ")");
                 list((VirtualDirectory) virtualFile);
             } else {
-                System.out.println("--> virtualFile: " + virtualFile.getName());
+                System.out.println("--> virtualFile: " + virtualFile.getFullName() + " (" + virtualFile.getName() + ")");
             }
         }
     }

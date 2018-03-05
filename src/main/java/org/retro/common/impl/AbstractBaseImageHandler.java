@@ -4,7 +4,12 @@ import org.apache.commons.io.IOUtils;
 import org.retro.common.*;
 
 import java.io.*;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.*;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Abstract base class with some common functionality for
@@ -36,6 +41,7 @@ public abstract class AbstractBaseImageHandler implements ImageHandler {
      * @param targetDirectory The target directory to receive the extracted content.
      * @throws VirtualDiskException If the extraction failed.
      */
+    @Override
     public void extractVirtualDisk(VirtualDisk disk, java.io.File targetDirectory) throws VirtualDiskException {
         targetDirectory.mkdirs();
         if(!targetDirectory.exists() || targetDirectory.isFile() || !targetDirectory.canWrite()) {
@@ -43,6 +49,52 @@ public abstract class AbstractBaseImageHandler implements ImageHandler {
         }
         VirtualDirectory root = disk.getRootContents();
         extractDirectory(root, targetDirectory);
+    }
+
+    @Override
+    public void extractInZipArchive(VirtualDisk disk, File targetDirectory) throws VirtualDiskException {
+        Map<String, String> env = new HashMap<>();
+        env.put("create", "true");
+
+        targetDirectory.mkdirs();
+        System.out.println("Target directory: " + targetDirectory.getAbsolutePath());
+        String targetFileName = disk.getName() + ".zip";
+        System.out.println("Target zip file name: " + targetFileName);
+        File targetZipFile = new File(targetDirectory, targetFileName);
+        System.out.println("Target zip file: " + targetZipFile.getAbsolutePath());
+        try {
+            String zipUriName = targetZipFile.getCanonicalPath().replace(File.separatorChar, '/');
+            URI uri = URI.create("jar:file:///" + zipUriName);
+            try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
+                Path pathInZipfile = zipfs.getPath(disk.getName());
+                Files.createDirectories(pathInZipfile);
+                extractToZip(zipfs, disk.getRootContents(), disk.getName());
+            }
+        } catch(IOException e) {
+            throw new VirtualDiskException("Failed to extract file to ZIP: " + targetZipFile.getAbsolutePath()
+                    + ", reason: " + e, e);
+        }
+    }
+
+    /**
+     * Extracts the virtual disk contents into a ZIP archive file.
+     *
+     * @param zipfs The ZIP filesystem to extract the contents to.
+     * @param directory The directory with the files to extract.
+     * @param zipRootPrefix The root directory in the ZIP; usually the original disk image's filename without suffix.
+     * @throws IOException If the ZIP file could not be created.
+     */
+    private void extractToZip(FileSystem zipfs, VirtualDirectory directory, String zipRootPrefix) throws IOException {
+        for (VirtualFile entry : directory.getContents()) {
+            Path pathInZipfile = zipfs.getPath("/" + zipRootPrefix + entry.getFullName());
+            if (entry.isFile()) {
+                Files.copy(new ByteArrayInputStream(entry.getContent().array()), pathInZipfile,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                Files.createDirectories(pathInZipfile);
+                extractToZip(zipfs, (VirtualDirectory)entry, zipRootPrefix);
+            }
+        }
     }
 
     /**
@@ -76,7 +128,6 @@ public abstract class AbstractBaseImageHandler implements ImageHandler {
     private void extractFile(VirtualFile file, File targetDirectory) throws VirtualDiskException {
         String filename = replaceBadChars(file.getName());
         File targetFile = new File(targetDirectory, filename);
-        System.out.println("extract file, size: " + file.getContent().capacity());
         InputStream in = new ByteArrayInputStream(file.getContent().array());
         try {
             IOUtils.copy(in, new FileOutputStream(targetFile));
