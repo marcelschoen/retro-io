@@ -71,17 +71,17 @@ public class MsaDisk implements BlockDevice {
                 }
             }
 
-            System.out.println("Disk read. Data size: " + totalSize);
-
             // Now merge all the data from all the tracks into one raw data block
             this.rawData = ByteBuffer.allocate(totalSize);
             for(int trackNo = this.startingTrack; trackNo <= this.endingTrack; trackNo ++) {
-                this.rawData.put(this.tracksSideOne.get(trackNo).data);
+                byte[] srcData = this.tracksSideOne.get(trackNo).data;
+                this.rawData.put(srcData, 0, srcData.length);
                 if(this.sides == TYPE.TWO_SIDED) {
-                    this.rawData.put(this.tracksSideTwo.get(trackNo).data);
+                    srcData = this.tracksSideTwo.get(trackNo).data;
+                    this.rawData.put(srcData, 0, srcData.length);
                 }
             }
-            System.out.println("Final raw data size: " + this.rawData.position());
+            this.rawData.position(0);
         }
     }
 
@@ -99,19 +99,6 @@ public class MsaDisk implements BlockDevice {
         return trackData.length;
     }
 
-
-    class Track {
-
-        boolean compressed;
-        byte[] data;
-
-        Track(boolean compressed, byte[] data) {
-            this.compressed = compressed;
-            this.data = data;
-        }
-    }
-
-
     @Override
     public long getSize() throws IOException {
         return this.rawData.capacity();
@@ -124,7 +111,10 @@ public class MsaDisk implements BlockDevice {
 
     @Override
     public void read(long devOffset, ByteBuffer dest) throws IOException {
-        dest.put(this.rawData);
+        int toRead = dest.remaining();
+        if ((devOffset + toRead) > getSize()) throw new IOException(
+                "reading past end of device");
+        dest.put(this.rawData.array(), (int)devOffset, toRead);
     }
 
     @Override
@@ -151,5 +141,16 @@ public class MsaDisk implements BlockDevice {
     public boolean isReadOnly() {
         // TODO - write support
         return true;
+    }
+
+    class Track {
+
+        boolean compressed;
+        byte[] data;
+
+        Track(boolean compressed, byte[] data) {
+            this.compressed = compressed;
+            this.data = data;
+        }
     }
 }

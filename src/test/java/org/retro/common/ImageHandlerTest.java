@@ -44,7 +44,7 @@ public class ImageHandlerTest {
 
         VirtualDirectory root = virtualDisk.getRootContents();
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
-//        list(root);
+        list(root);
         File targetDir = new File("target");
 //        handler.extractVirtualDisk(virtualDisk, targetDir);
 //        handler.extractInZipArchive(virtualDisk, targetDir);
@@ -56,15 +56,15 @@ public class ImageHandlerTest {
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);
 
         Path tempDirectory = Files.createTempDirectory("st");
-        java.io.File imageFile = new File(tempDirectory.toFile(), "A_000.ST");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "007BATMAN.ST");
 
-        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/A_000.ST"), new FileOutputStream(imageFile));
+        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/007BATMAN.ST"), new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
         VirtualDirectory root = virtualDisk.getRootContents();
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
-//        list(root);
+        list(root);
         File targetDir = new File("target");
 //        handler.extractVirtualDisk(virtualDisk, targetDir);
         handler.extractInZipArchive(virtualDisk, targetDir);
