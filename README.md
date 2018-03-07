@@ -77,5 +77,5 @@ $ gradle build shadowJar
 Then run the extractor tool with this command:
 
 ```
-$ java -jar build\libs\retro-io-1.0-SNAPSHOT-all.jar -ui
+$ java -jar build\libs\retro-io-1.0-SNAPSHOT-all.jar
 ````
