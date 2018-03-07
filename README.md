@@ -46,12 +46,11 @@ handler.extractImage(stDisk, new File("/tmp/"));
 Currently supported disk image formats are:
 
 * MS DOS (.IMG)
-* Atari ST (.ST)
+* Atari ST (.ST, .MSA)
 * Commodore 64 (.D64)
 
 Planned for the future / currently looking into:
 
-* Atari ST (.MSA)
 * Commodore Amiga (.ADF)
 * Atari XL (.ATR)
 * Commodore 64 Tapes (.T64)

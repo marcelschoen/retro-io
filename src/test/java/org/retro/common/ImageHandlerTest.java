@@ -36,9 +36,9 @@ public class ImageHandlerTest {
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_MSA);
 
         Path tempDirectory = Files.createTempDirectory("msa");
-        java.io.File imageFile = new File(tempDirectory.toFile(), "720.MSA");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "HDDRIVER.MSA");
 
-        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/720.MSA"), new FileOutputStream(imageFile));
+        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/HDDRIVER.MSA"), new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
