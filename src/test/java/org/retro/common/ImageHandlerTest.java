@@ -31,6 +31,26 @@ public class ImageHandlerTest {
     }
 
     @Test
+    public void testReadAmigaADFImage() throws Exception {
+        System.out.println("======== Amiga ADF image ===========");
+        ImageHandler handler = ImageHandlerFactory.get(ImageType.amiga_ADF);
+
+        Path tempDirectory = Files.createTempDirectory("adf");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "DMAssist1.adf");
+
+        IOUtils.copy(getClass().getResourceAsStream("/images/amiga/DMAssist1.adf"), new FileOutputStream(imageFile));
+
+        VirtualDisk virtualDisk = handler.loadImage(imageFile);
+
+        VirtualDirectory root = virtualDisk.getRootContents();
+//        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
+        list(root);
+        File targetDir = new File("target");
+//        handler.extractVirtualDisk(virtualDisk, targetDir);
+//        handler.extractInZipArchive(virtualDisk, targetDir);
+    }
+
+    @Test
     public void testReadAtariMSAImage() throws Exception {
         System.out.println("======== Atari MSA image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_MSA);
