@@ -120,6 +120,7 @@ public class AdfImage {
         }
 
         if(includeContent) {
+            System.out.println(">> FILE: " + file.getName() + " / CONTENT: " + file.getSize());
             byte[] newContent = new byte[file.getSize()];
             file.setContent(newContent);
             int index = 0;
@@ -153,6 +154,7 @@ public class AdfImage {
                     System.arraycopy(block.getContent(), 0, newContent, index, block.getContent().length);
                     index += block.getDataSize();
                     maxSize -= block.getNextDataBlock();
+                    nextBlock = block.getFirstDataBlock();
                 }
             }
         }
@@ -185,7 +187,7 @@ public class AdfImage {
         for(PointerEntry entry : entries) {
             if(entry.type == ENTRY_TYPE.FILE) {
                 System.out.println("> file: " + entry.name);
-                AdfFile file = readFileAtSector(entry.sector, false);
+                AdfFile file = readFileAtSector(entry.sector, true);
                 directory.getFileEntries().add(file);
 
             } else {
