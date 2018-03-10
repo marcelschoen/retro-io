@@ -1,19 +1,12 @@
 package org.retro.common.impl.amiga.adf;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdfDirectory {
-    private int sector;
-    private List<AdfDirectory> subDirectories;
-    private List<AdfFile> fileEntries;
+public class AdfDirectory extends AdfFile {
 
-    public int getSector() {
-        return sector;
-    }
-
-    public void setSector(int sector) {
-        this.sector = sector;
-    }
+    private List<AdfDirectory> subDirectories = new ArrayList<>();
+    private List<AdfFile> fileEntries = new ArrayList<>();
 
     public List<AdfDirectory> getSubDirectories() {
         return subDirectories;

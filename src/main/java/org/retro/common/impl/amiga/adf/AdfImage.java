@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.retro.common.impl.amiga.adf.Adf.SECTOR_SIZE;
 import static org.retro.common.impl.amiga.adf.AdfImageInfo.DISK_TYPE;
@@ -26,6 +27,8 @@ public class AdfImage {
     private ByteBuffer imageData;
 
     private AdfImageInfo imageInfo;
+
+    private AdfDirectory rootFolder;
 
     public enum ENTRY_TYPE {
         ROOT(1),
@@ -62,7 +65,11 @@ public class AdfImage {
         readBootBlock();
 
         // Read root folder
-        AdfDirectory directory = readFolderAtSector(880);
+        this.rootFolder = readFolderAtSector(880);
+    }
+
+    public AdfDirectory getRootFolder() {
+        return this.rootFolder;
     }
 
     /**
@@ -99,10 +106,72 @@ public class AdfImage {
         this.imageInfo = imageInfo;
     }
 
+    private AdfFile readFileAtSector(int sector, boolean includeContent) {
+        AdfFile file = new AdfFile(sector);
+
+        AdfBlock block = readHeaderBlock(sector);
+        for(AdfBlockItem item : block.getItems()) {
+            if(item.getName() != null) {
+                file.setName(item.getName());
+            }
+            if(item.getSize() != 0) {
+                file.setSize(item.getSize());
+            }
+        }
+
+        if(includeContent) {
+            byte[] newContent = new byte[file.getSize()];
+            file.setContent(newContent);
+            int index = 0;
+
+            // there are 2 ways to read a file in OFS:
+            // 1 is to read the list of datablock pointers and collect each datablock
+            // 2 is to follow the linked list of datablocks
+
+            // the second one seems somewhat easier to implement
+            // because otherwise we have to collect each extention block first
+
+            int maxSize = file.getSize();
+            if(getImageInfo().getDiskType() == DISK_TYPE.FFS) {
+                List<Integer> sectors = Arrays.stream(block.getPointers()).boxed().collect(Collectors.toList());
+                while((block.getItems() != null && !block.getItems().isEmpty())
+                        && block.getItems().get(0).getDataBlockExtention() > 0 && sectors.size() < 2000) {
+                    block = readExtentionBlock(block.getItems().get(0).getDataBlockExtention());
+                    List<Integer> newSctors = Arrays.stream(block.getPointers()).boxed().collect(Collectors.toList());
+                    sectors.addAll(newSctors);
+                }
+                for(Integer sectorEntry : sectors) {
+                    block = readDataBlock(sectorEntry, maxSize);
+                    System.arraycopy(block.getContent(), 0, newContent, index, block.getContent().length);
+                    index += block.getDataSize();
+                    maxSize -= block.getDataSize();
+                }
+            } else {
+                int nextBlock = block.getFirstDataBlock();
+                while(nextBlock != 0) {
+                    block = readDataBlock(nextBlock, SECTOR_SIZE);
+                    System.arraycopy(block.getContent(), 0, newContent, index, block.getContent().length);
+                    index += block.getDataSize();
+                    maxSize -= block.getNextDataBlock();
+                }
+            }
+        }
+
+        return file;
+    }
+
     private AdfDirectory readFolderAtSector(int sector) {
         AdfDirectory directory = new AdfDirectory();
 
         AdfBlock headerBlock = readHeaderBlock(sector);
+        for(AdfBlockItem item : headerBlock.getItems()) {
+            if(item.getName() != null) {
+                directory.setName(item.getName());
+            }
+            if(item.getSize() != 0) {
+                directory.setSize(item.getSize());
+            }
+        }
 
         List<PointerEntry> entries = new ArrayList<>();
         for(int sectorPointer : headerBlock.getPointers()) {
@@ -116,8 +185,15 @@ public class AdfImage {
         for(PointerEntry entry : entries) {
             if(entry.type == ENTRY_TYPE.FILE) {
                 System.out.println("> file: " + entry.name);
+                AdfFile file = readFileAtSector(entry.sector, false);
+                directory.getFileEntries().add(file);
+
             } else {
                 System.out.println("> dir: " + entry.name);
+                AdfDirectory adfDirectory = new AdfDirectory();
+                adfDirectory.setSector(entry.sector);
+                adfDirectory.setName(entry.name);
+                directory.getSubDirectories().add(adfDirectory);
             }
         }
 
