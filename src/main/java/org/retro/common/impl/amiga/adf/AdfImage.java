@@ -138,6 +138,41 @@ public class AdfImage {
         return ENTRY_TYPE.toType(type);
     }
 
+    private AdfBlock readDataBlock(int sector, int size) {
+        AdfBlock block = readBlock(sector);
+        if(getImageInfo().getDiskType() == DISK_TYPE.FFS) {
+            block.setDataSize(Math.min(size, Adf.SECTOR_SIZE));
+            byte[] blockContent = new byte[block.getDataSize()];
+            for(int i = 0; i < block.getDataSize(); i++) {
+                blockContent[i] = imageData.get();
+            }
+            block.setContent(blockContent);
+        } else {
+            block.setType(imageData.getInt());
+            block.setHeaderSector(imageData.getInt()); // points to the file HEADER block this data block belongs to
+            block.setNumber(imageData.getInt());
+            block.setDataSize(imageData.getInt());
+            block.setNextDataBlock(imageData.getInt());
+            block.setChecksum(imageData.getInt());
+
+            if(block.getType() == 8) {
+                byte[] blockContent = new byte[block.getDataSize()];
+                imageData.position((sector * SECTOR_SIZE) + 24);
+                for(int i = 0; i < block.getDataSize(); i++) {
+                    blockContent[i] = imageData.get();
+                }
+                block.setContent(blockContent);
+            } else {
+                // invalid file
+                block.setContent(new byte[0]);
+                block.setDataSize(0);
+                block.setNextDataBlock(0);
+            }
+        }
+
+        return block;
+    }
+
     private AdfBlock readExtentionBlock(int sector) {
         AdfBlock block = readBlock(sector);
 

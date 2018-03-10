@@ -9,10 +9,37 @@ public class AdfBlock {
     private int dataBlockCount;
     private int dataSize;
     private int firstDataBlock;
+    private int nextDataBlock;
     private int checksum;
+    private int number;
     private List<AdfBlockItem> items = new ArrayList<>();
+    private byte[] content;
     
     private int[] pointers;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getNextDataBlock() {
+        return nextDataBlock;
+    }
+
+    public void setNextDataBlock(int nextDataBlock) {
+        this.nextDataBlock = nextDataBlock;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
 
     public List<AdfBlockItem> getItems() {
         return items;
