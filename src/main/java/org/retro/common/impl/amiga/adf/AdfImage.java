@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.retro.common.impl.amiga.adf.Adf.SECTOR_SIZE;
@@ -27,8 +28,29 @@ public class AdfImage {
     private AdfImageInfo imageInfo;
 
     public enum ENTRY_TYPE {
-        FILE,
-        DIR
+        ROOT(1),
+        FILE(-3),
+        USERDIR(2),
+        SOFTLINK(3),
+        LINKFILE(-4),
+        LINKDIR(4);
+
+        private int type;
+
+        ENTRY_TYPE(int type) {
+            this.type = type;
+        }
+
+        public int getType() {
+            return this.type;
+        }
+
+        public static ENTRY_TYPE toType(long type) {
+            return Arrays.stream(values())
+                    .filter(v -> v.getType() == type)
+                    .findFirst()
+                    .orElse(null);
+        }
     }
 
     public AdfImage(File imageFile) throws IOException {
@@ -113,7 +135,7 @@ public class AdfImage {
     private ENTRY_TYPE getFileTypeAtSector(int sector){
         imageData.position((SECTOR_SIZE * sector) + SECTOR_SIZE - 4);
         long type = imageData.getInt();
-        return type == 4294967293L ? ENTRY_TYPE.FILE : ENTRY_TYPE.DIR;
+        return ENTRY_TYPE.toType(type);
     }
 
 
