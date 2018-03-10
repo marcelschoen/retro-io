@@ -3,7 +3,7 @@ package org.retro.common.impl.amiga.adf;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdfHeaderBlock {
+public class AdfBlock {
     private int type;
     private int headerSector;
     private int dataBlockCount;

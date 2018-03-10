@@ -102,7 +102,7 @@ public class AdfImage {
     private AdfDirectory readFolderAtSector(int sector) {
         AdfDirectory directory = new AdfDirectory();
 
-        AdfHeaderBlock headerBlock = readHeaderBlock(sector);
+        AdfBlock headerBlock = readHeaderBlock(sector);
 
         List<PointerEntry> entries = new ArrayList<>();
         for(int sectorPointer : headerBlock.getPointers()) {
@@ -138,24 +138,32 @@ public class AdfImage {
         return ENTRY_TYPE.toType(type);
     }
 
+    private AdfBlock readExtentionBlock(int sector) {
+        AdfBlock block = readBlock(sector);
+
+        imageData.position(sector * Adf.SECTOR_SIZE + 24);
+        int[] pointers = new int[72];
+        for(int i = 0; i < 72; i++) {
+            // TODO - COULD BE WRONG ("unshift" in JS?)
+            pointers[i] = imageData.getInt();
+        }
+        block.setPointers(pointers);
+
+        imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 8);
+        AdfBlockItem item = new AdfBlockItem();
+        block.getItems().add(item);
+        item.setDataBlockExtention(imageData.getInt());
+
+        return block;
+    }
 
 
-
-
-    private AdfHeaderBlock readHeaderBlock(int sector) {
-        imageData.position(sector * Adf.SECTOR_SIZE);
-
-        AdfHeaderBlock headerBlock = new AdfHeaderBlock();
-
-        headerBlock.setType(imageData.getInt());
-        headerBlock.setHeaderSector(imageData.getInt());
-        headerBlock.setDataBlockCount(imageData.getInt());
-        headerBlock.setDataSize(imageData.getInt());
-        headerBlock.setFirstDataBlock(imageData.getInt());
-        headerBlock.setChecksum(imageData.getInt());
+    private AdfBlock readHeaderBlock(int sector) {
+        AdfBlock headerBlock = readBlock(sector);
 
         int[] pointers = new int[72];
         for(int i = 0; i < 72; i++) {
+            // TODO - COULD BE WRONG ("unshift" in JS?)
             pointers[i] = imageData.getInt();
         }
         headerBlock.setPointers(pointers);
@@ -166,10 +174,39 @@ public class AdfImage {
         // Item size
         imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 188);
         item.setSize(imageData.getInt());
+        byte dataLength = imageData.get();
+        item.setComment(Adf.readString(imageData, dataLength));
 
+        imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 92);
+        item.setLastChangeDays(imageData.getInt());
+        item.setLastChangeMinutes(imageData.getInt());
+        item.setLastChangeTicks(imageData.getInt());
 
-        // ... TODO
+        dataLength = imageData.get();
+        item.setName(Adf.readString(imageData, dataLength));
+
+        imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 16);
+        item.setLinkedSector(imageData.getInt());
+        item.setParent(imageData.getInt());
+        item.setDataBlockExtention(imageData.getInt());
+        item.setType(imageData.getInt());
+
         return headerBlock;
+    }
+
+    private AdfBlock readBlock(int sector) {
+        imageData.position(sector * Adf.SECTOR_SIZE);
+        AdfBlock headerBlock = new AdfBlock();
+
+        headerBlock.setType(imageData.getInt());
+        headerBlock.setHeaderSector(imageData.getInt());
+        headerBlock.setDataBlockCount(imageData.getInt());
+        headerBlock.setDataSize(imageData.getInt());
+        headerBlock.setFirstDataBlock(imageData.getInt());
+        headerBlock.setChecksum(imageData.getInt());
+
+        return headerBlock;
+
     }
 
     public AdfImageInfo getImageInfo() {
