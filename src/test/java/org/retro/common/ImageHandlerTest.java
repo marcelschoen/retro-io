@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -36,9 +37,10 @@ public class ImageHandlerTest {
         ImageHandler handler = ImageHandlerFactory.get(ImageType.amiga_ADF);
 
         Path tempDirectory = Files.createTempDirectory("adf");
-        java.io.File imageFile = new File(tempDirectory.toFile(), "DMAssist1.adf");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "wbench1.3.adf");
 
-        IOUtils.copy(getClass().getResourceAsStream("/images/amiga/DMAssist1.adf"), new FileOutputStream(imageFile));
+        InputStream in = getClass().getResourceAsStream("/images/amiga/wbench1.3.adf");
+        IOUtils.copy(in, new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 

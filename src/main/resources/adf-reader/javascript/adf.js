@@ -17,10 +17,7 @@ var adf = function(){
 
 		var onLoad = function(buffer){
 
-			print("buffer size: " + buffer.byteLength);
-
             disk = BinaryStream(buffer,true);
-            print("disk: " + disk);
 
 			if (disk.length == 901120){
 				// only standard DD disks are support that can store 880kb
