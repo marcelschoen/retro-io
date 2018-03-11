@@ -57,6 +57,7 @@ public class AmigaImageHandler extends AbstractBaseImageHandler {
             newFile.setContent(file.getContent());
         }
         for(AdfDirectory dir : directory.getSubDirectories()) {
+            System.out.println("Process subfolder: " + dir.getName());
             processDir(newDir, dir);
         }
     }

@@ -48,7 +48,7 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
         list(root);
         File targetDir = new File("target");
-//        handler.extractVirtualDisk(virtualDisk, targetDir);
+        handler.extractVirtualDisk(virtualDisk, targetDir);
 //        handler.extractInZipArchive(virtualDisk, targetDir);
     }
 

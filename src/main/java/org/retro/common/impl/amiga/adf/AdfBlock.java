@@ -1,6 +1,5 @@
 package org.retro.common.impl.amiga.adf;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdfBlock {
@@ -12,10 +11,10 @@ public class AdfBlock {
     private int nextDataBlock;
     private int checksum;
     private int number;
-    private List<AdfBlockItem> items = new ArrayList<>();
+    private AdfBlockItem item = new AdfBlockItem();
     private byte[] content;
     
-    private int[] pointers;
+    private List<Integer> pointers;
 
     public int getNumber() {
         return number;
@@ -41,8 +40,12 @@ public class AdfBlock {
         this.content = content;
     }
 
-    public List<AdfBlockItem> getItems() {
-        return items;
+    public AdfBlockItem getItem() {
+        return item;
+    }
+
+    public void setItem(AdfBlockItem item) {
+        this.item = item;
     }
 
     public int getType() {
@@ -93,11 +96,11 @@ public class AdfBlock {
         this.checksum = checksum;
     }
 
-    public int[] getPointers() {
+    public List<Integer> getPointers() {
         return pointers;
     }
 
-    public void setPointers(int[] pointers) {
+    public void setPointers(List<Integer> pointers) {
         this.pointers = pointers;
     }
 }

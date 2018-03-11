@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.retro.common.impl.amiga.adf.Adf.SECTOR_SIZE;
 import static org.retro.common.impl.amiga.adf.AdfImageInfo.DISK_TYPE;
@@ -66,6 +65,9 @@ public class AdfImage {
 
         // Read root folder
         this.rootFolder = readFolderAtSector(880);
+        for(AdfDirectory subFolder : this.rootFolder.getSubDirectories()) {
+            readFolderAtSector(subFolder.getSector());
+        }
     }
 
     public AdfDirectory getRootFolder() {
@@ -110,17 +112,10 @@ public class AdfImage {
         AdfFile file = new AdfFile(sector);
 
         AdfBlock block = readHeaderBlock(sector);
-        for(AdfBlockItem item : block.getItems()) {
-            if(item.getName() != null) {
-                file.setName(item.getName());
-            }
-            if(item.getSize() != 0) {
-                file.setSize(item.getSize());
-            }
-        }
+        file.setItem(block.getItem());
 
         if(includeContent) {
-            System.out.println(">> FILE: " + file.getName() + " / CONTENT: " + file.getSize());
+            System.out.println(">> READ FILE: " + file.getName() + " / CONTENT: " + file.getSize());
             byte[] newContent = new byte[file.getSize()];
             file.setContent(newContent);
             int index = 0;
@@ -134,11 +129,10 @@ public class AdfImage {
 
             int maxSize = file.getSize();
             if(getImageInfo().getDiskType() == DISK_TYPE.FFS) {
-                List<Integer> sectors = Arrays.stream(block.getPointers()).boxed().collect(Collectors.toList());
-                while((block.getItems() != null && !block.getItems().isEmpty())
-                        && block.getItems().get(0).getDataBlockExtention() > 0 && sectors.size() < 2000) {
-                    block = readExtentionBlock(block.getItems().get(0).getDataBlockExtention());
-                    List<Integer> newSctors = Arrays.stream(block.getPointers()).boxed().collect(Collectors.toList());
+                List<Integer> sectors = block.getPointers();
+                while(block.getItem().getDataBlockExtention() > 0 && sectors.size() < 2000) {
+                    block = readExtentionBlock(block.getItem().getDataBlockExtention());
+                    List<Integer> newSctors = block.getPointers();
                     sectors.addAll(newSctors);
                 }
                 for(Integer sectorEntry : sectors) {
@@ -163,17 +157,10 @@ public class AdfImage {
     }
 
     private AdfDirectory readFolderAtSector(int sector) {
-        AdfDirectory directory = new AdfDirectory();
+        AdfDirectory directory = new AdfDirectory(sector);
 
         AdfBlock headerBlock = readHeaderBlock(sector);
-        for(AdfBlockItem item : headerBlock.getItems()) {
-            if(item.getName() != null) {
-                directory.setName(item.getName());
-            }
-            if(item.getSize() != 0) {
-                directory.setSize(item.getSize());
-            }
-        }
+        directory.setItem(headerBlock.getItem());
 
         List<PointerEntry> entries = new ArrayList<>();
         for(int sectorPointer : headerBlock.getPointers()) {
@@ -190,12 +177,17 @@ public class AdfImage {
                 AdfFile file = readFileAtSector(entry.sector, true);
                 directory.getFileEntries().add(file);
 
+
             } else {
-                System.out.println("> dir: " + entry.name);
-                AdfDirectory adfDirectory = new AdfDirectory();
-                adfDirectory.setSector(entry.sector);
-                adfDirectory.setName(entry.name);
-                directory.getSubDirectories().add(adfDirectory);
+                if(!entry.name.isEmpty()) { // TODO - WHY ARE MANY ENTRIES EMPTY ?????
+                    System.out.println("> dir: " + entry.name);
+//                AdfDirectory adfDirectory = readFolderAtSector(entry.sector);
+
+                    AdfDirectory adfDirectory = new AdfDirectory(entry.sector);
+                    adfDirectory.setName(entry.name);
+
+                    directory.getSubDirectories().add(adfDirectory);
+                }
             }
         }
 
@@ -255,16 +247,19 @@ public class AdfImage {
         AdfBlock block = readBlock(sector);
 
         imageData.position(sector * Adf.SECTOR_SIZE + 24);
-        int[] pointers = new int[72];
+        List<Integer> pointers = new ArrayList<>();
         for(int i = 0; i < 72; i++) {
             // TODO - COULD BE WRONG ("unshift" in JS?)
-            pointers[i] = imageData.getInt();
+            int pointer = readSector(imageData);
+            if(pointer > 0) {
+                pointers.add(0, pointer);
+            }
         }
         block.setPointers(pointers);
 
         imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 8);
         AdfBlockItem item = new AdfBlockItem();
-        block.getItems().add(item);
+        block.setItem(item);
         item.setDataBlockExtention(imageData.getInt());
 
         return block;
@@ -274,15 +269,18 @@ public class AdfImage {
     private AdfBlock readHeaderBlock(int sector) {
         AdfBlock headerBlock = readBlock(sector);
 
-        int[] pointers = new int[72];
+        List<Integer> pointers = new ArrayList<>();
         for(int i = 0; i < 72; i++) {
             // TODO - COULD BE WRONG ("unshift" in JS?)
-            pointers[i] = imageData.getInt();
+            int pointer = readSector(imageData);
+            if(pointer > 0) {
+                pointers.add(0, pointer);
+            }
         }
         headerBlock.setPointers(pointers);
 
         AdfBlockItem item = new AdfBlockItem();
-        headerBlock.getItems().add(item);
+        headerBlock.setItem(item);
 
         // Item size
         imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 188);
@@ -299,26 +297,40 @@ public class AdfImage {
         item.setName(Adf.readString(imageData, dataLength));
 
         imageData.position((sector * Adf.SECTOR_SIZE) + Adf.SECTOR_SIZE - 16);
-        item.setLinkedSector(imageData.getInt());
-        item.setParent(imageData.getInt());
-        item.setDataBlockExtention(imageData.getInt());
+        item.setLinkedSector(readSector(imageData));
+        item.setParent(readSector(imageData));
+        item.setDataBlockExtention(readSector(imageData));
         item.setType(imageData.getInt());
 
         return headerBlock;
     }
 
+    private static int readSector(ByteBuffer imageData) {
+        int sector = imageData.getInt();
+        /*
+        if(sector < 1) {
+            throw new IllegalStateException("*********** Value: " + sector + " **************");
+        }
+        if(sector > 5000) {
+            throw new IllegalStateException("*********** Value: " + sector + " **************");
+        }
+        */
+        return sector;
+    }
+
     private AdfBlock readBlock(int sector) {
+        System.out.println("> read block at sector: " + sector);
         imageData.position(sector * Adf.SECTOR_SIZE);
-        AdfBlock headerBlock = new AdfBlock();
+        AdfBlock block = new AdfBlock();
 
-        headerBlock.setType(imageData.getInt());
-        headerBlock.setHeaderSector(imageData.getInt());
-        headerBlock.setDataBlockCount(imageData.getInt());
-        headerBlock.setDataSize(imageData.getInt());
-        headerBlock.setFirstDataBlock(imageData.getInt());
-        headerBlock.setChecksum(imageData.getInt());
+        block.setType(imageData.getInt());
+        block.setHeaderSector(imageData.getInt());
+        block.setDataBlockCount(imageData.getInt());
+        block.setDataSize(imageData.getInt());
+        block.setFirstDataBlock(readSector(imageData));
+        block.setChecksum(imageData.getInt());
 
-        return headerBlock;
+        return block;
 
     }
 
