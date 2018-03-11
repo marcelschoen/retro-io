@@ -2,26 +2,51 @@ package org.retro.common.impl.amiga.adf;
 
 import java.util.List;
 
+/**
+ * Stores basic information of one block. Which
+ * fields are used depends on which type of
+ * block is being processed.
+ *
+ * @author Marcel Schoen
+ */
 public class AdfBlock {
+
+    /** The block type. */
     private int type;
+
+    /** The header block starting sector. */
     private int headerSector;
+
+    /** The data block count. */
     private int dataBlockCount;
+
+    /** The data size. */
     private int dataSize;
+
+    /** The sector of the first data block. */
     private int firstDataBlock;
+
+    /** The sector of the next data block. */
     private int nextDataBlock;
+
+    /** The checksum. */
     private int checksum;
-    private int number;
+
+    /** Item with additional information. */
     private AdfBlockItem item = new AdfBlockItem();
+
+    /** Actual block data. */
     private byte[] content;
-    
+
+    /** List of block pointers. */
     private List<Integer> pointers;
 
-    public int getNumber() {
-        return number;
-    }
-
+    /**
+     * NOT USED.
+     *
+     * @param number
+     */
     public void setNumber(int number) {
-        this.number = number;
     }
 
     public int getNextDataBlock() {

@@ -14,8 +14,12 @@ import java.io.File;
 
 /**
  * Handler for Commodore Amiga ADF disk images.
+ * Based on JavaScript code from this project:
  *
- * NOT IMPLEMENTED YET
+ * https://github.com/steffest/ADF-reader
+ *
+ * ADF format documentation is also included in the
+ * "src/doc-formats" subdirectory in this project.
  *
  * @author Marcel Schoen
  */
@@ -53,11 +57,9 @@ public class AmigaImageHandler extends AbstractBaseImageHandler {
         VirtualDirectory newDir = new VirtualDirectory(parent, directory.getName());
         for(AdfFile file : directory.getFileEntries()) {
             VirtualFile newFile = new VirtualFile(newDir, file.getName());
-            System.out.println("Set content in file: " + file.getName());
             newFile.setContent(file.getContent());
         }
         for(AdfDirectory dir : directory.getSubDirectories()) {
-            System.out.println("Process subfolder: " + dir.getName());
             processDir(newDir, dir);
         }
     }

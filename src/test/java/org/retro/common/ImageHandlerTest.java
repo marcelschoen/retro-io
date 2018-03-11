@@ -37,16 +37,20 @@ public class ImageHandlerTest {
         ImageHandler handler = ImageHandlerFactory.get(ImageType.amiga_ADF);
 
         Path tempDirectory = Files.createTempDirectory("adf");
-        java.io.File imageFile = new File(tempDirectory.toFile(), "wbench1.3.adf");
 
-        InputStream in = getClass().getResourceAsStream("/images/amiga/wbench1.3.adf");
+        String imageName = "Docs_Codes_etc.adf";
+//        String imageName = "wbench1.3.adf";
+
+        java.io.File imageFile = new File(tempDirectory.toFile(), imageName);
+
+        InputStream in = getClass().getResourceAsStream("/images/amiga/" + imageName);
         IOUtils.copy(in, new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
         VirtualDirectory root = virtualDisk.getRootContents();
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
-        list(root);
+//        list(root);
         File targetDir = new File("target");
         handler.extractVirtualDisk(virtualDisk, targetDir);
 //        handler.extractInZipArchive(virtualDisk, targetDir);
@@ -115,10 +119,10 @@ public class ImageHandlerTest {
         while(iter.hasNext()) {
             VirtualFile virtualFile = (VirtualFile)iter.next();
             if(virtualFile.isDirectory()) {
-                System.out.println("> DIRECTORY: " + virtualFile.getFullName() + " (" + virtualFile.getName() + ")");
+                System.out.println("> DIRECTORY: " + virtualFile.getFullName() + " (" + virtualFile.getLength() + ")");
                 list((VirtualDirectory) virtualFile);
             } else {
-                System.out.println("--> virtualFile: " + virtualFile.getFullName() + " (" + virtualFile.getName() + ")");
+                System.out.println("--> virtualFile: " + virtualFile.getFullName() + " (" + virtualFile.getLength() + ")");
             }
         }
     }

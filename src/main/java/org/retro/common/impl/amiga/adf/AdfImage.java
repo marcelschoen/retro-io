@@ -3,6 +3,7 @@ package org.retro.common.impl.amiga.adf;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,16 +20,26 @@ import static org.retro.common.impl.amiga.adf.AdfImageInfo.DISK_TYPE;
  * ByteBuffer.getShort() -> read Amiga "word" (2 bytes)
  * ByteBuffer.getInt() -> read Amiga "long" (4 bytes)
  *
+ * NOTE: This implementation is not 100% by any means. It fails to process and
+ * extract some images I tested it with, like the included "wbench1.3.adf", so
+ * there are apparently still bugs to fix...
+ *
  * @author Marcel Schoen
  */
 public class AdfImage {
 
+    /** Stores the image data. */
     private ByteBuffer imageData;
 
+    /** Stores meta image info. */
     private AdfImageInfo imageInfo;
 
+    /** Stores the root folder info. */
     private AdfDirectory rootFolder;
 
+    /**
+     * The type of entry.
+     */
     public enum ENTRY_TYPE {
         ROOT(1),
         FILE(-3),
@@ -55,6 +66,12 @@ public class AdfImage {
         }
     }
 
+    /**
+     * Creates an ADF image.
+     *
+     * @param imageFile The image file.
+     * @throws IOException
+     */
     public AdfImage(File imageFile) throws IOException {
         byte[] fileData = new byte[(int)imageFile.length()];
         try (FileInputStream in = new FileInputStream(imageFile)) {
@@ -70,6 +87,11 @@ public class AdfImage {
         }
     }
 
+    /**
+     * Returns the root folder of this image.
+     *
+     * @return The root directory.
+     */
     public AdfDirectory getRootFolder() {
         return this.rootFolder;
     }
@@ -96,18 +118,22 @@ public class AdfImage {
 
         imageData.getInt(); // skip an ignore checksum
 
-        imageInfo.setRootBlock(imageData.getInt());
-
         // Read root sector information
+        imageInfo.setRootBlock(imageData.getInt());
 
         imageData.position((SECTOR_SIZE * 880) + SECTOR_SIZE - 80);
         byte nameLength = imageData.get();
-
         imageInfo.setLabel(Adf.readString(imageData, nameLength));
-
         this.imageInfo = imageInfo;
     }
 
+    /**
+     * Reads a file at the given sector.
+     *
+     * @param sector The sector where the file data starts.
+     * @param includeContent True if the actual file contents should be read too.
+     * @return The file information holder.
+     */
     private AdfFile readFileAtSector(int sector, boolean includeContent) {
         AdfFile file = new AdfFile(sector);
 
@@ -115,7 +141,6 @@ public class AdfImage {
         file.setItem(block.getItem());
 
         if(includeContent) {
-            System.out.println(">> READ FILE: " + file.getName() + " / CONTENT: " + file.getSize());
             byte[] newContent = new byte[file.getSize()];
             file.setContent(newContent);
             int index = 0;
@@ -137,7 +162,7 @@ public class AdfImage {
                 }
                 for(Integer sectorEntry : sectors) {
                     block = readDataBlock(sectorEntry, maxSize);
-                    System.arraycopy(block.getContent(), 0, newContent, index, block.getContent().length);
+                    copyData(file.getName(), block.getContent(), newContent, index);
                     index += block.getDataSize();
                     maxSize -= block.getDataSize();
                 }
@@ -145,9 +170,8 @@ public class AdfImage {
                 int nextBlock = block.getFirstDataBlock();
                 while(nextBlock != 0) {
                     block = readDataBlock(nextBlock, SECTOR_SIZE);
-                    System.arraycopy(block.getContent(), 0, newContent, index, block.getContent().length);
+                    copyData(file.getName(), block.getContent(), newContent, index);
                     index += block.getDataSize();
-                    maxSize -= block.getNextDataBlock();
                     nextBlock = block.getFirstDataBlock();
                 }
             }
@@ -156,6 +180,28 @@ public class AdfImage {
         return file;
     }
 
+    /**
+     * Copies data from one byte array to another.
+     *
+     * @param name The name of the current file.
+     * @param src The source byte array.
+     * @param dest The destination byte array.
+     * @param offset The offset in the destination array.
+     */
+    private static void copyData(String name, byte[] src, byte[] dest, int offset) {
+        try {
+            System.arraycopy(src, 0, dest, offset, src.length);
+        } catch(ArrayIndexOutOfBoundsException e) {
+            System.err.println("Failed to copy data for file " + name + ": " + e);
+        }
+    }
+
+    /**
+     * Reads a folder at a certain sector.
+     *
+     * @param sector The sector where the folder starts.
+     * @return The directory folder.
+     */
     private AdfDirectory readFolderAtSector(int sector) {
         AdfDirectory directory = new AdfDirectory(sector);
 
@@ -171,21 +217,29 @@ public class AdfImage {
             entries.add(entry);
         }
 
+        List<PointerEntry> moreEntries = new ArrayList<>();
+        for(PointerEntry entry : entries) {
+            if (entry.type == ENTRY_TYPE.FILE) {
+                AdfFile file = readFileAtSector(entry.sector, false);
+                if (file.getLinkedSector() != 0) {
+                    PointerEntry newEntry = new PointerEntry();
+                    newEntry.sector = file.getLinkedSector();
+                    newEntry.name = getFileNameAtSector(file.getLinkedSector());
+                    newEntry.type = getFileTypeAtSector(file.getLinkedSector());
+                    moreEntries.add(newEntry);
+                }
+            }
+        }
+        entries.addAll(moreEntries);
+
         for(PointerEntry entry : entries) {
             if(entry.type == ENTRY_TYPE.FILE) {
-                System.out.println("> file: " + entry.name);
                 AdfFile file = readFileAtSector(entry.sector, true);
                 directory.getFileEntries().add(file);
-
-
             } else {
                 if(!entry.name.isEmpty()) { // TODO - WHY ARE MANY ENTRIES EMPTY ?????
-                    System.out.println("> dir: " + entry.name);
-//                AdfDirectory adfDirectory = readFolderAtSector(entry.sector);
-
                     AdfDirectory adfDirectory = new AdfDirectory(entry.sector);
                     adfDirectory.setName(entry.name);
-
                     directory.getSubDirectories().add(adfDirectory);
                 }
             }
@@ -194,7 +248,12 @@ public class AdfImage {
         return directory;
     }
 
-
+    /**
+     * Reads a filename at a certain header sector.
+     *
+     * @param sector The header sector from where to read the filename.
+     * @return The filename.
+     */
     private String getFileNameAtSector(int sector){
         imageData.position((SECTOR_SIZE * sector) + SECTOR_SIZE - 80);
         int nameLength = imageData.get();
@@ -202,12 +261,25 @@ public class AdfImage {
 
     }
 
+    /**
+     * Reads a file type at a certain header sector.
+     *
+     * @param sector The header sector from where to read the filename.
+     * @return The file type.
+     */
     private ENTRY_TYPE getFileTypeAtSector(int sector){
         imageData.position((SECTOR_SIZE * sector) + SECTOR_SIZE - 4);
         long type = imageData.getInt();
         return ENTRY_TYPE.toType(type);
     }
 
+    /**
+     * Reads a file or directory data block.
+     *
+     * @param sector The sector where the block starts.
+     * @param size The size of the block.
+     * @return The data block.
+     */
     private AdfBlock readDataBlock(int sector, int size) {
         AdfBlock block = readBlock(sector);
         if(getImageInfo().getDiskType() == DISK_TYPE.FFS) {
@@ -229,7 +301,14 @@ public class AdfImage {
                 byte[] blockContent = new byte[block.getDataSize()];
                 imageData.position((sector * SECTOR_SIZE) + 24);
                 for(int i = 0; i < block.getDataSize(); i++) {
-                    blockContent[i] = imageData.get();
+                    try {
+                        blockContent[i] = imageData.get();
+                    } catch(BufferUnderflowException e) {
+                        System.err.println("Failed to read contents of file: " + e);
+                        // either a bug in the reading code, or the image; either way,
+                        // abort further reading
+                        break;
+                    }
                 }
                 block.setContent(blockContent);
             } else {
@@ -243,13 +322,18 @@ public class AdfImage {
         return block;
     }
 
+    /**
+     * Reads an extention block.
+     *
+     * @param sector The sector where the block starts.
+     * @return The block.
+     */
     private AdfBlock readExtentionBlock(int sector) {
         AdfBlock block = readBlock(sector);
 
         imageData.position(sector * Adf.SECTOR_SIZE + 24);
         List<Integer> pointers = new ArrayList<>();
         for(int i = 0; i < 72; i++) {
-            // TODO - COULD BE WRONG ("unshift" in JS?)
             int pointer = readSector(imageData);
             if(pointer > 0) {
                 pointers.add(0, pointer);
@@ -265,13 +349,17 @@ public class AdfImage {
         return block;
     }
 
-
+    /**
+     * Read the header block of a file or folder.
+     *
+     * @param sector The sector where the header block starts.
+     * @return The header block.
+     */
     private AdfBlock readHeaderBlock(int sector) {
         AdfBlock headerBlock = readBlock(sector);
 
         List<Integer> pointers = new ArrayList<>();
         for(int i = 0; i < 72; i++) {
-            // TODO - COULD BE WRONG ("unshift" in JS?)
             int pointer = readSector(imageData);
             if(pointer > 0) {
                 pointers.add(0, pointer);
@@ -305,40 +393,56 @@ public class AdfImage {
         return headerBlock;
     }
 
-    private static int readSector(ByteBuffer imageData) {
-        int sector = imageData.getInt();
-        /*
-        if(sector < 1) {
-            throw new IllegalStateException("*********** Value: " + sector + " **************");
-        }
-        if(sector > 5000) {
-            throw new IllegalStateException("*********** Value: " + sector + " **************");
-        }
-        */
-        return sector;
-    }
-
+    /**
+     * Reads the beginning of a block.
+     *
+     * @param sector The sector where the block begins.
+     * @return The block.
+     */
     private AdfBlock readBlock(int sector) {
-        System.out.println("> read block at sector: " + sector);
-        imageData.position(sector * Adf.SECTOR_SIZE);
-        AdfBlock block = new AdfBlock();
+        try {
+            imageData.position(sector * Adf.SECTOR_SIZE);
+            AdfBlock block = new AdfBlock();
 
-        block.setType(imageData.getInt());
-        block.setHeaderSector(imageData.getInt());
-        block.setDataBlockCount(imageData.getInt());
-        block.setDataSize(imageData.getInt());
-        block.setFirstDataBlock(readSector(imageData));
-        block.setChecksum(imageData.getInt());
+            block.setType(imageData.getInt());
+            block.setHeaderSector(imageData.getInt());
+            block.setDataBlockCount(imageData.getInt());
+            block.setDataSize(imageData.getInt());
+            block.setFirstDataBlock(readSector(imageData));
+            block.setChecksum(imageData.getInt());
 
-        return block;
-
+            return block;
+        } catch(RuntimeException e) {
+            System.out.println("----> INVALID SECTOR: " + sector);
+            e.printStackTrace();
+            throw e;
+        }
     }
 
+    /**
+     * Returns meta information about this disk image.
+     *
+     * @return The disk image info.
+     */
     public AdfImageInfo getImageInfo() {
          return this.imageInfo;
     }
 
+    /**
+     * Reads one 4-byte value with a sector number.
+     *
+     * @param imageData The image data from which to read.
+     * @return The sector number.
+     */
+    private static int readSector(ByteBuffer imageData) {
+        int sector = imageData.getInt();
+        return sector;
+    }
 
+    /**
+     * Utility holder for information about one hash
+     * table entry
+     */
     class PointerEntry {
         public int sector;
         public String name;
