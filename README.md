@@ -39,7 +39,8 @@ handler.extractImage(stDisk, new File("/tmp/"));
 
 ## Credits
 
-* https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST)
+* https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST).
+* https://github.com/steffest/ADF-reader - JavaScript ADF reader which I used as a template for my Java code.
 
 ## Status / Disk Image Format Support
 
