@@ -47,11 +47,12 @@ Currently supported disk image formats are:
 
 * MS DOS (.IMG)
 * Atari ST (.ST, .MSA)
+* Commodore Amiga (.ADF, partially; works with some images, not others)
 * Commodore 64 (.D64)
 
 Planned for the future / currently looking into:
 
-* Commodore Amiga (.ADF)
+* improved Commodore Amiga (.ADF)
 * Atari XL (.ATR)
 * Commodore 64 Tapes (.T64)
 
