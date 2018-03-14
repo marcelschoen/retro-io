@@ -19,10 +19,6 @@ import static org.retro.common.impl.amiga.adf.AdfImageInfo.DISK_TYPE;
  * ByteBuffer.getShort() -> read Amiga "word" (2 bytes)
  * ByteBuffer.getInt() -> read Amiga "long" (4 bytes)
  *
- * NOTE: This implementation is not 100% by any means. It fails to process and
- * extract some images I tested it with, like the included "wbench1.3.adf", so
- * there are apparently still bugs to fix...
- *
  * @author Marcel Schoen
  */
 public class AdfImage {
