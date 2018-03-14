@@ -4,6 +4,9 @@ version '1.0-SNAPSHOT'
 buildscript {
     repositories {
         jcenter()
+        flatDir {
+            dirs '3rd-party-libs'
+        }
     }
     dependencies {
         //This is necessary to use the gradle shadow plugin
@@ -22,6 +25,14 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java','src/main/fat32-lib','src/main/jlha'
+        }
+    }
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'org.retro.common.ExtractorTool'
@@ -34,9 +45,8 @@ dependencies {
     testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '1.9.+'
 
-    // for Atari ST / DOS file system support
-//    compile group: 'de.waldheinz', name: 'fat32-lib', version: '0.6.6-SNAPSHOT'
-
     // IO stuff
     compile("commons-io:commons-io:2.5")
+
+//    compile files('3rd-party-libs/kaitai-struct/io.kaitai.kaitai-struct-compiler-0.8.jar')
 }

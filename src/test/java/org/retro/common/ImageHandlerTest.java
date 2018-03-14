@@ -38,8 +38,8 @@ public class ImageHandlerTest {
 
         Path tempDirectory = Files.createTempDirectory("adf");
 
-        String imageName = "Docs_Codes_etc.adf";
-//        String imageName = "wbench1.3.adf";
+//        String imageName = "Docs_Codes_etc.adf";
+        String imageName = "wbench1.3.adf";
 
         java.io.File imageFile = new File(tempDirectory.toFile(), imageName);
 
@@ -50,7 +50,7 @@ public class ImageHandlerTest {
 
         VirtualDirectory root = virtualDisk.getRootContents();
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
-//        list(root);
+        list(root);
         File targetDir = new File("target");
         handler.extractVirtualDisk(virtualDisk, targetDir);
 //        handler.extractInZipArchive(virtualDisk, targetDir);
