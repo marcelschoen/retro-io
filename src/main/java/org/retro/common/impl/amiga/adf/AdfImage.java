@@ -77,10 +77,21 @@ public class AdfImage {
 
         // Read root folder
         this.rootFolder = readFolderAtSector(880);
-        for(AdfDirectory subFolder : this.rootFolder.getSubDirectories()) {
-            readFolderAtSector(subFolder.getSector());
+        processSubDirectories(this.rootFolder);
+    }
+
+    private void processSubDirectories(AdfDirectory folder) {
+        List<AdfDirectory> updatedSubdirectories = new ArrayList<>();
+        for(AdfDirectory subFolder : folder.getSubDirectories()) {
+            updatedSubdirectories.add(readFolderAtSector(subFolder.getSector()));
+        }
+        folder.getSubDirectories().clear();
+        folder.getSubDirectories().addAll(updatedSubdirectories);
+        for(AdfDirectory subFolder : folder.getSubDirectories()) {
+            processSubDirectories(subFolder);
         }
     }
+
 
     /**
      * Returns the root folder of this image.
@@ -217,7 +228,6 @@ public class AdfImage {
             if (entry.type == ENTRY_TYPE.FILE) {
                 AdfFile file = readFileAtSector(entry.sector, false);
                 if (file.getLinkedSector() != 0) {
-                    System.out.println("-> add entry for linked sector: " + file.getLinkedSector());
                     PointerEntry newEntry = new PointerEntry();
                     newEntry.sector = file.getLinkedSector();
                     newEntry.name = getFileNameAtSector(file.getLinkedSector());
