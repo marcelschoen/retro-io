@@ -3,7 +3,6 @@ package org.retro.common.impl.amiga.adf;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -222,6 +221,7 @@ public class AdfImage {
             if (entry.type == ENTRY_TYPE.FILE) {
                 AdfFile file = readFileAtSector(entry.sector, false);
                 if (file.getLinkedSector() != 0) {
+                    System.out.println("-> add entry for linked sector: " + file.getLinkedSector());
                     PointerEntry newEntry = new PointerEntry();
                     newEntry.sector = file.getLinkedSector();
                     newEntry.name = getFileNameAtSector(file.getLinkedSector());
@@ -290,25 +290,11 @@ public class AdfImage {
             }
             block.setContent(blockContent);
         } else {
-            block.setType(imageData.getInt());
-            block.setHeaderSector(imageData.getInt()); // points to the file HEADER block this data block belongs to
-            block.setNumber(imageData.getInt());
-            block.setDataSize(imageData.getInt());
-            block.setNextDataBlock(imageData.getInt());
-            block.setChecksum(imageData.getInt());
-
             if(block.getType() == 8) {
                 byte[] blockContent = new byte[block.getDataSize()];
                 imageData.position((sector * SECTOR_SIZE) + 24);
                 for(int i = 0; i < block.getDataSize(); i++) {
-                    try {
-                        blockContent[i] = imageData.get();
-                    } catch(BufferUnderflowException e) {
-                        System.err.println("Failed to read contents of file: " + e);
-                        // either a bug in the reading code, or the image; either way,
-                        // abort further reading
-                        break;
-                    }
+                     blockContent[i] = imageData.get();
                 }
                 block.setContent(blockContent);
             } else {
@@ -411,6 +397,9 @@ public class AdfImage {
             block.setFirstDataBlock(readSector(imageData));
             block.setChecksum(imageData.getInt());
 
+            if(block.getFirstDataBlock() == 1914784865) {
+                block.setFirstDataBlock(0);
+            }
             return block;
         } catch(RuntimeException e) {
             System.out.println("----> INVALID SECTOR: " + sector);
