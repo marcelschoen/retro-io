@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
  *
  * @author Marcel Schoen
  */
-public class VirtualFile implements Comparable<String> {
+public class VirtualFile implements Comparable<VirtualFile> {
 
     /** The filename. */
     private String name;
@@ -60,8 +60,8 @@ public class VirtualFile implements Comparable<String> {
     }
 
     @Override
-    public int compareTo(String other) {
-        return this.getName().compareTo(other);
+    public int compareTo(VirtualFile other) {
+        return this.getName().compareTo(other.getName());
     }
 
     /**
@@ -70,7 +70,7 @@ public class VirtualFile implements Comparable<String> {
      * @return True if this is a file.
      */
     public boolean isFile() {
-        return !isDirectory();
+        return true;
     }
 
     /**

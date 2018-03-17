@@ -1,8 +1,6 @@
 package org.retro.common;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Stores information about one directory of a virtual disk,
@@ -35,6 +33,11 @@ public class VirtualDirectory extends VirtualFile {
     }
 
     @Override
+    public boolean isFile() {
+        return false;
+    }
+
+    @Override
     public boolean isDirectory() {
         return true;
     }
@@ -49,11 +52,26 @@ public class VirtualDirectory extends VirtualFile {
     }
 
     /**
-     * Returns a set with all the entries in this directory.
+     * Returns a new instance of a set with all the entries in this directory,
+     * sorted by file / directory names (alphabetically).
      *
      * @return The set with all entries.
      */
-    public Set<VirtualFile> getContents() { return this.virtualFiles; }
+    public List<VirtualFile> getContents() {
+        List<VirtualFile> contents = new ArrayList();
+        // First add all directory entries, sorted alphabetically
+        this.virtualFiles.stream()
+                .filter(e -> e.isDirectory())
+                .sorted(Comparator.comparing(VirtualFile::getName))
+                .forEach(e -> contents.add(e));
+
+        // Then add all file entries, sorted alphabetically
+        this.virtualFiles.stream()
+                .filter(e -> e.isFile())
+                .sorted(Comparator.comparing(VirtualFile::getName))
+                .forEach(e -> contents.add(e));
+        return contents;
+    }
 
     /**
      * Gets the entry with the given name.

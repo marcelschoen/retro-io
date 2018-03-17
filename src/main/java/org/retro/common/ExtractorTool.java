@@ -1,7 +1,11 @@
 package org.retro.common;
 
 import javax.swing.*;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +22,6 @@ import java.util.Arrays;
  */
 public class ExtractorTool {
 
-    private JTextArea fileList = new JTextArea();
-
     private final static String UI_ACTION_LOAD = "Load image";
     private final static String UI_ACTION_EXTRACT = "Extract files to...";
     private final static String UI_ACTION_ZIP = "Create Zip file...";
@@ -28,6 +30,10 @@ public class ExtractorTool {
     private File currentTargetDirectory = new File(".");
 
     private VirtualDisk currentDisk;
+
+    private JPanel mainPanel;
+
+    private JTree tree;
 
     public static void main(String ... args) {
         boolean showUsage = true;
@@ -82,23 +88,32 @@ public class ExtractorTool {
         JButton extractToZipButton;
 
         public MainWindow() {
+            setTitle("retro-io");
             addWindowListener(this);
             setSize(new Dimension(500,600));
-            JPanel mainPanel = new JPanel();
+            mainPanel = new JPanel();
 
             add(mainPanel);
             getContentPane().add(mainPanel);
 
+            DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("/");
+            DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+            treeModel.addTreeModelListener(new MyTreeModelListener());
+            tree = new JTree(treeModel);
+
+            JScrollPane scrollPane = new JScrollPane(tree);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollPane.setBackground(Color.CYAN);
 
             LayoutManager mainLayout = new BorderLayout();
             mainPanel.setLayout(mainLayout);
             mainPanel.add(new Label("Retro Image Extractor Tool"), BorderLayout.NORTH);
-            mainPanel.add(fileList, BorderLayout.CENTER);
-            fileList.setEditable(false);
+
+            mainPanel.add(scrollPane, BorderLayout.CENTER);
 
             JPanel loadPanel = new JPanel();
             mainPanel.add(loadPanel, BorderLayout.SOUTH);
-            
+
             JButton loadButton = new JButton(UI_ACTION_LOAD);
             loadButton.addActionListener(this);
             this.extractFilesButton = new JButton(UI_ACTION_EXTRACT);
@@ -134,8 +149,17 @@ public class ExtractorTool {
                     try {
                         VirtualDisk disk = handler.loadImage(chooser.getSelectedFile());
                         VirtualDirectory root = disk.getRootContents();
-                        String txt = getDirectoryContents("", root);
-                        fileList.setText(txt.toString());
+//                        String txt = getDirectoryContents("", root);
+
+//                        fileList.setText(txt.toString());
+                        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(root.getName());
+                        createTree(rootNode, root);
+                        DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+                        treeModel.addTreeModelListener(new MyTreeModelListener());
+                        tree.setModel(treeModel);
+
+                        mainPanel.revalidate();
+                        mainPanel.repaint();
                         extractFilesButton.setEnabled(true);
                         extractToZipButton.setEnabled(true);
                         currentDisk = disk;
@@ -174,6 +198,16 @@ public class ExtractorTool {
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        }
+
+        private void createTree(DefaultMutableTreeNode parentNode, VirtualDirectory parentDirectory) {
+            for(VirtualFile file : parentDirectory.getContents()) {
+                DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(file.getName());
+                parentNode.add(newNode);
+                if(file.isDirectory()) {
+                    createTree(newNode, (VirtualDirectory)file);
                 }
             }
         }
@@ -226,4 +260,44 @@ public class ExtractorTool {
         public void windowDeactivated(WindowEvent e) {}
         @Override
         public void windowClosed(WindowEvent e) {}    }
+
+
+    class MyTreeModelListener implements TreeModelListener {
+
+        @Override
+        public void treeNodesChanged(TreeModelEvent e) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) (e.getTreePath()
+                    .getLastPathComponent());
+            int index = e.getChildIndices()[0];
+            node = (DefaultMutableTreeNode) (node.getChildAt(index));
+            System.out.println("New value NodesChanged: " + node.getUserObject());
+        }
+
+        @Override
+        public void treeNodesInserted(TreeModelEvent e) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) (e.getTreePath()
+                    .getLastPathComponent());
+            int index = e.getChildIndices()[0];
+            node = (DefaultMutableTreeNode) (node.getChildAt(index));
+            System.out.println("New value NodesInserted : " + node.getUserObject());
+        }
+
+        @Override
+        public void treeNodesRemoved(TreeModelEvent e) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) (e.getTreePath()
+                    .getLastPathComponent());
+            int index = e.getChildIndices()[0];
+            node = (DefaultMutableTreeNode) (node.getChildAt(index));
+            System.out.println("New value NodesRemoved : " + node.getUserObject());
+        }
+
+        @Override
+        public void treeStructureChanged(TreeModelEvent e) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) (e.getTreePath()
+                    .getLastPathComponent());
+            int index = e.getChildIndices()[0];
+            node = (DefaultMutableTreeNode) (node.getChildAt(index));
+            System.out.println("New value StructureChanged : " + node.getUserObject());
+        }
+    }
 }
