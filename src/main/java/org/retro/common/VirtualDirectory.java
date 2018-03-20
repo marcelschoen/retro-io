@@ -1,6 +1,9 @@
 package org.retro.common;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * Stores information about one directory of a virtual disk,
@@ -62,13 +65,13 @@ public class VirtualDirectory extends VirtualFile {
         // First add all directory entries, sorted alphabetically
         this.virtualFiles.stream()
                 .filter(e -> e.isDirectory())
-                .sorted(Comparator.comparing(VirtualFile::getName))
+                .sorted()
                 .forEach(e -> contents.add(e));
 
         // Then add all file entries, sorted alphabetically
         this.virtualFiles.stream()
                 .filter(e -> e.isFile())
-                .sorted(Comparator.comparing(VirtualFile::getName))
+                .sorted()
                 .forEach(e -> contents.add(e));
         return contents;
     }

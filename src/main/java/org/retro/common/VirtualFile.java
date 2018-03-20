@@ -39,6 +39,12 @@ public class VirtualFile implements Comparable<VirtualFile> {
         parent.addFile(this);
     }
 
+    /**
+     * Returns the full path filename of this file, i.e.
+     * the name of the file preceeded by all parent directories.
+     *
+     * @return The full file path.
+     */
     public String getFullName() {
         if(parent == null) {
             // no parent - must be root directory
