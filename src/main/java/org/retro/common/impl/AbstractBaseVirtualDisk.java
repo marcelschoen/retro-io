@@ -53,24 +53,37 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
         exportDirectory(getRootContents(), targetDirectory);
     }
 
+    /**
+     * Exports a virtual directory into a target directory.
+     *
+     * @param directory The virtual directory to extract.
+     * @param targetDirectory The target directory.
+     * @throws IOException If there was an extraction problem.
+     */
     private void exportDirectory(VirtualDirectory directory, File targetDirectory)
         throws IOException {
+        IOException error = null;
         for (VirtualFile entry : directory.getContents()) {
             if(entry.isDirectory()) {
                 exportDirectory((VirtualDirectory)entry, targetDirectory);
             } else {
-                System.out.println("Entry: " + entry.getFullName());
                 String filename = replaceBadChars(entry.getFullName())
                         .replace('/', File.separatorChar);
                 File file = new File(targetDirectory, filename);
-                System.out.println("Extract to file: " + file.getAbsolutePath());
                 file.getParentFile().mkdirs();
                 try (FileOutputStream fout = new FileOutputStream(file)) {
                         IOUtils.copy(new ByteArrayInputStream(entry.getContent().array()), fout);
                 } catch(IOException e) {
                     System.err.println("Failed to extract file: " + file.getAbsolutePath() + ": " + e);
+                    // Do not immediately throw an exception. We try to extract as much
+                    // as we can. But if there was an error, then there should be an
+                    // exception at the end, to indicate it.
+                    error = e;
                 }
             }
+        }
+        if(error != null) {
+            throw error;
         }
     }
 
@@ -114,12 +127,24 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
      */
     private void zipDirectory(VirtualDirectory directory, ZipOutputStream zipOutputStream)
             throws IOException {
+        IOException error = null;
         for (VirtualFile entry : directory.getContents()) {
-            if(entry.isDirectory()) {
-                zipDirectory((VirtualDirectory)entry, zipOutputStream);
-            } else {
-                addToZipFile(entry, zipOutputStream);
+            try {
+                if (entry.isDirectory()) {
+                    zipDirectory((VirtualDirectory) entry, zipOutputStream);
+                } else {
+                    addToZipFile(entry, zipOutputStream);
+                }
+            } catch(IOException e) {
+                System.err.println("Failed to zip entry: " + entry.getFullName() + ": " + e);
+                // Do not immediately throw an exception. We try to extract as much
+                // as we can. But if there was an error, then there should be an
+                // exception at the end, to indicate it.
+                error = e;
             }
+        }
+        if(error != null) {
+            throw error;
         }
     }
 
@@ -131,7 +156,7 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
     private void addToZipFile(VirtualFile fileEntry, ZipOutputStream zipStream) throws IOException {
         String inputFileName = fileEntry.getFullName();
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(fileEntry.getContent().array())) {
-System.out.println("Zip entry name: " + fileEntry.getFullName());
+
             // create a new ZipEntry, which is basically another file
             // within the archive. We omit the path from the filename
             ZipEntry zipEntry = new ZipEntry(fileEntry.getFullName());
