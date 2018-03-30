@@ -72,6 +72,9 @@ Currently supported disk image formats are:
 * Commodore Amiga (.ADF)
 * Commodore 64 (.D64)
 
+NOTE: Support may not be 100%; there may be compatibility issues with some images that 
+still need to be ironed out.
+
 Planned for the future / currently looking into:
 
 * Atari XL (.ATR)
@@ -108,4 +111,13 @@ To build the library and install it in your local Maven repository, run
 
 ```
 $ gradle publishToMavenLocal
+```
+
+### Maven Dependency
+
+```
+  <dependency>
+      <groupId>org.retro.common</groupId>
+      <artifactId>retro-io</artifactId>
+  </dependency>
 ```
