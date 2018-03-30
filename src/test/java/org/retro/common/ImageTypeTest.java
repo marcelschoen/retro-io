@@ -4,8 +4,12 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
+/**
+ * Some unit tests.
+ *
+ * @author Marcel Schoen
+ */
 public class ImageTypeTest {
 
     @Test
@@ -34,6 +38,6 @@ public class ImageTypeTest {
         assertThat(type, is(ImageType.dos_IMG));
 
         type = ImageType.getTypeFromFileSuffix("xyz");
-        assertThat(type, is(nullValue()));
+        assertThat(type, is(ImageType.unknown));
     }
 }

@@ -1,3 +1,18 @@
+/*
+ * (C) Copyright ${year} retro-io (https://github.com/marcelschoen/retro-io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.retro.common;
 
 import javax.swing.*;
@@ -19,6 +34,8 @@ import java.util.Arrays;
  * of a floppy disk image. This is really more meant as a
  * proof-of-concept, and to make this library potentially
  * immediately at least somewhat useful.
+ *
+ * @author Marcel Schoen
  */
 public class ExtractorTool {
 
@@ -140,18 +157,15 @@ public class ExtractorTool {
             int returnVal = chooser.showOpenDialog(this);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 String filename = chooser.getSelectedFile().getName();
-                System.out.println("You chose to open this file: " + filename);
                 // Load the file.
                 ImageType type = ImageType.getTypeFromFileSuffix(filename.substring(filename.indexOf(".") + 1));
                 System.out.println("Attempt to load image of type: " + type.name());
-                if(type != null) {
+                if(type != ImageType.unknown) {
                     ImageHandler handler = ImageHandlerFactory.get(type);
                     try {
                         VirtualDisk disk = handler.loadImage(chooser.getSelectedFile());
                         VirtualDirectory root = disk.getRootContents();
-//                        String txt = getDirectoryContents("", root);
 
-//                        fileList.setText(txt.toString());
                         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(root.getName());
                         createTree(rootNode, root);
                         DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);

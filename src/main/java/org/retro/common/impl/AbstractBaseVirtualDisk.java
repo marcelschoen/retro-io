@@ -1,3 +1,18 @@
+/*
+ * (C) Copyright ${year} retro-io (https://github.com/marcelschoen/retro-io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.retro.common.impl;
 
 import org.apache.commons.io.IOUtils;
@@ -152,11 +167,11 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(fileEntry.getContent().array())) {
             // create a new ZipEntry, which is basically another file
             // within the archive. We omit the path from the filename
-            System.out.println("Add entry: " + fileEntry.getFullName());
             String zipEntryName = fileEntry.getFullName();
             if(zipEntryName.startsWith("/")) {
                 zipEntryName = zipEntryName.substring(1);
             }
+            System.out.println("Add entry: " + zipEntryName);
             ZipEntry zipEntry = new ZipEntry(zipEntryName);
 //            zipEntry.setCreationTime(FileTime.fromMillis(file.toFile().lastModified()));
             zipStream.putNextEntry(zipEntry);
@@ -183,6 +198,14 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
     @Override
     public ImageType getType() {
         return this.type;
+    }
+
+    @Override
+    public VirtualFile getFile(String uuid) {
+        return this.rootContent.getContents().stream()
+                .filter(f -> f.getUuid().equals(uuid))
+                .findAny()
+                .orElse(null);
     }
 
     /**
