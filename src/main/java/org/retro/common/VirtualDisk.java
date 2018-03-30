@@ -33,14 +33,6 @@ public interface VirtualDisk {
     ImageType getType();
 
     /**
-     * Returns the handler implementation that was used
-     * to create this disk image.
-     *
-     * @return The image handler instance.
-     */
-    ImageHandler getHandler();
-
-    /**
      * Exports the contents of this floppy disk image to a
      * local file system directory, retaining the relative
      * directory structure of the original image.

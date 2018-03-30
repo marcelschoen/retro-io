@@ -1,7 +1,10 @@
 package org.retro.common.impl;
 
 import org.apache.commons.io.IOUtils;
-import org.retro.common.*;
+import org.retro.common.ImageType;
+import org.retro.common.VirtualDirectory;
+import org.retro.common.VirtualDisk;
+import org.retro.common.VirtualFile;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
@@ -26,9 +29,6 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
     /** The disk name (usually image name minus suffix). */
     private String name;
 
-    /** Reference to the handler that created this disk. */
-    private ImageHandler handler;
-
     /**
      * Creates a virtual disk for a certain type.
      *
@@ -40,11 +40,6 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
         if(this.name.toUpperCase().endsWith(this.type.getFileSuffix())) {
             this.name = this.name.substring(0, this.name.lastIndexOf("."));
         }
-    }
-
-    @Override
-    public ImageHandler getHandler() {
-        return handler;
     }
 
     @Override
@@ -170,15 +165,6 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
             // just change where you read the information from.
             IOUtils.copy(inputStream, zipStream);
         }
-    }
-
-    /**
-     * Sets the image handler on this virtual disk.
-     *
-     * @param handler The handler that created this disk.
-     */
-    public void setHandler(ImageHandler handler) {
-        this.handler = handler;
     }
 
     @Override
