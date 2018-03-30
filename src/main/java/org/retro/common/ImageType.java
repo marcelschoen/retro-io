@@ -27,7 +27,7 @@ import java.util.Arrays;
 public enum ImageType {
 
     // Unknown image type
-    unknown(""),
+    unknown("unknown"),
 
     // MS-DOS image
     dos_IMG("IMG"),
