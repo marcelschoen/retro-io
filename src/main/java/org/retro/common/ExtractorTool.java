@@ -191,9 +191,9 @@ public class ExtractorTool {
                     try {
                         currentTargetDirectory = chooser.getSelectedFile();
                         if(toZip) {
-                            handler.extractInZipArchive(currentDisk, currentTargetDirectory);
+                            currentDisk.exportAsZip(currentTargetDirectory);
                         } else {
-                            handler.extractVirtualDisk(currentDisk, currentTargetDirectory);
+                            currentDisk.exportToDirectory(currentTargetDirectory);
                         }
                     } catch(Exception e) {
                         e.printStackTrace();

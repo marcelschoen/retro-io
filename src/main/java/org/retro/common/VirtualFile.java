@@ -1,6 +1,7 @@
 package org.retro.common;
 
 import java.nio.ByteBuffer;
+import java.util.UUID;
 
 /**
  * Represents a single file (or directory).
@@ -18,6 +19,9 @@ public class VirtualFile implements Comparable<VirtualFile> {
     /** The file content (can be empty buffer). */
     private ByteBuffer content = ByteBuffer.allocate(0);
 
+    /** The unique identifier for this file. */
+    private String uuid;
+
     /**
      * Creates a file.
      *
@@ -25,6 +29,7 @@ public class VirtualFile implements Comparable<VirtualFile> {
      */
     public VirtualFile(String name) {
         this.name = name;
+        this.uuid = UUID.randomUUID().toString();
     }
 
     /**
@@ -37,6 +42,16 @@ public class VirtualFile implements Comparable<VirtualFile> {
         this(name);
         this.parent = parent;
         parent.addFile(this);
+    }
+
+    /**
+     * UUID that uniquely identifies this file. This is generated randomly
+     * every time the file is read from a floppy disk image.
+     *
+     * @return The UUID of this file.
+     */
+    public String getUuid() {
+        return this.uuid;
     }
 
     /**

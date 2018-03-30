@@ -31,11 +31,31 @@ VirtualDirectory root = stDisk.getRootContents();
 root.getContents().forEach(f -> System.out.println("Entry: " + f.getName() + ", is file: " + f.isFile()));
 ```
 
-Then extract the contents with
+Then extract the contents into the local filesystem with
 
 ```
-handler.extractImage(stDisk, new File("/tmp/"));
+stDisk.exportToDirectory(new File("/tmp", "unpacked"));
 ```
+
+Or export then into a .zip archive with
+
+```
+stDisk.exportAsZip(new File("/tmp", stDisk.getName() + ".zip"));
+```
+
+or send the zip to any output stream with
+
+```
+stDisk.exportAsZip(new FileOutputStream("/tmp/stuff.zip"));
+```
+
+Get the contents of a single "VirtualFile" file entry with "getContents()":
+
+```
+VirtualFile entry = ...
+byte[] fileContents = entry.getContents().array();
+```
+
 
 ## Credits
 
@@ -81,3 +101,11 @@ Then run the extractor tool with this command:
 ```
 $ java -jar build\libs\retro-io-1.0-SNAPSHOT-all.jar
 ````
+
+### Install to local Maven repository
+
+To build the library and install it in your local Maven repository, run
+
+```
+$ gradle publishToMavenLocal
+```

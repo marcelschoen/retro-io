@@ -52,7 +52,11 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
 //        list(root);
         File targetDir = new File("target");
-        handler.extractVirtualDisk(virtualDisk, targetDir);
+//        handler.extractVirtualDisk(virtualDisk, targetDir);
+        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
+
+        File zipDir = new File(targetDir, "zips");
+        virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
 //        handler.extractInZipArchive(virtualDisk, targetDir);
     }
 
@@ -92,8 +96,6 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
         list(root);
         File targetDir = new File("target");
-//        handler.extractVirtualDisk(virtualDisk, targetDir);
-        handler.extractInZipArchive(virtualDisk, targetDir);
     }
 
     @Test
@@ -111,7 +113,6 @@ public class ImageHandlerTest {
         VirtualDirectory root = virtualDisk.getRootContents();
         list(root);
         File targetDir = new File("target");
-        handler.extractVirtualDisk(virtualDisk, targetDir);
     }
 
     private void list(VirtualDirectory virtualDirectory) {
