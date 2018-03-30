@@ -70,6 +70,21 @@ public class VirtualFile implements Comparable<VirtualFile> {
     }
 
     /**
+     * Returns the filename suffix, if there is one. Which is the part
+     * after the last "." in the simple filename, e.g. ".prg" for
+     * "something.prg".
+     *
+     * @return The suffix, or null.
+     */
+    public String getSuffix() {
+        String suffix = null;
+        if(this.name.contains(".") && this.name.lastIndexOf(".") < name.length()) {
+            suffix = this.name.substring(this.name.lastIndexOf(".") + 1);
+        }
+        return suffix;
+    }
+
+    /**
      * Returns the full path filename of this file, i.e.
      * the name of the file preceeded by all parent directories.
      *

@@ -4,11 +4,22 @@ import org.junit.Test;
 
 import java.nio.ByteBuffer;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class FileTest {
+
+    @Test
+    public void testFileSuffix() {
+        VirtualFile file = new VirtualFile("myfile.prg");
+        assertThat(file.getSuffix(), is("prg"));
+
+        file = new VirtualFile("my.file.prg");
+        assertThat(file.getSuffix(), is("prg"));
+
+        file = new VirtualFile("myfile");
+        assertThat(file.getSuffix(), is(nullValue()));
+    }
 
     @Test
     public void testFileEquals() {
