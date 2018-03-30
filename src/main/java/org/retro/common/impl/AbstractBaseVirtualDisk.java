@@ -149,12 +149,15 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
      * @param zipStream archive to contain the file.
      */
     private void addToZipFile(VirtualFile fileEntry, ZipOutputStream zipStream) throws IOException {
-        String inputFileName = fileEntry.getFullName();
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(fileEntry.getContent().array())) {
-
             // create a new ZipEntry, which is basically another file
             // within the archive. We omit the path from the filename
-            ZipEntry zipEntry = new ZipEntry(fileEntry.getFullName());
+            System.out.println("Add entry: " + fileEntry.getFullName());
+            String zipEntryName = fileEntry.getFullName();
+            if(zipEntryName.startsWith("/")) {
+                zipEntryName = zipEntryName.substring(1);
+            }
+            ZipEntry zipEntry = new ZipEntry(zipEntryName);
 //            zipEntry.setCreationTime(FileTime.fromMillis(file.toFile().lastModified()));
             zipStream.putNextEntry(zipEntry);
 

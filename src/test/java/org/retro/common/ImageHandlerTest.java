@@ -39,7 +39,7 @@ public class ImageHandlerTest {
         Path tempDirectory = Files.createTempDirectory("adf");
 
 //        String imageName = "Docs_Codes_etc.adf";
-        String imageName = "wbench1.3.adf";
+        String imageName = "DMAssist1.adf";
 
         java.io.File imageFile = new File(tempDirectory.toFile(), imageName);
 
@@ -52,12 +52,10 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
 //        list(root);
         File targetDir = new File("target");
-//        handler.extractVirtualDisk(virtualDisk, targetDir);
-        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
+//        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
 
         File zipDir = new File(targetDir, "zips");
         virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
-//        handler.extractInZipArchive(virtualDisk, targetDir);
     }
 
     @Test
@@ -76,19 +74,20 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
         list(root);
         File targetDir = new File("target");
-//        handler.extractVirtualDisk(virtualDisk, targetDir);
-//        handler.extractInZipArchive(virtualDisk, targetDir);
+        File zipDir = new File(targetDir, "zips");
+        virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
     }
 
     @Test
     public void testReadAtariSTImage() throws Exception {
         System.out.println("======== Atari ST image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);
+        String image = "007BATMAN.ST";
 
         Path tempDirectory = Files.createTempDirectory("st");
-        java.io.File imageFile = new File(tempDirectory.toFile(), "007BATMAN.ST");
+        java.io.File imageFile = new File(tempDirectory.toFile(), image);
 
-        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/007BATMAN.ST"), new FileOutputStream(imageFile));
+        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/" + image), new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
 
@@ -96,6 +95,8 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
         list(root);
         File targetDir = new File("target");
+        File zipDir = new File(targetDir, "zips");
+        virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
     }
 
     @Test
