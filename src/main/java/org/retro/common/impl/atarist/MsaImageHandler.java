@@ -19,10 +19,7 @@ import de.waldheinz.fs.FsDirectory;
 import de.waldheinz.fs.FsDirectoryEntry;
 import de.waldheinz.fs.FsFile;
 import de.waldheinz.fs.fat.FatFileSystem;
-import org.retro.common.VirtualDirectory;
-import org.retro.common.VirtualDisk;
-import org.retro.common.VirtualDiskException;
-import org.retro.common.VirtualFile;
+import org.retro.common.*;
 import org.retro.common.impl.AbstractBaseImageHandler;
 
 import java.io.File;
@@ -53,7 +50,7 @@ public class MsaImageHandler extends AbstractBaseImageHandler {
             throw new VirtualDiskException("Failed to read MSA files from image; reason: " + e.toString(), e);
         }
 
-        StVirtualDisk virtualDisk = new StVirtualDisk(imageFile.getName());
+        StVirtualDisk virtualDisk = new StVirtualDisk(ImageType.atarist_MSA, imageFile.getName());
         try {
             FsDirectory rootDirectory = fs.getRoot();
             VirtualDirectory root = new VirtualDirectory("/");

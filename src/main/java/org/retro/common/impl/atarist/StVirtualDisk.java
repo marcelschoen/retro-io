@@ -29,4 +29,8 @@ public class StVirtualDisk extends AbstractBaseVirtualDisk {
         super(ImageType.atarist_ST, name);
     }
 
+    public StVirtualDisk(ImageType type, String name) {
+        super(type, name);
+    }
+
 }

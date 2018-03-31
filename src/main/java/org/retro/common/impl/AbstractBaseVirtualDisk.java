@@ -33,7 +33,7 @@ import java.util.zip.ZipOutputStream;
 public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
 
     // Characters that cannot be used in filenames when extracting data.
-    private static final String BAD_CHARS = "/\\:*?\"<>|";
+    private static final String BAD_CHARS = ":*?\"<>|";
 
     /** The root directory of the disk. */
     private VirtualDirectory rootContent;
@@ -77,8 +77,8 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
             if(entry.isDirectory()) {
                 exportDirectory((VirtualDirectory)entry, targetDirectory);
             } else {
-                String filename = replaceBadChars(entry.getFullName())
-                        .replace('/', File.separatorChar);
+                String filename = replaceBadChars(entry.getFullName().replace('/', File.separatorChar));
+                System.out.println("-> filename: " + filename + ", target dir: " + targetDirectory);
                 File file = new File(targetDirectory, filename);
                 file.getParentFile().mkdirs();
                 try (FileOutputStream fout = new FileOutputStream(file)) {
@@ -202,10 +202,21 @@ public abstract class AbstractBaseVirtualDisk implements VirtualDisk {
 
     @Override
     public VirtualFile getFile(String uuid) {
-        return this.rootContent.getContents().stream()
-                .filter(f -> f.getUuid().equals(uuid))
-                .findAny()
-                .orElse(null);
+        return findFileWithUuid(getRootContents(), uuid);
+    }
+
+    private VirtualFile findFileWithUuid(VirtualDirectory directory, String uuid) {
+        for(VirtualFile entry : directory.getContents()) {
+            if(entry.isFile() && entry.getUuid().equalsIgnoreCase(uuid)) {
+                return entry;
+            } else if(entry.isDirectory()) {
+                VirtualFile file = findFileWithUuid((VirtualDirectory)entry, uuid);
+                if(file != null) {
+                    return file;
+                }
+            }
+        }
+        return null;
     }
 
     /**

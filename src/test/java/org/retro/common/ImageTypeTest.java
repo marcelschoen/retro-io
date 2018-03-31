@@ -28,9 +28,6 @@ public class ImageTypeTest {
         type = ImageType.getTypeFromFileSuffix(".D64");
         assertThat(type, is(ImageType.c64_D64));
 
-        type = ImageType.getTypeFromFileSuffix("t64");
-        assertThat(type, is(ImageType.c64_T64));
-
         type = ImageType.getTypeFromFileSuffix("img");
         assertThat(type, is(ImageType.dos_IMG));
 

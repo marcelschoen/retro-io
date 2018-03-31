@@ -39,7 +39,8 @@ public class ImageHandlerTest {
         Path tempDirectory = Files.createTempDirectory("adf");
 
 //        String imageName = "Docs_Codes_etc.adf";
-        String imageName = "DMAssist1.adf";
+        String imageName = "wbench1.3.adf";
+//        String imageName = "DMAssist1.adf";
 
         java.io.File imageFile = new File(tempDirectory.toFile(), imageName);
 
@@ -52,7 +53,7 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
 //        list(root);
         File targetDir = new File("target");
-//        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
+        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
 
         File zipDir = new File(targetDir, "zips");
         virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
@@ -74,6 +75,7 @@ public class ImageHandlerTest {
 //        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
         list(root);
         File targetDir = new File("target");
+        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
         File zipDir = new File(targetDir, "zips");
         virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
     }

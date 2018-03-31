@@ -27,38 +27,40 @@ import java.util.Arrays;
 public enum ImageType {
 
     // Unknown image type
-    unknown("unknown"),
+    unknown("-", "unknown"),
 
     // MS-DOS image
-    dos_IMG("IMG"),
+    dos_IMG("MS DOS", "IMG"),
 
     // Atari ST uncompressed image
-    atarist_ST("ST"),
+    atarist_ST("Atari ST", "ST"),
 
     // Atari XL/XE image
-    atarixl_ATR("ATR"),
+    atarixl_ATR("Atari XL/XE", "ATR"),
 
     // Atari ST RLE-compressed image
-    atarist_MSA("MSA"),
+    atarist_MSA("Atari ST", "MSA"),
 
     // Amiga image
-    amiga_ADF("ADF"),
+    amiga_ADF("Commodore Amiga", "ADF"),
 
     // Commodore 64 floppy disk image
-    c64_D64("D64"),
-
-    // Commodore 64 tape image
-    c64_T64("T64");
+    c64_D64("Commodore 64", "D64");
 
     // The file suffix of this image type.
     private String fileSuffix;
 
+    // The name of the computer platform this image type is used for.
+    private String platform;
+
     /**
      * Creates an image type for a given suffix.
      *
+     * @param platform The computer platform name.
      * @param fileSuffix The file suffix of this type.
      */
-    ImageType(String fileSuffix) {
+    ImageType(String platform, String fileSuffix) {
+        this.platform = platform;
         this.fileSuffix = fileSuffix;
     }
 
@@ -70,6 +72,14 @@ public enum ImageType {
     public String getFileSuffix() {
         return this.fileSuffix;
     }
+
+    /**
+     * Returns the name of the computer platform this image type
+     * is used for (e.g. "MS DOS" or "Atari ST").
+     *
+     * @return The name of the computer platform.
+     */
+    public String getPlatform() { return this.platform; }
 
     /**
      * Returns the matching type for the given suffix, or null,
