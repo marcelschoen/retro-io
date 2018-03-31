@@ -105,6 +105,36 @@ public class VirtualDirectory extends VirtualFile {
     }
 
     /**
+     * Returns the total size of this directories' contents.
+     *
+     * @return The number of bytes of all files in this directory, and subdirectories, combined.
+     */
+    @Override
+    public long getLength() {
+        return countContentLength(this, 0);
+    }
+
+    /**
+     * Recursively sums up the length of all files in this directory
+     * and all subdirectories.
+     *
+     * @param directory The directory to check for content size.
+     * @param currentCount The current byte count.
+     * @return The total byte count.
+     */
+    private long countContentLength(VirtualDirectory directory, long currentCount) {
+        long count = currentCount;
+        for(VirtualFile entry : directory.getContents()) {
+            if(entry.isDirectory()) {
+                count += countContentLength((VirtualDirectory)entry, count);
+            } else {
+                count += entry.getLength();
+            }
+        }
+        return count;
+    }
+
+    /**
      * Add a new file with a given name to this directory.
      *
      * @param name the name of the file to add
