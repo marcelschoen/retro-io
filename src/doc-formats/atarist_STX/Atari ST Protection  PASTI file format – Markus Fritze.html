@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="js" lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://sarnau.info/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://sarnau.info/wp-content/themes/twentyfifteen/js/html5.js"></script>
+	<![endif]-->
+	<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Atari ST Protection: PASTI file format – Markus Fritze</title>
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="Markus Fritze » Feed" href="http://sarnau.info/feed/">
+<link rel="alternate" type="application/rss+xml" title="Markus Fritze » Comments Feed" href="http://sarnau.info/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Markus Fritze » Atari ST Protection: PASTI file format Comments Feed" href="http://sarnau.info/atari-st-protection-pasti-file-format/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/sarnau.info\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.5"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56692,8205,9792,65039],[55357,56692,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="twentyfifteen-fonts-css" href="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/css.css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentyfifteen-style-css" href="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyfifteen-ie-css'  href='http://sarnau.info/wp-content/themes/twentyfifteen/css/ie.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='twentyfifteen-ie7-css'  href='http://sarnau.info/wp-content/themes/twentyfifteen/css/ie7.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/jquery.js"></script>
+<script type="text/javascript" src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/jquery-migrate.js"></script>
+<link rel="https://api.w.org/" href="http://sarnau.info/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://sarnau.info/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://sarnau.info/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Atari ST Protection: Spy Vs Spy from Databyte" href="http://sarnau.info/atari-st-protection-spy-vs-spy-from-databyte/">
+<link rel="next" title="Atari ST Protection: Arkanoid/CopylockST" href="http://sarnau.info/atari-st-protection-arkanoid-copylockst/">
+<meta name="generator" content="WordPress 4.9.5">
+<link rel="canonical" href="http://sarnau.info/atari-st-protection-pasti-file-format/">
+<link rel="shortlink" href="http://sarnau.info/?p=71">
+<link rel="alternate" type="application/json+oembed" href="http://sarnau.info/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fsarnau.info%2Fatari-st-protection-pasti-file-format%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://sarnau.info/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fsarnau.info%2Fatari-st-protection-pasti-file-format%2F&amp;format=xml">
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<link rel="icon" href="http://sarnau.info/wp-content/uploads/2017/12/cropped-markus-1-32x32.jpg" sizes="32x32">
+<link rel="icon" href="http://sarnau.info/wp-content/uploads/2017/12/cropped-markus-1-192x192.jpg" sizes="192x192">
+<link rel="apple-touch-icon-precomposed" href="http://sarnau.info/wp-content/uploads/2017/12/cropped-markus-1-180x180.jpg">
+<meta name="msapplication-TileImage" content="http://sarnau.info/wp-content/uploads/2017/12/cropped-markus-1-270x270.jpg">
+</head>
+
+<body class="post-template-default single single-post postid-71 single-format-standard wp-custom-logo">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	<div id="sidebar" class="sidebar" style="top: 0px;">
+		<header id="masthead" class="site-header" role="banner">
+			<div class="site-branding">
+				<a href="http://sarnau.info/" class="custom-logo-link" rel="home" itemprop="url"><img src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/cropped-markus.jpg" class="custom-logo" alt="Markus Fritze" itemprop="logo" srcset="http://sarnau.info/wp-content/uploads/2017/12/cropped-markus.jpg 248w, http://sarnau.info/wp-content/uploads/2017/12/cropped-markus-150x150.jpg 150w" sizes="(max-width: 248px) 100vw, 248px" width="248" height="248"></a>						<p class="site-title"><a href="http://sarnau.info/" rel="home">Markus Fritze</a></p>
+											<p class="site-description">Random collection of stuff</p>
+									<button class="secondary-toggle">Menu and widgets</button>
+			</div><!-- .site-branding -->
+		</header><!-- .site-header -->
+
+			<div id="secondary" class="secondary">
+
+					<nav id="site-navigation" class="main-navigation" role="navigation">
+				<div class="menu-about-me-container"><ul id="menu-about-me" class="nav-menu"><li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="http://sarnau.info/about-me/">About Me</a></li>
+</ul></div>			</nav><!-- .main-navigation -->
+		
+					<nav id="social-navigation" class="social-navigation" role="navigation">
+				<div class="menu-social-links-container"><ul id="menu-social-links" class="menu"><li id="menu-item-25" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25"><a href="https://twitter.com/sarnau"><span class="screen-reader-text">Twitter</span></a></li>
+<li id="menu-item-24" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="https://github.com/sarnau"><span class="screen-reader-text">GitHub</span></a></li>
+<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a href="https://www.flickr.com/photos/mfritze/"><span class="screen-reader-text">Flickr</span></a></li>
+<li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26"><a href="https://www.facebook.com/sarnau"><span class="screen-reader-text">Facebook</span></a></li>
+</ul></div>			</nav><!-- .social-navigation -->
+		
+					<div id="widget-area" class="widget-area" role="complementary">
+				<aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="http://sarnau.info/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input class="search-field" placeholder="Search …" name="s" type="search">
+				</label>
+				<input class="search-submit screen-reader-text" value="Search" type="submit">
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+											<li>
+					<a href="http://sarnau.info/loxone-einbindung-der-termine-der-stadtreinigung-hamburg/">Loxone Einbindung der Termine der Stadtreinigung Hamburg</a>
+									</li>
+											<li>
+					<a href="http://sarnau.info/loxone-loxcc-fileentpacker/">Loxone LoxCC Fileentpacker</a>
+									</li>
+											<li>
+					<a href="http://sarnau.info/charge-master-2016-serial-protocol/">Charge Master 2016 Serial Protocol</a>
+									</li>
+											<li>
+					<a href="http://sarnau.info/elv-mobile-alerts/">ELV Mobile Alerts</a>
+									</li>
+											<li>
+					<a href="http://sarnau.info/68k-disassembler-in-c/">68k Disassembler in C</a>
+									</li>
+					</ul>
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h2 class="widget-title">Recent Comments</h2><ul id="recentcomments"></ul></aside><aside id="archives-2" class="widget widget_archive"><h2 class="widget-title">Archives</h2>		<ul>
+			<li><a href="http://sarnau.info/2018/03/">March 2018</a></li>
+	<li><a href="http://sarnau.info/2018/02/">February 2018</a></li>
+	<li><a href="http://sarnau.info/2017/12/">December 2017</a></li>
+	<li><a href="http://sarnau.info/2017/06/">June 2017</a></li>
+	<li><a href="http://sarnau.info/2017/05/">May 2017</a></li>
+	<li><a href="http://sarnau.info/2016/06/">June 2016</a></li>
+	<li><a href="http://sarnau.info/2016/03/">March 2016</a></li>
+	<li><a href="http://sarnau.info/2015/05/">May 2015</a></li>
+	<li><a href="http://sarnau.info/2015/03/">March 2015</a></li>
+	<li><a href="http://sarnau.info/2011/09/">September 2011</a></li>
+	<li><a href="http://sarnau.info/2010/03/">March 2010</a></li>
+	<li><a href="http://sarnau.info/2007/07/">July 2007</a></li>
+	<li><a href="http://sarnau.info/2004/07/">July 2004</a></li>
+	<li><a href="http://sarnau.info/2003/12/">December 2003</a></li>
+	<li><a href="http://sarnau.info/2002/11/">November 2002</a></li>
+	<li><a href="http://sarnau.info/2001/08/">August 2001</a></li>
+	<li><a href="http://sarnau.info/2000/07/">July 2000</a></li>
+	<li><a href="http://sarnau.info/1999/01/">January 1999</a></li>
+	<li><a href="http://sarnau.info/1998/12/">December 1998</a></li>
+	<li><a href="http://sarnau.info/1998/03/">March 1998</a></li>
+	<li><a href="http://sarnau.info/1998/01/">January 1998</a></li>
+	<li><a href="http://sarnau.info/1997/09/">September 1997</a></li>
+	<li><a href="http://sarnau.info/1997/05/">May 1997</a></li>
+	<li><a href="http://sarnau.info/1997/01/">January 1997</a></li>
+	<li><a href="http://sarnau.info/1996/10/">October 1996</a></li>
+	<li><a href="http://sarnau.info/1996/01/">January 1996</a></li>
+	<li><a href="http://sarnau.info/1995/12/">December 1995</a></li>
+	<li><a href="http://sarnau.info/1995/10/">October 1995</a></li>
+	<li><a href="http://sarnau.info/1995/07/">July 1995</a></li>
+	<li><a href="http://sarnau.info/1995/04/">April 1995</a></li>
+	<li><a href="http://sarnau.info/1995/01/">January 1995</a></li>
+	<li><a href="http://sarnau.info/1993/01/">January 1993</a></li>
+	<li><a href="http://sarnau.info/1992/12/">December 1992</a></li>
+	<li><a href="http://sarnau.info/1992/03/">March 1992</a></li>
+	<li><a href="http://sarnau.info/1991/05/">May 1991</a></li>
+	<li><a href="http://sarnau.info/1990/07/">July 1990</a></li>
+	<li><a href="http://sarnau.info/1989/01/">January 1989</a></li>
+	<li><a href="http://sarnau.info/1985/04/">April 1985</a></li>
+		</ul>
+		</aside><aside id="categories-2" class="widget widget_categories"><h2 class="widget-title">Categories</h2>		<ul>
+	<li class="cat-item cat-item-6"><a href="http://sarnau.info/category/atari/">Atari</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://sarnau.info/category/home-automation/">Home Automation</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://sarnau.info/category/macintosh/">Macintosh</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://sarnau.info/category/raspberry/">Raspberry</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://sarnau.info/category/reverse-engineering/">Reverse Engineering</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="http://sarnau.info/category/scuba/">Scuba</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://sarnau.info/category/software/">Software</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://sarnau.info/category/travel/">Travel</a>
+</li>
+		</ul>
+</aside>			</div><!-- .widget-area -->
+		
+	</div><!-- .secondary -->
+
+	</div><!-- .sidebar -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+<article id="post-71" class="post-71 post type-post status-publish format-standard hentry category-atari category-reverse-engineering category-software">
+	
+	<header class="entry-header">
+		<h1 class="entry-title">Atari ST Protection: PASTI file format</h1>	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>Files in this format have the extension “.stx”, probably for “ST – 
+eXtended”. This description is valid for files created with PASTI 0.4b 
+BETA.</p>
+<ul>
+<li>0x.. is a hex offset to the beginning of the structure</li>
+<li>.b = a single byte</li>
+<li>.w = a 16-bit word (little endian!)</li>
+<li>.l = a 32-bit word (little endian!)</li>
+</ul>
+<p>A typical protected file looks like this:</p>
+<ul>
+<li>File Header</li>
+<li>Track Header</li>
+<li>Sector Header</li>
+<li>Sector Header</li>
+<li>Sector Header</li>
+<li>…</li>
+<li>Fuzzy sector mask</li>
+<li>Track data (either the sectors or the whole track)</li>
+<li>Track Header</li>
+<li>Sector Header</li>
+<li>Sector Header</li>
+<li>Sector Header</li>
+<li>…</li>
+<li>Fuzzy sector mask</li>
+<li>Track data (either the sectors or the whole track)</li>
+<li>…</li>
+</ul>
+<h2 id="fileheader16bytes">File header (16 bytes)</h2>
+<ul>
+<li>0x00 : ‘R’,‘S’,‘Y’,0 – File ID</li>
+<li>0x04 : 0x03,0x00 – Probably the version number of the format</li>
+<li>0x06 : 1.w</li>
+<li>0x08 : 0.w</li>
+<li>0x0a : tracks.b (e.g. 80 or 160 for double sided)</li>
+<li>0x0b : 1</li>
+<li>0x0c : 0.l</li>
+</ul>
+<p>After the file header one block for each track is following. Each block also starts with a 16 byte header:</p>
+<h2 id="trackheader16bytes">Track Header (16 bytes)</h2>
+<ul>
+<li>0x00.l : length of the track in bytes. This value plus the current position in the file points to the following track header.</li>
+<li>0x04.l : bytes of fuzzy sector mask in this track</li>
+<li>0x08.w : number of sectors in the track</li>
+<li>0x0A.w : bitmask with flags</li>
+<li>0x0C.w : length of the track in bytes (around 6kb is normal)</li>
+<li>0x0E.b : track number</li>
+<li>0x0F.b : unused in the file</li>
+</ul>
+<h2 id="thebitmaskfortheflags">The bitmask for the flags</h2>
+<ul>
+<li>7 – The track image also contains a sync-offset to the beginning of the first sync marker</li>
+<li>6 – If set the track is saved as an image with all gaps via the read
+ track command with the sector content filled in via read sector.</li>
+<li>5 – with PASTI 0.4b always set, if Bit 0 is set (= track protected)</li>
+<li>4 – unused</li>
+<li>3 – unused</li>
+<li>2 – unused</li>
+<li>1 – unused</li>
+<li>0 – If set the track is protected or with a non-standard sectorsize (!= 512 bytes)</li>
+</ul>
+<p>If Bit 0 is clear, the track is unprotected and the number of sectors
+ as stored in the track block header are simply saved as 512 byte blocks
+ directly after the header. The track is therefore 16 + 512 * sectors 
+bytes long.</p>
+<p>If Bit is set, the header is first followed the sector headers. One for each sector in the track, again 16 bytes per header.</p>
+<h2 id="sectorheader16bytes">Sector Header (16 bytes)</h2>
+<ul>
+<li>0x00.l : sector offset inside the track data</li>
+<li>0x04.w : position of the sector header relative to the beginning of 
+the track as a time stamp. The position timing is depended on the RPM 
+speed of the drive, but for a ~6250 byte track the value for a full 
+rotation is around 50000 (for 300 rpm). This allows software to simulate
+ the time it takes to find the sector and read it, something certain 
+copy protection schemes test.</li>
+<li>0x06.w : read timing of the sector data, certain copy protections 
+write sectors so, that it takes longer to read them. The protection 
+measures the time to read the sector. 16384 is the default value, larger
+ values mean that it takes longer to read the sector than normal. 
+However if the measured value by PASTI is within 2% of this value (16384
+ +/- 320), the value written to the stx file is 0 as a sign for a stable
+ read speed.</li>
+<li>0x08.b : Track number from the address block identifying the sector (typically 0..79)</li>
+<li>0x09.b : Side from the address block identifying the sector (typically 0 or 1)</li>
+<li>0x0a.b : Sector from the address block identifying the sector (typically 1..9)</li>
+<li>0x0b.b : Size of the sector from the address block identifying the sector (typically: 0=128, 1=256, 2=512 or 3=1024 bytes)</li>
+<li>0x0c.b : First byte of the CRC over the address block</li>
+<li>0x0d.b : Second byte of the CRC over the address block</li>
+<li>0x0e.b : FDC status register after reading the sector</li>
+<li>0x0f.b : Sector flags, always 0x00</li>
+</ul>
+<p>The CRC is a CCITT CRC16 calculated by the FDC. It is initialized 
+with 0xFFFF and includes the sync marks, therefore typically 
+0xA1,0xA1,0xA1,0xFE plus the 4 bytes from the address block.</p>
+<p>The FDC status is typically 0x00. Also common is 0x10 for a sector 
+not found and 0x08 for a CRC error when reading. Bit 7 has a special 
+meaning: it hints that the sector has fuzzy bits and the fuzzy sector 
+mask should be used. If Bit 7 is set, Bit 3 is usually also set, because
+ fuzzy bits will trigger a CRC error inside the sector.</p>
+<p>After the sector headers the fuzzy sector mask is following, if the 
+value is != 0 in the track header. The mask identifies the bits that are
+ random in a given sector. The size of the fuzzy sector mask depends on 
+the sector size (from the header) and the number of fuzzy sectors in the
+ track itself. The fuzzy sector mask has bits set for every bit in in 
+the sector, that is <em>not</em> random. Therefore a byte generated with the mask could be calculated like this:</p>
+<pre><code class="68k">fdcSectorByte[byteOffset] = (sectorData[byteOffset] &amp; fuzzyMask[byteOffset])
+                            | (rand() &amp; ~fuzzyMask[byteOffset])`
+</code></pre>
+<p>After the fuzzy sector mask, the sectors are written to the file. If 
+neither Bit 6 or 7 in the track flags is set, only the content of the 
+sectors is written. Again with the sector size in the header taking into
+ consideration. These tracks can be also easily recognized by sector 
+offsets that are always a power of 2 (typically in 512 byte increments),
+ starting at 0.</p>
+<p>Following the fuzzy sector mask is the track data area. This area can
+ contain either the sectors by itself, or the complete track image with 
+the sectors embedded, or the complete track with the sectors separate 
+(following the track image). How they are stored is stored in Bit 6 and 7
+ in the track flags.</p>
+<p>If Bit 6 and 7 are clear, there is no track image and the sectors are
+ stored just by order end length – just like the fuzzy sector mask, 
+except this time for all sectors. Warning: sectors can be missing, if 
+only a header was read, but the data was missing. The FDC status has Bit
+ 4 (Record not found) set in this case.</p>
+<p>If Bit 6 is set and 7 is clear, the track image is written with a 
+track image header and the sectors follow the track image in the usually
+ order and length. The track image header is just a word (little endian,
+ as usual) that contains the length of the track image.</p>
+<p>Bit Bit 6 and 7 is set, the track image is written with a track image
+ header that has two words: the first one is a byte offset to the first 
+0xA1 address mark sync, the second word is the length of the track image
+ in bytes.</p>
+<p>If Bit 7 is set, the sector data is usually merged inside the track 
+image, the sector offsets then point inside the actual track image. 
+However, it is possible for single sectors to have an offset <em>behind</em>
+ the track image, if PASTI couldn’t map them correctly into the track 
+image. A software should always read the sectors based on the sector 
+offset in the sector header.</p>
+	</div><!-- .entry-content -->
+
+	
+	<footer class="entry-footer">
+		<span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="http://sarnau.info/atari-st-protection-pasti-file-format/" rel="bookmark"><time class="entry-date published" datetime="2011-09-01T12:00:02+00:00">September 1, 2011</time><time class="updated" datetime="2017-12-10T14:28:33+00:00">December 10, 2017</time></a></span><span class="byline"><span class="author vcard"><span class="screen-reader-text">Author </span><a class="url fn n" href="http://sarnau.info/author/sarnau/">sarnau</a></span></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="http://sarnau.info/category/atari/" rel="category tag">Atari</a>, <a href="http://sarnau.info/category/reverse-engineering/" rel="category tag">Reverse Engineering</a>, <a href="http://sarnau.info/category/software/" rel="category tag">Software</a></span>			</footer><!-- .entry-footer -->
+
+</article><!-- #post-## -->
+
+<div id="comments" class="comments-area">
+
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://sarnau.info/atari-st-protection-pasti-file-format/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://sarnau.info/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" size="30" maxlength="245" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" size="30" maxlength="100" aria-describedby="email-notes" required="required" type="email"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" size="30" maxlength="200" type="url"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="71" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p>			</form>
+			</div><!-- #respond -->
+	
+</div><!-- .comments-area -->
+
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="http://sarnau.info/atari-st-protection-spy-vs-spy-from-databyte/" rel="prev"><span class="meta-nav" aria-hidden="true">Previous</span> <span class="screen-reader-text">Previous post:</span> <span class="post-title">Atari ST Protection: Spy Vs Spy from Databyte</span></a></div><div class="nav-next"><a href="http://sarnau.info/atari-st-protection-arkanoid-copylockst/" rel="next"><span class="meta-nav" aria-hidden="true">Next</span> <span class="screen-reader-text">Next post:</span> <span class="post-title">Atari ST Protection: Arkanoid/CopylockST</span></a></div></div>
+	</nav>
+		</main><!-- .site-main -->
+	</div><!-- .content-area -->
+
+
+	</div><!-- .site-content -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+						<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+		</div><!-- .site-info -->
+	</footer><!-- .site-footer -->
+
+</div><!-- .site -->
+
+<script type="text/javascript" src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/skip-link-focus-fix.js"></script>
+<script type="text/javascript" src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/comment-reply.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var screenReaderText = {"expand":"<span class=\"screen-reader-text\">expand child menu<\/span>","collapse":"<span class=\"screen-reader-text\">collapse child menu<\/span>"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/functions.js"></script>
+<script type="text/javascript" src="Atari%20ST%20Protection%20%20PASTI%20file%20format%20%E2%80%93%20Markus%20Fritze_files/wp-embed.js"></script>
+
+
+
+<div></div></body></html>
