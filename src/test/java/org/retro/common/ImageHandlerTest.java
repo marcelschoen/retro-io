@@ -13,6 +13,29 @@ import java.util.Iterator;
 public class ImageHandlerTest {
 
     @Test
+    public void testReadAtariSTXImage() throws Exception {
+        System.out.println("======== Atari STX image ===========");
+        ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_STX);
+
+        Path tempDirectory = Files.createTempDirectory("msa");
+        java.io.File imageFile = new File(tempDirectory.toFile(), "UnionDemo.stx");
+
+        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/UnionDemo.stx"), new FileOutputStream(imageFile));
+
+        VirtualDisk virtualDisk = handler.loadImage(imageFile);
+        /*
+
+        VirtualDirectory root = virtualDisk.getRootContents();
+//        root.getContents().forEach(f -> System.out.println("Entry: " + f.getFullName() + ", is file: " + f.isFile()));
+        list(root);
+        File targetDir = new File("target");
+        virtualDisk.exportToDirectory(new File(targetDir, "unpacked"));
+        File zipDir = new File(targetDir, "zips");
+        virtualDisk.exportAsZip(new File(zipDir, virtualDisk.getName() + ".zip"));
+        */
+    }
+
+    @Test
     public void testReadDOSImage() throws Exception {
         System.out.println("======== DOS image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.dos_IMG);

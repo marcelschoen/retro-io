@@ -15,9 +15,6 @@
  */
 package org.retro.common.impl.atarist;
 
-import de.waldheinz.fs.BlockDevice;
-import de.waldheinz.fs.ReadOnlyException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,14 +22,12 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.waldheinz.fs.util.FileDisk.BYTES_PER_SECTOR;
-
 /**
  * Reads an MSA floppy disk image file.
  *
  * @author Marcel Schoen
  */
-public class MsaDisk implements BlockDevice {
+public class MsaDisk extends AbstractBaseStDisk {
 
     private File imageFile;
     private ByteBuffer msaFileData;
@@ -172,46 +167,7 @@ public class MsaDisk implements BlockDevice {
     }
 
     @Override
-    public long getSize() throws IOException {
-        return this.rawData.capacity();
-    }
-
-    @Override
-    public int getSectorSize() throws IOException {
-        return BYTES_PER_SECTOR;
-    }
-
-    @Override
-    public void read(long devOffset, ByteBuffer dest) throws IOException {
-        int toRead = dest.remaining();
-        if ((devOffset + toRead) > getSize()) throw new IOException(
-                "reading past end of device");
-        dest.put(this.rawData.array(), (int)devOffset, toRead);
-    }
-
-    @Override
-    public void write(long devOffset, ByteBuffer src) throws ReadOnlyException, IOException, IllegalArgumentException {
-        throw new IOException("* NOT IMPLEMENTED *");
-    }
-
-    @Override
-    public void flush() throws IOException {
-        // NOP
-    }
-
-    @Override
-    public void close() throws IOException {
-        // NOP
-    }
-
-    @Override
-    public boolean isClosed() {
-        return false;
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        // TODO - write support
-        return true;
+    protected ByteBuffer getData() {
+        return this.rawData;
     }
 }

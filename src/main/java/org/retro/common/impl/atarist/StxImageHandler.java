@@ -17,7 +17,7 @@ package org.retro.common.impl.atarist;
 
 import de.waldheinz.fs.FsDirectory;
 import de.waldheinz.fs.fat.FatFileSystem;
-import de.waldheinz.fs.util.FileDisk;
+import org.retro.common.ImageType;
 import org.retro.common.VirtualDirectory;
 import org.retro.common.VirtualDisk;
 import org.retro.common.VirtualDiskException;
@@ -26,27 +26,29 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Handles Atari ST ".ST" images.
+ * Handles STX (Pasti) Atari ST floppy images.
  *
  * @author Marcel Schoen
  */
-public class StImageHandler extends AbstractBaseStImageHandler {
+public class StxImageHandler extends AbstractBaseStImageHandler {
 
     @Override
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
-        String diskName = imageFile.getName();
 
-        FileDisk fileDisk = null;
         FatFileSystem fs = null;
         try {
-            fileDisk = new FileDisk(imageFile, false);
-            fs = FatFileSystem.read(fileDisk, true);
-        } catch(IOException e) {
-            throw new VirtualDiskException("Failed to read ST image; reason: " + e.toString()
-                    + ", image: " + imageFile.getAbsolutePath(), e);
+            StxDisk disk = new StxDisk(imageFile);
+
+            disk.load();
+
+            // Read raw image data as FAT file system
+            fs = FatFileSystem.read(disk, true);
+
+        } catch (IOException e) {
+            throw new VirtualDiskException("Failed to read STX files from image; reason: " + e.toString(), e);
         }
 
-        StVirtualDisk virtualDisk = new StVirtualDisk(imageFile.getName());
+        StVirtualDisk virtualDisk = new StVirtualDisk(ImageType.atarist_MSA, imageFile.getName());
         try {
             FsDirectory rootDirectory = fs.getRoot();
             VirtualDirectory root = new VirtualDirectory("/");
@@ -61,14 +63,5 @@ public class StImageHandler extends AbstractBaseStImageHandler {
         }
 
         return virtualDisk;
-    }
-
-    @Override
-    public void writeImage(VirtualDisk floppyDisk, File imageFile) throws VirtualDiskException {
-        throw new VirtualDiskException("*not implemented yet*");
-        /*
-        FileDisk fileDisk = new FileDisk(imageFile, false);
-        FatFileSystem fs = FatFileSystem.read(fileDisk, true);
-        */
     }
 }

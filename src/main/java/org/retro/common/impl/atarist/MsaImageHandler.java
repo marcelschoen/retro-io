@@ -16,23 +16,21 @@
 package org.retro.common.impl.atarist;
 
 import de.waldheinz.fs.FsDirectory;
-import de.waldheinz.fs.FsDirectoryEntry;
-import de.waldheinz.fs.FsFile;
 import de.waldheinz.fs.fat.FatFileSystem;
-import org.retro.common.*;
-import org.retro.common.impl.AbstractBaseImageHandler;
+import org.retro.common.ImageType;
+import org.retro.common.VirtualDirectory;
+import org.retro.common.VirtualDisk;
+import org.retro.common.VirtualDiskException;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Iterator;
 
 /**
  * Handles Atari ST ".MSA" images.
  *
  * @author Marcel Schoen
  */
-public class MsaImageHandler extends AbstractBaseImageHandler {
+public class MsaImageHandler extends AbstractBaseStImageHandler {
 
     @Override
     public VirtualDisk loadImage(File imageFile) throws VirtualDiskException {
@@ -65,30 +63,6 @@ public class MsaImageHandler extends AbstractBaseImageHandler {
         }
 
         return virtualDisk;
-    }
-
-    private void iterateReadDirectory(int indent, VirtualDirectory parent, FsDirectory directory) throws IOException {
-        Iterator<FsDirectoryEntry> iterator = directory.iterator();
-        while(iterator.hasNext()) {
-            FsDirectoryEntry entry = iterator.next();
-            if(entry.isFile()) {
-                try {
-                    VirtualFile virtualFile = new VirtualFile(parent, entry.getName());
-                    FsFile fsFile = entry.getFile();
-                    ByteBuffer bb = ByteBuffer.allocate((int) fsFile.getLength());
-                    fsFile.read(0, bb);
-                    virtualFile.setContent(bb);
-                } catch(IOException e) {
-                    // ignore and hope that the following entries can still be read.
-                    e.printStackTrace();
-                }
-            } else {
-                if(!entry.getName().equals(".") && !entry.getName().equals("..")) {
-                    VirtualDirectory newParent = new VirtualDirectory(parent, entry.getName());
-                    iterateReadDirectory(indent + 4, newParent, entry.getDirectory());
-                }
-            }
-        }
     }
 
     @Override

@@ -41,6 +41,9 @@ public enum ImageType {
     // Atari ST RLE-compressed image
     atarist_MSA("Atari ST", "MSA"),
 
+    // Atari STX (Pasti) image
+    atarist_STX("Atari ST", "STX"),
+
     // Amiga image
     amiga_ADF("Commodore Amiga", "ADF"),
 
