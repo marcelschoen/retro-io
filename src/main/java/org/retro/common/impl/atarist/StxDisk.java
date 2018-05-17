@@ -27,8 +27,21 @@ import java.nio.ByteBuffer;
  */
 public class StxDisk extends AbstractBaseStDisk {
 
+    private enum TYPE {
+
+        /** Discovery Cartridge generated */
+        DC,
+
+        /** Generated on a normal ST */
+        PUBLIC
+    }
+
+    private int tracks = -1;
+    private boolean doubleSided = false;
+    private TYPE type = null;
     private File imageFile;
-    private ByteBuffer buffer;
+    private ByteBuffer stxFileData;
+    private ByteBuffer rawData;
 
     /**
      * Creates an STX disk object.
@@ -51,29 +64,48 @@ public class StxDisk extends AbstractBaseStDisk {
         byte[] rawData = new byte[(int) this.imageFile.length()];
         try (FileInputStream in = new FileInputStream(this.imageFile)) {
             in.read(rawData);
-            buffer = ByteBuffer.wrap(rawData);
+            stxFileData = ByteBuffer.wrap(rawData);
+
+            // ================================================================
+            // Process File Header
+            // ================================================================
 
             // Read file header
             byte[] fileId = new byte[4];
-            buffer.get(fileId);
+            stxFileData.get(fileId);
             System.out.println("FileID: " + new String(fileId));
 
-            buffer.position(buffer.position() + 2); // skip version number
+            // Skip version
+            stxFileData.position(stxFileData.position() + 2);
 
-            int type = buffer.getShort();
+            // Read type (public aka generated on ST, or Discovery Cartridge aka DC).
+            int type = stxFileData.getShort();
             if( (type & 0x0100) > 0) {
                 System.out.println("Type: public");
+                this.type = TYPE.PUBLIC;
             } else if( (type & 0xCC00) > 0) {
                 System.out.println("Type: DC");
+                this.type = TYPE.DC;
             } else {
                 System.out.println("Type: unknown: " + Integer.toHexString(type));
+            }
+
+            // Skip unknown word
+            stxFileData.position(stxFileData.position() + 2);
+
+            // Read number of tracks
+            this.tracks = stxFileData.get() & 0xFF;
+            System.out.println("Tracks: " + tracks);
+            if(this.tracks == 160) {
+                this.doubleSided = true;
+                System.out.println("Is double sided.");
             }
         }
     }
 
     @Override
     protected ByteBuffer getData() {
-        return this.buffer;
+        return this.rawData;
     }
 
 }

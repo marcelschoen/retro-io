@@ -72,10 +72,10 @@ public class MsaDisk extends AbstractBaseStDisk {
      * @throws IOException If the MSA image could not be processed.
      */
     public void load() throws IOException {
-        byte[] rawData = new byte[(int)this.imageFile.length()];
+        byte[] rawImageBytes = new byte[(int)this.imageFile.length()];
         try(FileInputStream in = new FileInputStream(this.imageFile)) {
-            in.read(rawData);
-            this.msaFileData = ByteBuffer.wrap(rawData);
+            in.read(rawImageBytes);
+            this.msaFileData = ByteBuffer.wrap(rawImageBytes);
 
             // Read disk header
             int idMarker = this.msaFileData.getShort();
