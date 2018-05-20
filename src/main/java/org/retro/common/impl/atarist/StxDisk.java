@@ -123,9 +123,12 @@ public class StxDisk extends AbstractBaseStDisk {
             }
 
             // Now merge all the data from all the tracks into one raw data block
+            System.out.println("================================");
+            System.out.println("Number of tracks: " + this.tracks);
+            System.out.println("================================");
             this.rawData = ByteBuffer.allocate(totalSize);
-            for(int trackNo = 0; trackNo <= this.tracks / 2; trackNo ++) {
-                System.out.println(">>>>>>>>>>> collect data of track " + trackNo);
+            for(int trackNo = 0; trackNo < this.tracks / 2; trackNo ++) {
+//                System.out.println(">>>>>>>>>>> collect data of track " + trackNo);
                 byte[] srcData = this.tracksSideOne.get(trackNo);
                 this.rawData.put(srcData, 0, srcData.length);
                 if(this.doubleSided) {
@@ -166,26 +169,43 @@ public class StxDisk extends AbstractBaseStDisk {
                 fourByteTrackImageHeader = true;
             }
         }
-        System.out.println("4 byte track image header: " + fourByteTrackImageHeader);
+//        System.out.println("4 byte track image header: " + fourByteTrackImageHeader);
         boolean hasSectorDescriptors = (trackFlags & 0x01) > 0;
         System.out.println("Has sector descriptors: " + hasSectorDescriptors);
 
         int trackLength = this.stxFileData.getShort() & 0xffff;
-        System.out.println("Track length: " + trackLength);
+//        System.out.println("Track length: " + trackLength);
         int trackInfo = this.stxFileData.get();
         int trackNumber = trackInfo & 0x7f;
         int side = (trackInfo & 0x80) >> 7;
         System.out.println("Track number: " + trackNumber);
-        System.out.println("Side: " + side);
+//        System.out.println("Side: " + side);
         // skip track type (unused)
         this.stxFileData.get();
 
         int trackDataOffset = 16;
 
+
         if(hasOptionalTrackImage) {
-            throw new IOException("*** STX images with optional track image not supported yet ***");
+            System.out.println("------ Optional track image ------");
+            // Read track image header
+            if(fourByteTrackImageHeader) {
+                int firstSyncOffset = this.stxFileData.getShort() & 0xffff;
+                System.out.println("First sync offset: " + firstSyncOffset);
+            }
+            int trackImageSize = this.stxFileData.getShort() & 0xffff;
+
+            byte[] totalSectorData = new byte[trackImageSize];
+            this.stxFileData.get(totalSectorData);
+            System.out.println("track image size: " + trackImageSize);
+            if(side == 0) {
+                this.tracksSideOne.put(trackNumber, totalSectorData);
+            } else {
+                this.tracksSideTwo.put(trackNumber, totalSectorData);
+            }
         }
         if(hasSectorDescriptors) {
+            // Read optional sector descriptor headers
             trackDataOffset += sectorCount * 16;
             ArrayList<Sector> sectors = new ArrayList<>();
             int totalSectorDataSize = 0;
@@ -193,11 +213,11 @@ public class StxDisk extends AbstractBaseStDisk {
             for(int s = 0; s < sectorCount; s ++) {
                 int dataOffset = this.stxFileData.getInt() & 0xffffffff;
                 System.out.println("------ sector " + s + " -----");
-                System.out.println("data offset: " + dataOffset);
+//                System.out.println("data offset: " + dataOffset);
                 int bitPosition = this.stxFileData.getShort() & 0xffff;
-                System.out.println("bit position: " + bitPosition);
+//                System.out.println("bit position: " + bitPosition);
                 int readTime  = this.stxFileData.getShort() & 0xffff;
-                System.out.println("read time: " + readTime);
+//                System.out.println("read time: " + readTime);
 
                 // read address info
                 int track = this.stxFileData.get() & 0xff;
@@ -206,7 +226,7 @@ public class StxDisk extends AbstractBaseStDisk {
                 System.out.println("track: " + track + ", side: " + head + ", sector: " + sectorNumber);
                 int size = 128 << (this.stxFileData.get() & 0xff);
                 totalSectorDataSize += size;
-                System.out.println("size: " + size);
+//                System.out.println("size: " + size);
                 int crc = this.stxFileData.getShort() & 0xffff;
 
                 int fdcFlags = this.stxFileData.get() & 0xff;
@@ -230,6 +250,10 @@ public class StxDisk extends AbstractBaseStDisk {
                 this.tracksSideTwo.put(trackNumber, totalSectorData);
             }
         }
+        if(hasOptionalTrackImage && hasSectorDescriptors) {
+            throw new IOException("*** FOUND BOTH ***");
+        }
+
         this.stxFileData.position(trackStart + trackRecordSize);
         return trackSize;
     }
