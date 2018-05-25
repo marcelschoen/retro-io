@@ -1,0 +1,58 @@
+
+   PastiInf - simple program for creating textual info file or extracting some
+     track data from STX file
+
+  It is intended for people with some knowledge about floppy disks, copy
+protections used by Atari ST. 
+
+Create Info File   button:  opens fileselector, after selection generates
+textual info file with same name as STX file, so Bolo.txt for Bolo.stx .
+
+Look with some viewer, notepad. 
+
+Track number is total track (not Cylinder) count on both sides.
+Usually it is 80-82 for single sided, and 160-164 for double sided floppies.
+
+Public type: STX is made with public SW, on stock Atari ST without extra HW for
+floppy imaging.
+
+DC type: STX is made with not published SW, on Atari ST equipped with Discovery Cartridge.
+
+The main diff. is way how track image is made. Flag for track data in STX which contains track image made with public tool is 0x61 . Track image (dump) self is about 6KB long, and can not hold sector datas, they are stored after track image.
+Flag for track data which contains  track image made with DC is 0xC1 or 0xE1 .
+Image is about 7-8 KB long and holds sector datas too. So, DC made STX is shorter generally.
+
+After type there are all track params listed. Track number is 0-79 (or little more) for side A and 128-207 (++) for side B . Track order may be sidewise or alternating.
+
+After track # is track flag in hex, prefixed with   "fl="  .
+If there are some fuzzy (flakey) bits in track   "fuz"   will be written. 
+Then sectors are listed:  First their count, then sector #, followed by size
+index (2=512 bytes, 3=1KB) . 
+Possible additional sector infos: Slow means slower sector read time (over 2% is indicated).
+CRC, RNF - you know what is it. If not, read some literature :-)
+Ft - means fake track address (track # and/or side) in address block.
+
+At end the number of used tracks is shown. It is often less than total track number at begin. Commercial floppies almost never exceed 80 tracks per side !
+Empty tracks may be before last track too, as protection.
+
+Infos provided should give some hint about protection(s) used. For instance Copylock is used when on Track 0 sector 6 has Slow and CRC mark.
+
+It is not possible to know from track datas   for which tracks SW uses read track command for checking protection (is disk original) . Only by tracing SW self. 
+May be some other protection systems  too.  This is also the reason why practically all public tool made STX images contain all track dumps too - simple: for beeing sure .
+
+
+Track data extraction:
+If you want to examine some specific track use   Extract track   button.
+First type in desired track number (0-79 for side A, 128-207 for B ).
+Select STX file ... Binary file with name:  Trck[track number given].bin  will be created. It contains complete Pasti track data starting with it's length.
+
+
+
+Read Pasti description page:  http://atari.8bitchip.info/STXdesc.html
+
+
+P. Putnik, Aug. 2011.
+
+
+
+

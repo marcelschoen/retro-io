@@ -17,10 +17,11 @@ public class ImageHandlerTest {
         System.out.println("======== Atari STX image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_STX);
 
-        Path tempDirectory = Files.createTempDirectory("msa");
-        java.io.File imageFile = new File(tempDirectory.toFile(), "UnionDemo.stx");
+        String image = "TEST1.STX";
+        Path tempDirectory = Files.createTempDirectory("stx");
+        java.io.File imageFile = new File(tempDirectory.toFile(), image);
 
-        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/UnionDemo.stx"), new FileOutputStream(imageFile));
+        IOUtils.copy(getClass().getResourceAsStream("/images/atarist/" + image), new FileOutputStream(imageFile));
 
         VirtualDisk virtualDisk = handler.loadImage(imageFile);
         /*
