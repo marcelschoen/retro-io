@@ -6,27 +6,6 @@
  * 
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
  * 
- * ˆÈ‰º‚ÌğŒ‚É“¯ˆÓ‚·‚é‚È‚ç‚Îƒ\[ƒX‚ÆƒoƒCƒiƒŠŒ`®‚ÌÄ”z•z‚Æg—p‚ğ
- * •ÏX‚Ì—L–³‚É‚©‚©‚í‚ç‚¸‹–‰Â‚·‚éB
- * 
- * ‚PDƒ\[ƒXƒR[ƒh‚ÌÄ”z•z‚É‚¨‚¢‚Ä’˜ìŒ •\¦‚Æ ‚±‚ÌğŒ‚ÌƒŠƒXƒg
- *     ‚¨‚æ‚Ñ‰º‹L‚Ìº–¾•¶‚ğ•Û‚µ‚È‚­‚Ä‚Í‚È‚ç‚È‚¢B
- * 
- * ‚QDƒoƒCƒiƒŠŒ`®‚ÌÄ”z•z‚É‚¨‚¢‚Ä’˜ìŒ •\¦‚Æ ‚±‚ÌğŒ‚ÌƒŠƒXƒg
- *     ‚¨‚æ‚Ñ‰º‹L‚Ìº–¾•¶‚ğg—pà–¾‘‚à‚µ‚­‚Í ‚»‚Ì‘¼‚Ì”z•z•¨“à‚É
- *     ŠÜ‚Ş‘—¿‚É‹Lq‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
- * 
- * ‚±‚Ìƒ\ƒtƒgƒEƒFƒA‚ÍÎ’Ë”üì—Ú‚É‚æ‚Á‚Ä–³•ÛØ‚Å’ñ‹Ÿ‚³‚êA“Á’è‚Ì–Ú
- * “I‚ğ’B¬‚Å‚«‚é‚Æ‚¢‚¤•ÛØA¤•i‰¿’l‚ª—L‚é‚Æ‚¢‚¤•ÛØ‚É‚Æ‚Ç‚Ü‚ç‚¸A
- * ‚¢‚©‚È‚é–¾¦“I‚¨‚æ‚ÑˆÃ¦“I‚È•ÛØ‚à‚µ‚È‚¢B
- * Î’Ë”üì—Ú‚Í ‚±‚Ìƒ\ƒtƒgƒEƒFƒA‚Ìg—p‚É‚æ‚é’¼Ú“IAŠÔÚ“IA‹ô”­
- * “IA“Áê‚ÈA“TŒ^“I‚ÈA‚ ‚é‚¢‚Í•K‘R“I‚È‘¹ŠQ(g—p‚É‚æ‚éƒf[ƒ^‚Ì
- * ‘¹¸A‹Æ–±‚Ì’†’f‚âŒ©‚Ü‚ê‚Ä‚¢‚½—˜‰v‚Ìˆâ¸A‘ã‘Ö»•i‚à‚µ‚­‚Í
- * ƒT[ƒrƒX‚Ì“±“ü”ï“™‚ªl‚¦‚ç‚ê‚é‚ªAŒˆ‚µ‚Ä‚»‚ê‚¾‚¯‚ÉŒÀ’è‚³‚ê‚È‚¢
- * ‘¹ŠQ)‚É‘Î‚µ‚ÄA‚¢‚©‚È‚é–‘Ô‚ÌŒ´ˆö‚Æ‚È‚Á‚½‚Æ‚µ‚Ä‚àAŒ_–ñã‚ÌÓ
- * ”C‚â–³‰ß¸Ó”C‚ğŠÜ‚Ş ‚¢‚©‚È‚éÓ”C‚ª‚ ‚ë‚¤‚Æ‚àA‚½‚Æ‚¦‚»‚ê‚ª•s
- * ³sˆ×‚Ì‚½‚ß‚Å‚ ‚Á‚½‚Æ‚µ‚Ä‚àA‚Ü‚½‚Í‚»‚Ì‚æ‚¤‚È‘¹ŠQ‚Ì‰Â”\«‚ª•ñ
- * ‚³‚ê‚Ä‚¢‚½‚Æ‚µ‚Ä‚àˆêØ‚ÌÓ”C‚ğ•‰‚í‚È‚¢‚à‚Ì‚Æ‚·‚éB
  */
 
 package jp.gr.java_conf.dangan.util.lha;
@@ -37,17 +16,13 @@ package jp.gr.java_conf.dangan.util.lha;
 import java.io.IOException;
 
 /**
- * LZSSˆ³kƒR[ƒh‚ğˆ—‚·‚é ƒCƒ“ƒ^[ƒtƒFƒCƒXB
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PostLzssEncoder.java,v $
  * Revision 1.0  2002/07/25 00:00:00  dangan
  * add to version control
  * [maintenance]
- *     ƒ\[ƒX®”õ
- *     ƒ^ƒu”p~
- *     ƒ‰ƒCƒZƒ“ƒX•¶‚ÌC³
  *
  * </pre>
  * 
@@ -66,15 +41,6 @@ public interface PostLzssEncoder{
     //  public abstract void close()
     //------------------------------------------------------------------
     /**
-     * ‚±‚Ì PostLzssEncoder ‚Éƒoƒbƒtƒ@ƒŠƒ“ƒO‚³‚ê‚Ä‚¢‚é
-     * o—Í‰Â”\‚Èƒf[ƒ^‚ğo—Íæ‚Ì OutputStream ‚Éo—Í‚µA
-     * o—Íæ‚Ì OutputStream ‚ğ flush() ‚·‚éB<br>
-     * java.io.OutputStream ‚Ì ƒƒ\ƒbƒh flush() ‚Æ—‚Ä‚¢‚é‚ªA
-     * flush() ‚µ‚È‚©‚Á‚½ê‡‚Æ flush() ‚µ‚½ê‡‚Ìo—Í‚É‚Â‚¢‚Ä‚Í
-     * “¯‚¶‚Å‚ ‚é‚±‚Æ‚ğ•ÛØ‚µ‚È‚­‚Ä—Ç‚¢B<br>
-     * ‚Â‚Ü‚èOutputStream ‚Ì flush() ‚Å‚Í“¯‚¶ƒf[ƒ^‚ğo—Í‚·‚é–‚ğ
-     * Šú‘Ò‚³‚ê‚é‚æ‚¤‚ÈˆÈ‰º‚Ì“ñ‚Â‚ÌƒR[ƒh‚ÍA
-     * PostLzssEncoder ‚É‚¨‚¢‚Ä‚Í •Ê‚Ìƒf[ƒ^‚ğo—Í‚ğ‚µ‚Ä‚à—Ç‚¢B
      * <pre>
      * (1)
      *   PostLzssEncoder out = new ImplementedPostLzssEncoder();
@@ -93,15 +59,11 @@ public interface PostLzssEncoder{
      *   out.close();
      * </pre>
      * 
-     * @exception IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+     * @exception IOException ï¿½ï¿½ï¿½oï¿½ÍƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
      */
     public abstract void flush() throws IOException;
 
     /**
-     * ‚±‚Ìo—ÍƒXƒgƒŠ[ƒ€‚ÆAÚ‘±‚³‚ê‚½o—ÍƒXƒgƒŠ[ƒ€‚ğ•Â‚¶A
-     * g—p‚µ‚Ä‚¢‚½ƒŠƒ\[ƒX‚ğŠJ•ú‚·‚éB<br>
-     * 
-     * @exception IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public abstract void close() throws IOException;
 
@@ -115,24 +77,10 @@ public interface PostLzssEncoder{
     //  public abstract void writeOffset( int offset )
     //------------------------------------------------------------------
     /**
-     * 1byte ‚Ì LZSS–¢ˆ³k‚Ìƒf[ƒ^‚à‚µ‚­‚ÍA
-     * LZSS ‚Åˆ³k‚³‚ê‚½ˆ³kƒR[ƒh‚Ì‚¤‚¿ˆê’v’·‚ğ‘‚«‚±‚ŞB<br>
-     * –¢ˆ³kƒf[ƒ^‚Í 0`255A
-     * LZSSˆ³kƒR[ƒh(ˆê’v’·)‚Í 256`510 ‚ğg—p‚·‚é‚±‚ÆB
-     * 
-     * @param code 1byte ‚Ì LZSS–¢ˆ³k‚Ìƒf[ƒ^‚à‚µ‚­‚ÍA
-     *             LZSS ‚Åˆ³k‚³‚ê‚½ˆ³kƒR[ƒh‚Ì‚¤‚¿ˆê’v’·
-     * 
-     * @exception IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public abstract void writeCode( int code ) throws IOException;
 
     /**
-     * LZSS ‚Åˆ³k‚³‚ê‚½ˆ³kƒR[ƒh‚Ì‚¤‚¿ˆê’vˆÊ’u‚ğ‘‚«‚±‚ŞB<br>
-     * 
-     * @param offset LZSS ‚Åˆ³k‚³‚ê‚½ˆ³kƒR[ƒh‚Ì‚¤‚¿ˆê’vˆÊ’u
-     * 
-     * @exception IOException “üo—ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡
      */
     public abstract void writeOffset( int offset ) throws IOException;
 
@@ -147,23 +95,14 @@ public interface PostLzssEncoder{
     //  public abstract int getThreshold()
     //------------------------------------------------------------------
     /**
-     * ‚±‚ÌPostLzssEncoder‚ªˆ—‚·‚éLZSS«‘‚ÌƒTƒCƒY‚ğ“¾‚éB
-     * 
-     * @param LZSS«‘‚ÌƒTƒCƒY
      */
     public abstract int getDictionarySize();
 
     /**
-     * ‚±‚ÌPostLzssEncoder‚ªˆ—‚·‚éÅ‘åˆê’v’·‚ğ“¾‚éB
-     * 
-     * @param Å’·ˆê’v’·
      */
     public abstract int getMaxMatch();
 
     /**
-     * ‚±‚ÌPostLzssEncoder‚ªˆ—‚·‚éˆ³kA”ñˆ³k‚Ìè‡’l‚ğ“¾‚éB
-     * 
-     * @param ˆ³kA”ñˆ³k‚Ìè‡’l
      */
     public abstract int getThreshold();
 

@@ -5,28 +5,6 @@
  * CRC16.java
  * 
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
- * ˆÈ‰º‚ÌğŒ‚É“¯ˆÓ‚·‚é‚È‚ç‚Îƒ\[ƒX‚ÆƒoƒCƒiƒŠŒ`®‚ÌÄ”z•z‚Æg—p‚ğ
- * •ÏX‚Ì—L–³‚É‚©‚©‚í‚ç‚¸‹–‰Â‚·‚éB
- * 
- * ‚PDƒ\[ƒXƒR[ƒh‚ÌÄ”z•z‚É‚¨‚¢‚Ä’˜ìŒ •\¦‚Æ ‚±‚ÌğŒ‚ÌƒŠƒXƒg
- *     ‚¨‚æ‚Ñ‰º‹L‚Ìº–¾•¶‚ğ•Û‚µ‚È‚­‚Ä‚Í‚È‚ç‚È‚¢B
- * 
- * ‚QDƒoƒCƒiƒŠŒ`®‚ÌÄ”z•z‚É‚¨‚¢‚Ä’˜ìŒ •\¦‚Æ ‚±‚ÌğŒ‚ÌƒŠƒXƒg
- *     ‚¨‚æ‚Ñ‰º‹L‚Ìº–¾•¶‚ğg—pà–¾‘‚à‚µ‚­‚Í ‚»‚Ì‘¼‚Ì”z•z•¨“à‚É
- *     ŠÜ‚Ş‘—¿‚É‹Lq‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
- * 
- * ‚±‚Ìƒ\ƒtƒgƒEƒFƒA‚ÍÎ’Ë”üì—Ú‚É‚æ‚Á‚Ä–³•ÛØ‚Å’ñ‹Ÿ‚³‚êA“Á’è‚Ì–Ú
- * “I‚ğ’B¬‚Å‚«‚é‚Æ‚¢‚¤•ÛØA¤•i‰¿’l‚ª—L‚é‚Æ‚¢‚¤•ÛØ‚É‚Æ‚Ç‚Ü‚ç‚¸A
- * ‚¢‚©‚È‚é–¾¦“I‚¨‚æ‚ÑˆÃ¦“I‚È•ÛØ‚à‚µ‚È‚¢B
- * Î’Ë”üì—Ú‚Í ‚±‚Ìƒ\ƒtƒgƒEƒFƒA‚Ìg—p‚É‚æ‚é’¼Ú“IAŠÔÚ“IA‹ô”­
- * “IA“Áê‚ÈA“TŒ^“I‚ÈA‚ ‚é‚¢‚Í•K‘R“I‚È‘¹ŠQ(g—p‚É‚æ‚éƒf[ƒ^‚Ì
- * ‘¹¸A‹Æ–±‚Ì’†’f‚âŒ©‚Ü‚ê‚Ä‚¢‚½—˜‰v‚Ìˆâ¸A‘ã‘Ö»•i‚à‚µ‚­‚Í
- * ƒT[ƒrƒX‚Ì“±“ü”ï“™‚ªl‚¦‚ç‚ê‚é‚ªAŒˆ‚µ‚Ä‚»‚ê‚¾‚¯‚ÉŒÀ’è‚³‚ê‚È‚¢
- * ‘¹ŠQ)‚É‘Î‚µ‚ÄA‚¢‚©‚È‚é–‘Ô‚ÌŒ´ˆö‚Æ‚È‚Á‚½‚Æ‚µ‚Ä‚àAŒ_–ñã‚ÌÓ
- * ”C‚â–³‰ß¸Ó”C‚ğŠÜ‚Ş ‚¢‚©‚È‚éÓ”C‚ª‚ ‚ë‚¤‚Æ‚àA‚½‚Æ‚¦‚»‚ê‚ª•s
- * ³sˆ×‚Ì‚½‚ß‚Å‚ ‚Á‚½‚Æ‚µ‚Ä‚àA‚Ü‚½‚Í‚»‚Ì‚æ‚¤‚È‘¹ŠQ‚Ì‰Â”\«‚ª•ñ
- * ‚³‚ê‚Ä‚¢‚½‚Æ‚µ‚Ä‚àˆêØ‚ÌÓ”C‚ğ•‰‚í‚È‚¢‚à‚Ì‚Æ‚·‚éB
  */
 
 package jp.gr.java_conf.dangan.util.lha;
@@ -37,25 +15,15 @@ import java.util.zip.Checksum;
 //import exceptions
 
 /**
- * CRC16’l‚ğZo‚·‚é‚½‚ß‚ÌƒNƒ‰ƒXB
- * 
- * ƒNƒ‰ƒX“à‚Ì’è”Aˆ—Aà–¾‚Í
  * <pre>
- * ‚bŒ¾Œê‚É‚æ‚éƒAƒ‹ƒSƒŠƒYƒ€«“T
- *   ‰œ‘º°•F’˜ ‹Zp•]˜_Ğ 
- *   ISBN4-87408-414-1 C3055 2400‰~(w“ü“–)
  * </pre>
- * ‚É‚æ‚Á‚½B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: CRC16.java,v $
  * Revision 1.0  2002/07/24 00:00:00  dangan
  * add to version control
  * [maintanance]
- *     ƒ\[ƒX®”õ
- *     ƒ^ƒu”p~
- *     ƒ‰ƒCƒZƒ“ƒX•¶‚Ì•ÏX
  *
  * </pre>
  * 
@@ -76,39 +44,26 @@ public class CRC16 implements Checksum{
     //  public static final int DefaultINIT
     //------------------------------------------------------------------
     /**
-     * CRC-ANSY ‚Ü‚½‚Í CRC-16 ‚Æ‚µ‚Ä—L–¼‚È
-     * ‘½€® x^16 + x^15 + x^2 + 1 ‚ğƒrƒbƒg•\Œ»‚É‚µ‚½‚à‚ÌB
      */
     public static final int CRC_ANSY_POLY = 0xA001;
 
     /**
-     * LHA‚Åg—p‚³‚ê‚é crc ‚Ì‰Šú’lB
-     * ìÒ‚ªŸè‚Éİ’è‚µ‚½’l‚Å‚ ‚èA
-     * CRC-ANSY ‚Å‚±‚Ì’l‚ª‰Šú’l‚Æ‚µ‚Ä
-     * ’è‚ß‚ç‚ê‚Ä‚¢‚é‚©‚Í’m‚ç‚È‚¢B
      */
     public static final int CRC_ANSY_INIT = 0x0000;
 
     /**
-     * CCITT ‚Ì X.25‚Æ‚¢‚¤‹KŠi‚Ì
-     * ‘½€® x^16 + x^12 + x^5 + 1 ‚ğƒrƒbƒg•\Œ»‚É‚µ‚½‚à‚ÌB
      */
     public static final int CCITT_POLY = 0x8408;
 
     /**
-     * CCITT ‚Ì X.25‚Æ‚¢‚¤‹KŠi‚Ì crc ‚Ì‰Šú’lB
      */
     public static final int CCITT_INIT = 0xFFFF;
 
     /**
-     * LHA‚Å’Êíg—p‚³‚ê‚éA‚Æ‚¢‚¤ˆÓ–¡‚ÅƒfƒtƒHƒ‹ƒg‚ÌCRC‘½€®B
-     * CRC16.CRC_ANSY_POLY ‚Æ“¯“™‚Å‚ ‚éB
      */
     public static final int DefaultPOLY = CRC16.CRC_ANSY_POLY;
 
     /**
-     * LHA‚Å’Êíg—p‚³‚ê‚éA‚Æ‚¢‚¤ˆÓ–¡‚ÅƒfƒtƒHƒ‹ƒg‚Ìcrc‚Ì‰Šú’lB
-     * CRC16.CRC_ANSY_INIT ‚Æ“¯“™‚Å‚ ‚éB
      */
     public static final int DefaultINIT = CRC16.CRC_ANSY_INIT;
 
@@ -121,17 +76,15 @@ public class CRC16 implements Checksum{
     //  private int[] crcTable
     //------------------------------------------------------------------
     /** 
-     * CRC16’l 
+     * CRC16ï¿½l 
      */
     private int crc;
 
     /** 
-     * crc ‚Ì‰Šú’l 
      */
     private int init;
 
     /** 
-     * CRC16’l‚ÌXV—pƒe[ƒuƒ‹ 
      */
     private int[] crcTable;
 
@@ -145,19 +98,13 @@ public class CRC16 implements Checksum{
     //  public CRC16( int[] crcTable, int init )
     //------------------------------------------------------------------
     /**
-     * LHA‚Åg—p‚³‚ê‚é ‘½€®‚Æ‰Šú’l‚ğ‚Â CRC16‚ğ¶¬‚·‚éB
      */
     public CRC16(){
         this( DefaultPOLY, DefaultINIT );
     }
 
     /**
-     * poly ‚Åw’è‚³‚ê‚é ‘½€®‚ğ‚Â CRC16‚ğ¶¬‚·‚éB
-     * ‰Šú’l‚Í poly ‚ª CRC16.CCITT_POLY ‚Å‚ ‚ê‚Î
-     * CRC16.CCITT_INIT ‚ğ ‚»‚¤‚Å‚È‚¯‚ê‚Î 
-     * CRC16.DefaultINIT ‚ğg—p‚·‚éB
-     * 
-     * @param poly CRC16Zo‚Ég—p‚·‚é‘½€®‚Ìƒrƒbƒg•\Œ»
+     *
      */
     public CRC16( int poly ){
         this( poly, 
@@ -167,22 +114,12 @@ public class CRC16 implements Checksum{
     }
 
     /**
-     * poly ‚Åw’è‚³‚ê‚é ‘½€®‚Æ init‚Åw’è‚³‚ê‚é‰Šú’l‚ğ‚Â
-     * CRC16‚ğ¶¬‚·‚éB
-     * 
-     * @param poly CRC16Zo‚Ég—p‚·‚é‘½€®‚Ìƒrƒbƒg•\Œ»
-     * @param init crc ‚Ì‰Šú’l
      */
     public  CRC16( int poly, int init ){
         this( CRC16.makeCrcTable( poly ), init );
     }
 
     /**
-     * crcTable ‚Åw’è‚³‚ê‚é CRCZo—p•\‚Æ 
-     * init‚Åw’è‚³‚ê‚é‰Šú’l‚ğ‚Â CRC16‚ğì¬‚·‚éB
-     *
-     * @param crcTable CRC16Zo‚Ég—p‚·‚é•\
-     * @param init     crc ‚Ì‰Šú’l
      */
     public  CRC16( int[] crcTable, int init ){
         final int BYTE_PATTERNS= 256;
@@ -208,9 +145,6 @@ public class CRC16 implements Checksum{
     //  public void update( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
     /**
-     * byte8 ‚Åw’è‚³‚ê‚é 1ƒoƒCƒg‚Ìƒf[ƒ^‚Å crc‚Ì’l‚ğXV‚·‚éB
-     * 
-     * @param byte8 crc‚ğXV‚·‚é 1ƒoƒCƒg‚Ìƒf[ƒ^
      */
     public void update( int byte8 ){
         final int BYTE_BITS = 8;
@@ -219,20 +153,12 @@ public class CRC16 implements Checksum{
     }
 
     /**
-     * buffer ‚Åw’è‚µ‚½ƒoƒCƒg”z—ñ‚Å crc ‚Ì’l‚ğXV‚·‚éB
-     * 
-     * @param buffer crc‚ğXV‚·‚é ƒf[ƒ^‚ğ‚ÂƒoƒCƒg”z—ñ
      */
     public void update( byte[] buffer ){
         this.update( buffer, 0, buffer.length );
     }
 
     /**
-     * buffer ‚Åw’è‚µ‚½ƒoƒCƒg”z—ñ‚Å crc ‚Ì’l‚ğXV‚·‚éB
-     * 
-     * @param buffer crc‚ğXV‚·‚é ƒf[ƒ^‚ğ‚ÂƒoƒCƒg”z—ñ
-     * @param index  ƒf[ƒ^‚ÌŠJnˆÊ’u
-     * @param length ƒ`ƒFƒbƒNƒTƒ€‚ÌXV‚Ég‚¤ƒoƒCƒg”
      */
     public void update( byte[] buffer, int index, int length ){
         final int BYTE_BITS = 8;
@@ -278,18 +204,12 @@ public class CRC16 implements Checksum{
     //  public long getValue()
     //------------------------------------------------------------------
     /**
-     * crc ’l‚ğ‰Šú’l‚Éİ’è‚µ‚È‚¨‚·B
      */
     public void reset(){
         this.crc = this.init;
     }
 
     /**
-     * crc ’l‚ğ“¾‚éB
-     * crc ’l‚Í 2ƒoƒCƒg‚Ì’l‚Å‚ ‚èA 
-     * 0x0000`0xFFFF‚Éƒ}ƒbƒv‚³‚ê‚éB
-     * 
-     * @return crc ’l
      */
     public long getValue(){
         return this.crc & 0xFFFF;
@@ -302,9 +222,6 @@ public class CRC16 implements Checksum{
     //  public static int[] makeCrcTable( int init )
     //------------------------------------------------------------------
     /**
-     * CRC’lZo—p‚Ì •\‚ğì¬‚·‚éB
-     * 
-     * @param poly CRCZo—p‚Ì‘½€®
      */
     public static int[] makeCrcTable( int poly ){
         final int BYTE_PATTERNS = 256;
