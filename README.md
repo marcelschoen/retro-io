@@ -13,6 +13,10 @@ whose code was used to implement this library.
 As a simple proof-of-concept and utility, the code will come as an executable Jar and contain a simple GUI tool that
 allows to load an image file and extract its contents.
 
+### Web app planned
+
+A web application which allows to use the library functionality from within a web browser is currently planned.
+
 ## API / Usage
 
 To use the library in your own code to read an image file, you need the following classes / interface:
