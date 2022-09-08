@@ -1,6 +1,7 @@
 package org.acme;
 
 import org.apache.commons.io.IOUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -12,8 +13,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Information "stolen" from:
@@ -26,18 +29,30 @@ public class FloppyImageUploadResource {
     // https://mkyong.com/webservices/jax-rs/file-upload-example-in-resteasy/
     private final String UPLOADED_FILE_PATH = ""; // will go to 'target' folder
 
+    @ConfigProperty(name = "upload.directory")
+    String uploadDirectory;
+
     @POST
     @Path("/upload")
     @Consumes("multipart/form-data")
     public Response uploadFile(MultipartFormDataInput input) {
 
+        File uploadDir = new File(uploadDirectory);
+        if(!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        String uuid = UUID.randomUUID().toString();
+        File finalDir = new File(uploadDir, uuid);
+        finalDir.mkdirs();
+
         String fileName = "";
-System.out.println("> Process parts...");
+
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
         List<InputPart> inputParts = uploadForm.get("uploadedFile");
 
         for (InputPart inputPart : inputParts) {
-System.out.println("-> part");
+
             try {
 
                 MultivaluedMap<String, String> header = inputPart.getHeaders();
@@ -48,10 +63,7 @@ System.out.println("-> part");
 
                 byte[] bytes = IOUtils.toByteArray(inputStream);
 
-                // constructs upload file path
-                fileName = UPLOADED_FILE_PATH + fileName;
-
-                writeFile(bytes, fileName);
+                writeFile(bytes, new File(finalDir, fileName));
 
                 System.out.println("Done");
 
@@ -60,8 +72,9 @@ System.out.println("-> part");
             }
 
         }
-System.out.println("> Done");
-        return Response.status(200).entity("uploadFile is called, Uploaded file name : " + fileName).build();
+
+        URI uri = URI.create("/files/browse?path=" + uuid);
+        return Response.status(302).location(uri).build();
 
     }
 
@@ -88,15 +101,13 @@ System.out.println("> Done");
     }
 
     //save to somewhere
-    private void writeFile(byte[] content, String filename) throws IOException {
+    private void writeFile(byte[] content, File targetFile) throws IOException {
 
-        File file = new File(filename);
-
-        if (!file.exists()) {
-            file.createNewFile();
+        if (!targetFile.exists()) {
+            targetFile.createNewFile();
         }
 
-        FileOutputStream fop = new FileOutputStream(file);
+        FileOutputStream fop = new FileOutputStream(targetFile);
 
         fop.write(content);
         fop.flush();
