@@ -15,6 +15,7 @@
  */
 package com.retroio.tools;
 
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -65,8 +66,8 @@ public enum ImageType {
     }
 
     /**
-     * Returns the matching type for the given suffix, or null,
-     * if the suffix could not be matched.
+     * Returns the matching type for the given suffix.
+     * Will return "unknown" if the suffix could not be matched.
      *
      * @param suffix The filename suffix (with or without ".").
      * @return The matching type (may be "unknown").
@@ -76,6 +77,21 @@ public enum ImageType {
                 .filter(t -> suffix.toUpperCase().endsWith(t.getFileSuffix()))
                 .findFirst()
                 .orElse(unknown);
+    }
+
+    /**
+     * Returns the matching type for the given file, based on its filename suffix.
+     * Will return "unknown" if the suffix could not be matched.
+     *
+     * @param file The image file.
+     * @return The matching type (may be "unknown").
+     */
+    public static ImageType getTypeFromFile(File file) {
+        if(file.getName().contains(".")) {
+            String suffix = file.getName().substring(file.getName().indexOf(".") + 1);
+            return getTypeFromFileSuffix(suffix);
+        }
+        return unknown;
     }
 
     /**

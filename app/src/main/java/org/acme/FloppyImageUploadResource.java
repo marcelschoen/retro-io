@@ -64,8 +64,9 @@ public class FloppyImageUploadResource {
                 fileName = getFileName(header);
                 if (fileName.contains(".")) {
 
-                    String suffix = fileName.substring(fileName.indexOf(".") + 1);
-                    ImageType imageType = ImageType.getTypeFromFileSuffix(suffix);
+                    File finalImageFile = new File(finalDir, fileName);
+                    ImageType imageType = ImageType.getTypeFromFile(finalImageFile);
+
                     if (imageType != ImageType.unknown) {
 
                         // convert the uploaded file to inputstream
@@ -73,7 +74,6 @@ public class FloppyImageUploadResource {
 
                         byte[] bytes = IOUtils.toByteArray(inputStream);
 
-                        File finalImageFile = new File(finalDir, fileName);
                         writeFile(bytes, finalImageFile);
 
                         File unpackDir = new File(finalDir, fileName + "-unpacked");
@@ -85,7 +85,7 @@ public class FloppyImageUploadResource {
 
                         System.out.println("Done");
 
-                        URI uri = URI.create("/files/browse?path=" + uuid);
+                        URI uri = URI.create("/files/browse?path=" + uuid + "&image=" + fileName);
                         return Response.status(302).location(uri).build();
 
                     }
