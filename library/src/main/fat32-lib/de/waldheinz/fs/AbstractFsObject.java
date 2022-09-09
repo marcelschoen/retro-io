@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs;
 
 /**
@@ -32,7 +32,7 @@ public class AbstractFsObject implements FsObject {
      * Holds the read-only state of this object.
      */
     private final boolean readOnly;
-    
+
     /**
      * Remembers if this object still valid.
      */
@@ -48,13 +48,13 @@ public class AbstractFsObject implements FsObject {
         this.valid = true;
         this.readOnly = readOnly;
     }
-    
-    /** 
+
+    /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
      * @see #checkValid()
-     * @see #invalidate() 
+     * @see #invalidate()
      */
     @Override
     public final boolean isValid() {
@@ -63,7 +63,7 @@ public class AbstractFsObject implements FsObject {
 
     /**
      * Marks this object as invalid.
-     * 
+     *
      * @see #isValid()
      * @see #checkValid()
      */
@@ -76,9 +76,9 @@ public class AbstractFsObject implements FsObject {
      * {@code IllegalStateException} if it is not.
      *
      * @throws IllegalStateException if this object was invalidated
-     * @since 0.6
      * @see #isValid()
-     * @see #invalidate() 
+     * @see #invalidate()
+     * @since 0.6
      */
     protected final void checkValid() throws IllegalStateException {
         if (!isValid()) throw new IllegalStateException(
@@ -87,26 +87,26 @@ public class AbstractFsObject implements FsObject {
 
     /**
      * Convience method to check if this object is writable. An object is
-     * writable if it is both, valid and not read-only. 
+     * writable if it is both, valid and not read-only.
      *
      * @throws IllegalStateException if this object was invalidated
-     * @throws ReadOnlyException if this object was created with the read-only
-     *      flag set
+     * @throws ReadOnlyException     if this object was created with the read-only
+     *                               flag set
      * @since 0.6
      */
     protected final void checkWritable()
             throws IllegalStateException, ReadOnlyException {
-        
+
         checkValid();
 
         if (isReadOnly()) {
             throw new ReadOnlyException();
         }
     }
-    
+
     @Override
     public final boolean isReadOnly() {
         return this.readOnly;
     }
-    
+
 }

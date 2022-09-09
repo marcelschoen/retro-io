@@ -3,19 +3,19 @@
 
 /**
  * BitDataBrokenException.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -48,7 +48,7 @@ import java.io.IOException;
  * �ꍇ�ɂ� ���ۂɓǂݍ��ݓ�����s���Ă��܂��Ă��邽��
  * �ǂݍ��݈ʒu�͗�O�𓊂���O�̎��_����ω����Ă��܂�
  * �Ă���_�ɒ��ӂ��邱�ƁB<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: BitDataBrokenException.java,v $
@@ -63,11 +63,11 @@ import java.io.IOException;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class BitDataBrokenException extends IOException{
+public class BitDataBrokenException extends IOException {
 
 
     //------------------------------------------------------------------
@@ -101,26 +101,28 @@ public class BitDataBrokenException extends IOException{
     //  public BitDataBrokenException( Throwable cause,
     //                                 int bitData, int bitCount )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s��
      */
-    private BitDataBrokenException(){    }
+    private BitDataBrokenException() {
+    }
 
     /**
      * �V���� BitDataBrokenException ���\�z����B<br>
-     * 
+     *
      * @param cause    �r�b�g�f�[�^���r���܂ł����擾�ł��Ȃ�
      *                 �����ƂȂ�����O
      * @param bitData  �v�����ꂽ�r�b�g���ɖ����Ȃ��r�b�g�f�[�^
      * @param bitCount bitData �̃r�b�g��
-     * 
+     *
      */
-    public BitDataBrokenException( Throwable cause,
-                                   int       bitData,
-                                   int       bitCount ){
-        this.cause    = cause;
-        this.bitData  = bitData;
+    public BitDataBrokenException(Throwable cause,
+                                  int bitData,
+                                  int bitCount) {
+        this.cause = cause;
+        this.bitData = bitData;
         this.bitCount = bitCount;
     }
 
@@ -132,13 +134,14 @@ public class BitDataBrokenException extends IOException{
     //  public int getBitData()
     //  public int getBitCount()
     //------------------------------------------------------------------
+
     /**
      * �r�b�g�f�[�^���r���܂ł���
      * �擾�ł��Ȃ������ƂȂ�����O�𓾂�B<br>
-     * 
+     *
      * @return �����ƂȂ�����O
      */
-    public Throwable getCause(){
+    public Throwable getCause() {
         return this.cause;
     }
 
@@ -148,17 +151,17 @@ public class BitDataBrokenException extends IOException{
      *
      * @return �r�b�g�f�[�^
      */
-    public int getBitData(){
+    public int getBitData() {
         return this.bitData;
     }
 
     /**
      * getBitData() �œ�����
      * �r�b�g�f�[�^�̗L���r�b�g���𓾂�B
-     * 
+     *
      * @return �r�b�g�f�[�^�̗L���r�b�g��
      */
-    public int getBitCount(){
+    public int getBitCount() {
         return this.bitCount;
     }
 

@@ -49,11 +49,11 @@ public final class FileDisk implements BlockDevice {
      * Creates a new instance of {@code FileDisk} for the specified
      * {@code File}.
      *
-     * @param file the file that holds the disk contents
+     * @param file     the file that holds the disk contents
      * @param readOnly if the file should be opened in read-only mode, which
-     *      will result in a read-only {@code FileDisk} instance
+     *                 will result in a read-only {@code FileDisk} instance
      * @throws FileNotFoundException if the specified file does not exist
-     * @see #isReadOnly() 
+     * @see #isReadOnly()
      */
     public FileDisk(File file, boolean readOnly) throws FileNotFoundException {
         if (!file.exists()) throw new FileNotFoundException();
@@ -79,31 +79,31 @@ public final class FileDisk implements BlockDevice {
      * @param file the file to hold the {@code FileDisk} contents
      * @param size the size of the new {@code FileDisk}
      * @return the created {@code FileDisk} instance
-     * @throws IOException on error creating the {@code FileDisk}
+     * @throws IOException              on error creating the {@code FileDisk}
      * @throws IllegalArgumentException if size is &lt; 0
      */
     public static FileDisk create(File file, long size)
             throws IOException, IllegalArgumentException {
-        
+
         if (size < 0) {
             throw new IllegalArgumentException("size must be >= 0");
         }
-        
+
         try {
             final RandomAccessFile raf =
                     new RandomAccessFile(file, "rw"); //NOI18N
             raf.setLength(size);
-            
+
             return new FileDisk(raf, false);
         } catch (FileNotFoundException ex) {
             throw new IOException(ex);
         }
     }
-    
+
     @Override
     public long getSize() throws IOException {
         checkClosed();
-        
+
         return raf.length();
     }
 
@@ -128,7 +128,7 @@ public final class FileDisk implements BlockDevice {
         checkClosed();
 
         if (this.readOnly) throw new ReadOnlyException();
-        
+
         int toWrite = src.remaining();
 
         if ((devOffset + toWrite) > getSize()) throw new IOException(
@@ -150,7 +150,7 @@ public final class FileDisk implements BlockDevice {
     @Override
     public int getSectorSize() {
         checkClosed();
-        
+
         return BYTES_PER_SECTOR;
     }
 
@@ -162,7 +162,7 @@ public final class FileDisk implements BlockDevice {
         this.fc.close();
         this.raf.close();
     }
-    
+
     @Override
     public boolean isClosed() {
         return this.closed;
@@ -175,7 +175,7 @@ public final class FileDisk implements BlockDevice {
     @Override
     public boolean isReadOnly() {
         checkClosed();
-        
+
         return this.readOnly;
     }
 

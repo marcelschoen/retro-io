@@ -3,9 +3,8 @@
 
 /**
  * PostLzssEncoder.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
  */
 
 package jp.gr.java_conf.dangan.util.lha;
@@ -13,6 +12,7 @@ package jp.gr.java_conf.dangan.util.lha;
 //import classes and interfaces
 
 //import exceptions
+
 import java.io.IOException;
 
 /**
@@ -25,11 +25,11 @@ import java.io.IOException;
  * [maintenance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public interface PostLzssEncoder{
+public interface PostLzssEncoder {
 
 
     //------------------------------------------------------------------
@@ -40,6 +40,7 @@ public interface PostLzssEncoder{
     //  public abstract void flush()
     //  public abstract void close()
     //------------------------------------------------------------------
+
     /**
      * <pre>
      * (1)
@@ -48,7 +49,7 @@ public interface PostLzssEncoder{
      *   out.writeCode( 0 );
      *   out.writeCode( 0 );
      *   out.close();
-     * 
+     *
      * (2)
      *   PostLzssEncoder out = new ImplementedPostLzssEncoder();
      *   out.writeCode( 0 );
@@ -58,7 +59,7 @@ public interface PostLzssEncoder{
      *   out.writeCode( 0 );
      *   out.close();
      * </pre>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public abstract void flush() throws IOException;
@@ -76,13 +77,14 @@ public interface PostLzssEncoder{
     //  public abstract void writeCode( int code )
     //  public abstract void writeOffset( int offset )
     //------------------------------------------------------------------
-    /**
-     */
-    public abstract void writeCode( int code ) throws IOException;
 
     /**
      */
-    public abstract void writeOffset( int offset ) throws IOException;
+    public abstract void writeCode(int code) throws IOException;
+
+    /**
+     */
+    public abstract void writeOffset(int offset) throws IOException;
 
 
     //------------------------------------------------------------------
@@ -94,6 +96,7 @@ public interface PostLzssEncoder{
     //  public abstract int getMaxMatch()
     //  public abstract int getThreshold()
     //------------------------------------------------------------------
+
     /**
      */
     public abstract int getDictionarySize();

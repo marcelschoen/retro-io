@@ -3,19 +3,19 @@
 
 /**
  * MsdosDate.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -59,7 +59,7 @@ import java.util.Date;
  * �E���� 0�`59�� �� 0�`59�ŕ\���B<br>
  * �E�b�� 0�`58�b �� 0�`29�ŕ\���B�b�̏��̓r�b�g��������Ȃ�
  *   ���� �ŏ��P�ʂ� 1�b�łȂ� 2�b�ł���B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: MsdosDate.java,v $
@@ -77,12 +77,12 @@ import java.util.Date;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
 public class MsdosDate extends Date
-                       implements Cloneable {
+        implements Cloneable {
 
 
     //------------------------------------------------------------------
@@ -91,37 +91,38 @@ public class MsdosDate extends Date
     //  public MsdosDate( Date date )
     //  public MsdosDate( int time )
     //------------------------------------------------------------------
+
     /**
      * date �Ŏ�����鎞�Ԃ�\�� MsdosDate ���\�z����B <br>
      * MS-DOS �`���̎��ԏ��ŕ\���Ȃ��ׂ������x�̏���
      * ��������A�ŏ����ԒP�ʂ� java.util.Date �� 1�~���b�łȂ�
      * MS-DOS �`���̎��ԏ�� �̍ŏ��P�ʂł��� 2�b�ƂȂ�B
-     * 
+     *
      * @param date �V�����\�z����� MsdosDate �̊�ɂȂ鎞�ԏ��
      *             ������ Date�I�u�W�F�N�g
-     * 
+     *
      * @exception IllegalArgumentException
      *             date �� MS-DOS���Ԍ`���ň����Ȃ��͈͂̎��Ԃ�
      *             �����Ă����ꍇ
      */
-    public MsdosDate( Date date ){
-        super( ( date.getTime() / 2000L ) * 2000L  );
+    public MsdosDate(Date date) {
+        super((date.getTime() / 2000L) * 2000L);
         this.checkRange();
     }
 
     /**
      * MS-DOS �`���̎��ԏ�񂩂� �V���� MsdosDate ���\�z
      * ����B
-     * 
+     *
      * @param time MS-DOS �`���̎��ԏ��
      */
-    public MsdosDate( int time ){
-        super( ( ( time >> 25 ) & 0x7F ) + 80,
-               ( ( time >> 21 ) & 0x0F ) - 1,
-               ( time >> 16 ) & 0x1F,
-               ( time >> 11 ) & 0x1F,
-               ( time >> 5 )  & 0x3F,
-               ( time << 1 )  & 0x3F );                                         //deprecated
+    public MsdosDate(int time) {
+        super(((time >> 25) & 0x7F) + 80,
+                ((time >> 21) & 0x0F) - 1,
+                (time >> 16) & 0x1F,
+                (time >> 11) & 0x1F,
+                (time >> 5) & 0x3F,
+                (time << 1) & 0x3F);                                         //deprecated
 
         this.checkRange();
     }
@@ -132,13 +133,14 @@ public class MsdosDate extends Date
     //------------------------------------------------------------------
     //  public Object clone()
     //------------------------------------------------------------------
+
     /**
      * ���̃I�u�W�F�N�g�̃R�s�[��Ԃ��B
-     * 
+     *
      * @return ����MsdosDate�I�u�W�F�N�g�̕���
      */
-    public Object clone(){
-        return new MsdosDate( this );
+    public Object clone() {
+        return new MsdosDate(this);
     }
 
 
@@ -152,6 +154,7 @@ public class MsdosDate extends Date
     //  public void setYear( int year )
     //  public void setTime( long time )
     //------------------------------------------------------------------
+
     /**
      * ���� MsdosDate �̎����N�� year �Ŏw�肳�ꂽ�l��1900�𑫂�
      * �����̂ɐݒ肷��B<br>
@@ -159,16 +162,16 @@ public class MsdosDate extends Date
      *
      * @deprecated
      * @param year 1900�𑫂����ƂŐ����\���悤�� �N�̒l
-     * 
+     *
      * @exception IllegalArgumentException
      *             year �� MS-DOS���Ԍ`���ň����Ȃ��͈͂̎��Ԃ�
      *             �����Ă����ꍇ
      */
-    public void setYear( int year ){
-        if( year < 80 || 207 < year ){
-            throw new IllegalArgumentException( "out of MS-DOS time format range." );
-        }else{
-            super.setYear( year );                                              //deprecated
+    public void setYear(int year) {
+        if (year < 80 || 207 < year) {
+            throw new IllegalArgumentException("out of MS-DOS time format range.");
+        } else {
+            super.setYear(year);                                              //deprecated
         }
     }
 
@@ -178,19 +181,19 @@ public class MsdosDate extends Date
      * MS-DOS �`���̎��ԏ��ŕ\���Ȃ��ׂ������x�̏���
      * ��������A�ŏ����ԒP�ʂ� java.util.Date �� 1�~���b�łȂ�
      * MS-DOS �`���̎��ԏ�� �̍ŏ��P�ʂł��� 2�b�ƂȂ�B
-     * 
+     *
      * @param time 1970�N1��1�� 00:00:00GMT ����̌o�߃~���b
-     * 
+     *
      * @exception IllegalArgumentException
      *             time �� MS-DOS���Ԍ`���ň����Ȃ��͈͂̎��Ԃ�
      *             �����Ă����ꍇ
      */
-    public void setTime( long time ){
-        int year = ( new Date( time ) ).getYear();
-        if( year < 80 || 207 < year ){
-            throw new IllegalArgumentException( "out of MS-DOS time format range." );
-        }else{
-            super.setTime( ( time / 2000L ) * 2000L );
+    public void setTime(long time) {
+        int year = (new Date(time)).getYear();
+        if (year < 80 || 207 < year) {
+            throw new IllegalArgumentException("out of MS-DOS time format range.");
+        } else {
+            super.setTime((time / 2000L) * 2000L);
         }
     }
 
@@ -203,34 +206,35 @@ public class MsdosDate extends Date
     //  public void setMsdosTime( int time )
     //  public int getMsdosTime()
     //------------------------------------------------------------------
-    /**
-     * ���� MsdosDate �� MS-DOS ���Ԍ`���̎��ԏ���ݒ肷��B
-     * 
-     * @param time MS-DOS ���Ԍ`���̎��ԏ��
-     */
-    public void setMsdosTime( int time ){
-        Date date = new Date( ( ( time >> 25 ) & 0x7F ) + 80,
-                              ( ( time >> 21 ) & 0x0F ) - 1,
-                              ( time >> 16 ) & 0x1F,
-                              ( time >> 11 ) & 0x1F,
-                              ( time >> 5 )  & 0x3F,
-                              ( time << 1 )  & 0x3F );                          //deprecated
-
-        this.setTime( date.getTime() );
-    }
 
     /**
      * ���� MsdosDate���������ԏ��� MS-DOS ���Ԍ`���œ���B
-     * 
+     *
      * @return MS-DOS���Ԍ`���̒l
      */
-    public int getMsdosTime(){
-        return ( ( super.getYear() - 80 ) << 25 )                               //deprecated
-               | ( ( super.getMonth() + 1 ) << 21 )                             //deprecated
-               | ( super.getDate()    << 16 )                                   //deprecated
-               | ( super.getHours()   << 11 )                                   //deprecated
-               | ( super.getMinutes() <<  5 )                                   //deprecated
-               | ( super.getSeconds() >>  1 );                                  //deprecated
+    public int getMsdosTime() {
+        return ((super.getYear() - 80) << 25)                               //deprecated
+                | ((super.getMonth() + 1) << 21)                             //deprecated
+                | (super.getDate() << 16)                                   //deprecated
+                | (super.getHours() << 11)                                   //deprecated
+                | (super.getMinutes() << 5)                                   //deprecated
+                | (super.getSeconds() >> 1);                                  //deprecated
+    }
+
+    /**
+     * ���� MsdosDate �� MS-DOS ���Ԍ`���̎��ԏ���ݒ肷��B
+     *
+     * @param time MS-DOS ���Ԍ`���̎��ԏ��
+     */
+    public void setMsdosTime(int time) {
+        Date date = new Date(((time >> 25) & 0x7F) + 80,
+                ((time >> 21) & 0x0F) - 1,
+                (time >> 16) & 0x1F,
+                (time >> 11) & 0x1F,
+                (time >> 5) & 0x3F,
+                (time << 1) & 0x3F);                          //deprecated
+
+        this.setTime(date.getTime());
     }
 
 
@@ -239,18 +243,19 @@ public class MsdosDate extends Date
     //------------------------------------------------------------------
     //  private void checkRange()
     //------------------------------------------------------------------
+
     /**
      * ���� MsdosDate �� MS-DOS���Ԍ`���ŕ\���鎞�Ԃ͈͓̔���
      * ���邩�𔻒肷��B
-     * 
+     *
      * @exception IllegalArgumentException
      *             ���� MsdosDate �� MS-DOS���Ԍ`���ň����Ȃ�
      *             �͈͂̎��Ԃ������Ă����ꍇ
      */
-    private void checkRange(){
+    private void checkRange() {
         int year = this.getYear();
-        if( year < 80 || 207 < year )
-            throw new IllegalArgumentException( "out of MS-DOS time format range." );
+        if (year < 80 || 207 < year)
+            throw new IllegalArgumentException("out of MS-DOS time format range.");
     }
 
 }

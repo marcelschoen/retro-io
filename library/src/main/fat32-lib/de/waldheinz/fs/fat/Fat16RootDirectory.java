@@ -37,23 +37,23 @@ final class Fat16RootDirectory extends AbstractDirectory {
 
         if (bs.getRootDirEntryCount() <= 0) throw new IllegalArgumentException(
                 "root directory size is " + bs.getRootDirEntryCount());
-        
+
         this.deviceOffset = bs.getRootDirOffset();
         this.device = bs.getDevice();
     }
-    
+
     /**
      * Reads a {@code Fat16RootDirectory} as indicated by the specified
      * {@code Fat16BootSector}.
      *
-     * @param bs the boot sector that describes the root directory to read
+     * @param bs       the boot sector that describes the root directory to read
      * @param readOnly if the directory shold be created read-only
      * @return the directory that was read
      * @throws IOException on read error
      */
     public static Fat16RootDirectory read(
             Fat16BootSector bs, boolean readOnly) throws IOException {
-        
+
         final Fat16RootDirectory result = new Fat16RootDirectory(bs, readOnly);
         result.read();
         return result;
@@ -70,12 +70,12 @@ final class Fat16RootDirectory extends AbstractDirectory {
      */
     public static Fat16RootDirectory create(
             Fat16BootSector bs) throws IOException {
-        
+
         final Fat16RootDirectory result = new Fat16RootDirectory(bs, false);
         result.flush();
         return result;
     }
-    
+
     @Override
     protected void read(ByteBuffer data) throws IOException {
         this.device.read(deviceOffset, data);
@@ -110,5 +110,5 @@ final class Fat16RootDirectory extends AbstractDirectory {
             throw new DirectoryFullException(getCapacity(), entryCount);
         }
     }
-    
+
 }

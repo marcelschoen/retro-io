@@ -3,19 +3,19 @@
 
 /**
  * DynamicHuffman.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -37,7 +37,7 @@ package jp.gr.java_conf.dangan.util.lha;
 
 /**
  * ���I�n�t�}���������N���X�B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: DynamicHuffman.java,v $
@@ -55,11 +55,11 @@ package jp.gr.java_conf.dangan.util.lha;
  *     ���C�Z���X���̕ύX
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class DynamicHuffman implements Cloneable{
+public class DynamicHuffman implements Cloneable {
 
 
     //------------------------------------------------------------------
@@ -127,59 +127,61 @@ public class DynamicHuffman implements Cloneable{
     //  public DynamicHuffman( int count )
     //  public DynamicHuffman( int max, int first )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private DynamicHuffman(){   }
-
-    /**
-     * �R���X�g���N�^
-     * 
-     * @param count �t�̐�
-     */
-    public DynamicHuffman( int count ){
-        this( count, count );
+    private DynamicHuffman() {
     }
 
     /**
      * �R���X�g���N�^
-     * 
+     *
+     * @param count �t�̐�
+     */
+    public DynamicHuffman(int count) {
+        this(count, count);
+    }
+
+    /**
+     * �R���X�g���N�^
+     *
      * @param max   �t�̍ő吔
      * @param start �J�n���̗t�̐� 
      */
-    public DynamicHuffman( int max, int first ){
-        if( 1 <= first && first <= max ){
+    public DynamicHuffman(int max, int first) {
+        if (1 <= first && first <= max) {
 
-            this.weight = new int[ max * 2 - 1 ];
-            this.child  = new int[ max * 2 - 1 ];
-            this.parent = new int[ max * 2 - 1 ];
-            this.leafs  = new int[ max ];
-            this.size   = Math.max( 0, first * 2 - 1 );
+            this.weight = new int[max * 2 - 1];
+            this.child = new int[max * 2 - 1];
+            this.parent = new int[max * 2 - 1];
+            this.leafs = new int[max];
+            this.size = Math.max(0, first * 2 - 1);
 
             //�t�𐶐����Ă����B
             int node = this.size - 1;
-            for( int code = 0 ; code < first ; code++, node-- ){
-                this.weight[ node ] = 1;
-                this.child[ node ]  = ~code;
-                this.leafs[ code ]  = node;
+            for (int code = 0; code < first; code++, node--) {
+                this.weight[node] = 1;
+                this.child[node] = ~code;
+                this.leafs[code] = node;
             }
 
             //�}�𐶐����Ă����B
             int child = this.size - 1;
-            while( 0 <= node && node != child ){
-                this.weight[node]  = this.weight[child] + this.weight[child-1];
+            while (0 <= node && node != child) {
+                this.weight[node] = this.weight[child] + this.weight[child - 1];
 
-                this.child[node]   = child;
-                this.parent[child] = this.parent[child-1] = node;
+                this.child[node] = child;
+                this.parent[child] = this.parent[child - 1] = node;
 
                 child -= 2;
                 node--;
             }
-        }else if( max < first ){
-            throw new IllegalArgumentException( "\"max\" must be larger than \"first\"." );
-        }else{
-            throw new IllegalArgumentException( "\"first\" must be one or more." );
+        } else if (max < first) {
+            throw new IllegalArgumentException("\"max\" must be larger than \"first\".");
+        } else {
+            throw new IllegalArgumentException("\"first\" must be one or more.");
         }
     }
 
@@ -189,18 +191,19 @@ public class DynamicHuffman implements Cloneable{
     //------------------------------------------------------------------
     //  public Object clone()
     //------------------------------------------------------------------
+
     /**
      * ���̃I�u�W�F�N�g�̌��݂̏�Ԃ����R�s�[���쐬���ĕԂ��B
-     * 
+     *
      * @return ���̃I�u�W�F�N�g�̌��݂̏�Ԃ����R�s�[
      */
-    public Object clone(){
+    public Object clone() {
         DynamicHuffman clone = new DynamicHuffman();
-        clone.weight = (int[])this.weight.clone();
-        clone.child  = (int[])this.child.clone();
-        clone.parent = (int[])this.parent.clone();
-        clone.leafs  = (int[])this.leafs.clone();
-        clone.size   = this.size;
+        clone.weight = (int[]) this.weight.clone();
+        clone.child = (int[]) this.child.clone();
+        clone.parent = (int[]) this.parent.clone();
+        clone.leafs = (int[]) this.leafs.clone();
+        clone.size = this.size;
         return clone;
     }
 
@@ -214,14 +217,15 @@ public class DynamicHuffman implements Cloneable{
     //  public int childNode( int node )
     //  public int parentNode( int node )
     //------------------------------------------------------------------
+
     /**
      * �f�[�^����m�[�h�ԍ��𓾂�B
-     * 
+     *
      * @param code �f�[�^
-     * 
+     *
      * @return code�̃m�[�h�ԍ�
      */
-    public int codeToNode( int code ){
+    public int codeToNode(int code) {
         return this.leafs[code];
     }
 
@@ -232,23 +236,23 @@ public class DynamicHuffman implements Cloneable{
      * node �� 0 �̎q�m�[�h�̏ꍇ childNode( node )<br>
      * node �� 1 �̎q�m�[�h�̏ꍇ childNode( node ) - 1<br>
      * �ƂȂ�B
-     * 
+     *
      * @param node �m�[�h
-     * 
+     *
      * @return node �̎q�m�[�h�̃m�[�h�ԍ�
      */
-    public int childNode( int node ){
+    public int childNode(int node) {
         return this.child[node];
     }
 
     /**
      * node �̐e�m�[�h�̃m�[�h�ԍ��𓾂�B
-     * 
+     *
      * @param node �m�[�h
-     * 
+     *
      * @return node �̐e�m�[�h�̃m�[�h�ԍ��B
      */
-    public int parentNode( int node ){
+    public int parentNode(int node) {
         return this.parent[node];
     }
 
@@ -261,62 +265,63 @@ public class DynamicHuffman implements Cloneable{
     //  public void update( int code )
     //  public void addLeaf( int code )
     //------------------------------------------------------------------
+
     /**
      * code �̏d�݂������悤�Ƀn�t�}���؂��X�V����B
-     * 
+     *
      * @param code �d�݂𑝂₷�t
      */
-    public void update( int code ){
-        if( this.weight[ DynamicHuffman.ROOT ] == DynamicHuffman.MAX_WEIGHT ){
+    public void update(int code) {
+        if (this.weight[DynamicHuffman.ROOT] == DynamicHuffman.MAX_WEIGHT) {
             this.rebuildTree();
         }
 
         int node = this.leafs[code];
-        while( DynamicHuffman.ROOT != node ){
+        while (DynamicHuffman.ROOT != node) {
             int swapNode = node;
-            while( this.weight[swapNode - 1] == this.weight[node]
-                && DynamicHuffman.ROOT < swapNode - 1 ){
+            while (this.weight[swapNode - 1] == this.weight[node]
+                    && DynamicHuffman.ROOT < swapNode - 1) {
                 swapNode--;
             }
 
-            if( node != swapNode ) this.swap( node, swapNode );
+            if (node != swapNode) this.swap(node, swapNode);
 
             this.weight[swapNode]++;
             node = this.parent[swapNode];
         }
-        this.weight[ DynamicHuffman.ROOT ]++;
+        this.weight[DynamicHuffman.ROOT]++;
     }
 
     /**
      * �n�t�}���؂� code �������t��ǉ�����B
-     * 
+     *
      * @param code �t�̎�������
-     * 
+     *
      * @exception IllegalStateException
      *              �n�t�}���؂��\���ɑ傫������
      *              �t���ǉ��ł��Ȃ��ꍇ
      */
-    public void addLeaf( int code ){
-        if( this.size < this.weight.length - 1 ){
-            int last  = this.size - 1;
+    public void addLeaf(int code) {
+        if (this.size < this.weight.length - 1) {
+            int last = this.size - 1;
             int large = this.size;
             int small = this.size + 1;
-            this.child[ large ] = this.child[ last ];
-            this.child[ small ] = ~code;
-            this.child[ last ]  = small;
-            this.weight[ large ] = this.weight[ last ];
-            this.weight[ small ] = 0;
-            this.leafs[ ~this.child[ large ] ] = large;
-            this.leafs[ ~this.child[ small ] ] = small;
-            this.parent[ large ] = this.parent[ small ] = last;
+            this.child[large] = this.child[last];
+            this.child[small] = ~code;
+            this.child[last] = small;
+            this.weight[large] = this.weight[last];
+            this.weight[small] = 0;
+            this.leafs[~this.child[large]] = large;
+            this.leafs[~this.child[small]] = small;
+            this.parent[large] = this.parent[small] = last;
             this.size = small + 1;
 
-            if( last == DynamicHuffman.ROOT ){
-                this.weight[ last  ] -= 1;
+            if (last == DynamicHuffman.ROOT) {
+                this.weight[last] -= 1;
             }
 
-            this.update( code );
-        }else{
+            this.update(code);
+        } else {
             throw new IllegalStateException();
         }
     }
@@ -327,45 +332,46 @@ public class DynamicHuffman implements Cloneable{
     //  private void rebuildTree()
     //  private void swap( int i, int j )
     //------------------------------------------------------------------
+
     /**
      * �n�t�}���؂��č\�z����B
      * �d�݂� private�Ȓ萔 MAX_WEIGHT �𒴂�������
      * update(int)����Ăяo�����B
      * �S�Ẵm�[�h�̏d�݂� ���悻�����ɂ���B
      */
-    private void rebuildTree(){
+    private void rebuildTree() {
         int leafCount = 0;
-        for( int i = 0 ; i < this.size ; i++ )
-            if( this.child[i] < 0 ){
-                this.weight[leafCount] = ( this.weight[i] + 1 ) / 2;
-                this.child[leafCount]  = this.child[i];
+        for (int i = 0; i < this.size; i++)
+            if (this.child[i] < 0) {
+                this.weight[leafCount] = (this.weight[i] + 1) / 2;
+                this.child[leafCount] = this.child[i];
                 leafCount++;
             }
 
         leafCount--;
-        int position     = this.size - 1;
+        int position = this.size - 1;
         int leafPosition = this.size - 2;
-        while( 0 <= position ){
-            while( leafPosition <= position ){
+        while (0 <= position) {
+            while (leafPosition <= position) {
                 this.leafs[~this.child[leafCount]] = position;
-                this.weight[ position ]  = this.weight[ leafCount ];
-                this.child[ position-- ] = this.child[ leafCount-- ];
+                this.weight[position] = this.weight[leafCount];
+                this.child[position--] = this.child[leafCount--];
             }
 
             int weight = this.weight[leafPosition]
-                       + this.weight[leafPosition + 1];
+                    + this.weight[leafPosition + 1];
 
-            while( 0 <= leafCount && this.weight[leafCount] <= weight ){
+            while (0 <= leafCount && this.weight[leafCount] <= weight) {
                 this.leafs[~this.child[leafCount]] = position;
-                this.weight[ position ]  = this.weight[ leafCount ];
-                this.child[ position-- ] = this.child[ leafCount-- ];
+                this.weight[position] = this.weight[leafCount];
+                this.child[position--] = this.child[leafCount--];
             }
 
             this.weight[position] = weight;
-            this.child[position]  = leafPosition + 1;
+            this.child[position] = leafPosition + 1;
             this.parent[leafPosition]
-                = this.parent[leafPosition + 1]
-                = position;
+                    = this.parent[leafPosition + 1]
+                    = position;
 
             position--;
             leafPosition -= 2;
@@ -375,32 +381,32 @@ public class DynamicHuffman implements Cloneable{
     /**
      * �m�[�h�ԍ�i�̃m�[�h��
      * �m�[�h�ԍ�j�̃m�[�h����ꊷ���鏈�����s���B
-     * 
+     *
      * @param i ���ꊷ���Ώۂ̃m�[�h
      * @param j ���ꊷ���Ώۂ̃m�[�h
      */
-    private void swap( int i, int j ){
-        if( this.child[i] < 0 ){
-            this.leafs[ ~this.child[i] ] = j;
-        }else{
-            this.parent[ this.child[i] ]
-                = this.parent[ this.child[i] - 1 ]
-                = j;
+    private void swap(int i, int j) {
+        if (this.child[i] < 0) {
+            this.leafs[~this.child[i]] = j;
+        } else {
+            this.parent[this.child[i]]
+                    = this.parent[this.child[i] - 1]
+                    = j;
         }
 
-        if( this.child[j] < 0 ){
-            this.leafs[ ~this.child[j] ] = i;
-        }else{
-            this.parent[ this.child[j] ]
-                = this.parent[ this.child[j] - 1 ]
-                = i;
+        if (this.child[j] < 0) {
+            this.leafs[~this.child[j]] = i;
+        } else {
+            this.parent[this.child[j]]
+                    = this.parent[this.child[j] - 1]
+                    = i;
         }
 
-        int temp      = this.child[i];
+        int temp = this.child[i];
         this.child[i] = this.child[j];
         this.child[j] = temp;
 
-        temp           = this.weight[i];
+        temp = this.weight[i];
         this.weight[i] = this.weight[j];
         this.weight[j] = temp;
     }

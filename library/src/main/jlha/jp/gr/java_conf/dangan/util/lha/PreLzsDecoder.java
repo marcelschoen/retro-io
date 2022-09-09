@@ -3,19 +3,19 @@
 
 /**
  * PreLzsDecoder.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -45,7 +45,7 @@ import java.io.InputStream;
 
 /**
  * -lzs- �𓀗p PreLzssDecoder�B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PreLzsDecoder.java,v $
@@ -63,11 +63,11 @@ import java.io.InputStream;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class PreLzsDecoder implements PreLzssDecoder{
+public class PreLzsDecoder implements PreLzssDecoder {
 
 
     //------------------------------------------------------------------
@@ -83,10 +83,10 @@ public class PreLzsDecoder implements PreLzssDecoder{
     private static final int DictionarySize = 2048;
 
     /** �ő��v�� */
-    private static final int MaxMatch       = 17;
+    private static final int MaxMatch = 17;
 
     /** �ŏ���v�� */
-    private static final int Threshold      = 2;
+    private static final int Threshold = 2;
 
 
     //------------------------------------------------------------------
@@ -98,10 +98,10 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //  private static final int LengthBits
     //------------------------------------------------------------------
     /** ��v�ʒu�̃r�b�g�� */
-    private static final int OffsetBits = Bits.len( PreLzsDecoder.DictionarySize - 1 );
+    private static final int OffsetBits = Bits.len(PreLzsDecoder.DictionarySize - 1);
 
     /** ��v���̃r�b�g�� */
-    private static final int LengthBits = Bits.len( PreLzsDecoder.MaxMatch - PreLzsDecoder.Threshold );
+    private static final int LengthBits = Bits.len(PreLzsDecoder.MaxMatch - PreLzsDecoder.Threshold);
 
 
     //------------------------------------------------------------------
@@ -126,7 +126,7 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //  private int matchOffset
     //  private int matchLength
     //------------------------------------------------------------------
-    /** 
+    /**
      * ���ݏ����ʒu�B
      * LzssInputStream�̓�����Ԃ��擾�ł��Ȃ����߂ɑ��݂���B
      * LzssInputStream�̓����N���X�Ƃ��ď����΁Aposition�͕K�v�����B
@@ -168,23 +168,24 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //------------------------------------------------------------------
     //  public PreLzsDecoder( InputStream in )
     //------------------------------------------------------------------
+
     /**
      * -lzs- �𓀗p PreLzssDecoder ���\�z����B
-     * 
+     *
      * @param in -lzs- �`���̈��k�f�[�^������������̓X�g���[��
      */
-    public PreLzsDecoder( InputStream in ){
-        if( in != null ){
-            if( in instanceof BitInputStream ){
-                this.in = (BitInputStream)in;
-            }else{
-                this.in = new BitInputStream( in );
+    public PreLzsDecoder(InputStream in) {
+        if (in != null) {
+            if (in instanceof BitInputStream) {
+                this.in = (BitInputStream) in;
+            } else {
+                this.in = new BitInputStream(in);
             }
-            this.position    = 0;
+            this.position = 0;
             this.matchOffset = 0;
             this.matchLength = 0;
-        }else{
-            throw new NullPointerException( "in" );
+        } else {
+            throw new NullPointerException("in");
         }
     }
 
@@ -197,29 +198,30 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //  public int readCode()
     //  public int readOffset()
     //------------------------------------------------------------------
+
     /**
      * -lzs- �ň��k���ꂽ
      * 1byte �� LZSS�����k�̃f�[�^�A
      * �������͈��k�R�[�h�̂�����v����ǂݍ��ށB<br>
-     * 
+     *
      * @return 1byte �� �����k�̃f�[�^�������́A
      *         ���k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public int readCode() throws IOException {
-        try{
-            if( this.in.readBoolean() ){
+        try {
+            if (this.in.readBoolean()) {
                 this.position++;
-                return this.in.readBits( 8 );
-            }else{
-                this.matchOffset = this.in.readBits( this.OffsetBits );
-                this.matchLength = this.in.readBits( this.LengthBits );
+                return this.in.readBits(8);
+            } else {
+                this.matchOffset = this.in.readBits(this.OffsetBits);
+                this.matchLength = this.in.readBits(this.LengthBits);
                 return this.matchLength | 0x100;
             }
-        }catch( BitDataBrokenException exception ){
-            if( exception.getCause() instanceof EOFException )
-                throw (EOFException)exception.getCause();
+        } catch (BitDataBrokenException exception) {
+            if (exception.getCause() instanceof EOFException)
+                throw (EOFException) exception.getCause();
             else
                 throw exception;
         }
@@ -228,15 +230,15 @@ public class PreLzsDecoder implements PreLzssDecoder{
     /**
      * -lzs- �ň��k���ꂽ���k�R�[�h�̂���
      * ��v�ʒu��ǂݍ��ށB<br>
-     * 
+     *
      * @return -lzs- �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public int readOffset() throws IOException {
-        int offset = ( this.position - this.matchOffset - 1
-                     - PreLzsDecoder.MaxMatch )
-                   & ( PreLzsDecoder.DictionarySize - 1 );
+        int offset = (this.position - this.matchOffset - 1
+                - PreLzsDecoder.MaxMatch)
+                & (PreLzsDecoder.DictionarySize - 1);
 
         this.position += this.matchLength + PreLzsDecoder.Threshold;
         return offset;
@@ -252,6 +254,7 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //  public void reset()
     //  public boolean markSupported()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
@@ -259,17 +262,17 @@ public class PreLzsDecoder implements PreLzssDecoder{
      * InputStream �� mark() �ƈႢ�AreadLimit �Őݒ肵��
      * ���E�o�C�g�����O�Ƀ}�[�N�ʒu�������ɂȂ�\����
      * ���鎖�ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
      *                  �\��������B<br>
-     * 
+     *
      * @see PreLzssDecoder#mark(int)
      */
-    public void mark( int readLimit ){
-        this.in.mark( ( readLimit * 9 + 7 ) / 8 + 1 );
-        this.markPosition    = this.position;
+    public void mark(int readLimit) {
+        this.in.mark((readLimit * 9 + 7) / 8 + 1);
+        this.markPosition = this.position;
         this.markMatchOffset = this.matchOffset;
         this.markMatchLength = this.matchLength;
     }
@@ -277,7 +280,7 @@ public class PreLzsDecoder implements PreLzssDecoder{
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException <br>
      * &emsp;&emsp; (1) mark() ������ reset() ���悤�Ƃ����ꍇ�B<br>
      * &emsp;&emsp; (2) �ڑ����ꂽ���̓X�g���[���� markSupported()��
@@ -292,7 +295,7 @@ public class PreLzsDecoder implements PreLzssDecoder{
         //BitInputStream �� reset()�ɂ���� IOException����������B
         this.in.reset();                                                        //throws IOException
 
-        this.position    = this.markPosition;
+        this.position = this.markPosition;
         this.matchOffset = this.markMatchOffset;
         this.matchLength = this.markMatchLength;
     }
@@ -300,12 +303,12 @@ public class PreLzsDecoder implements PreLzssDecoder{
     /**
      * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ��
      * �T�|�[�g���邩�𓾂�B<br>
-     * 
+     *
      * @return �X�g���[���� mark() �� reset() ��
      *         �T�|�[�g����ꍇ�� true�B<br>
      *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
      */
-    public boolean markSupported(){
+    public boolean markSupported() {
         return this.in.markSupported();
     }
 
@@ -318,26 +321,27 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �u���b�N�����ɓǂݏo�����Ƃ̏o����Œ�o�C�g���𓾂�B<br>
      * InputStream �� available() �ƈႢ�A
      * ���̍Œ�o�C�g���͕ۏ؂����B<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����Œ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PreLzssDecoder#available()
      */
     public int available() throws IOException {
-        return Math.max( this.in.availableBits() / 9 - 2, 0 );
+        return Math.max(this.in.availableBits() / 9 - 2, 0);
     }
 
     /**
      * ���̏o�͂ƃX�g���[����
      * �ڑ�����Ă����X�g���[������A
      * �g�p���Ă������\�[�X���������B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
@@ -355,30 +359,31 @@ public class PreLzsDecoder implements PreLzssDecoder{
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * -lzs-�`���� LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return -lzs-�`���� LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return PreLzsDecoder.DictionarySize;
     }
 
     /**
      * -lzs-�`���� LZSS�̍Œ���v���𓾂�B
-     * 
+     *
      * @return -lzs-�`���� LZSS�̍Œ���v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return PreLzsDecoder.MaxMatch;
     }
 
     /**
      * -lzs-�`���� LZSS�̈��k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return -lzs-�`���� LZSS�̈��k�A�񈳏k��臒l
      */
-    public int getThreshold(){
+    public int getThreshold() {
         return PreLzsDecoder.Threshold;
     }
 

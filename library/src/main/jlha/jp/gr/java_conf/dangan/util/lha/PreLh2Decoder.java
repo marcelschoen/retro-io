@@ -3,19 +3,19 @@
 
 /**
  * PreLh2Decoder.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -45,7 +45,7 @@ import java.io.InputStream;
 
 /**
  * -lh2- �𓀗p PreLzssDecoder�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PreLh2Decoder.java,v $
@@ -60,11 +60,11 @@ import java.io.InputStream;
  *     �\�[�X����
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class PreLh2Decoder implements PreLzssDecoder{
+public class PreLh2Decoder implements PreLzssDecoder {
 
 
     //------------------------------------------------------------------
@@ -80,10 +80,10 @@ public class PreLh2Decoder implements PreLzssDecoder{
     private static final int DictionarySize = 8192;
 
     /** �ő��v�� */
-    private static final int MaxMatch       = 256;
+    private static final int MaxMatch = 256;
 
     /** �ŏ���v�� */
-    private static final int Threshold      = 3;
+    private static final int Threshold = 3;
 
 
     //------------------------------------------------------------------
@@ -108,7 +108,7 @@ public class PreLh2Decoder implements PreLzssDecoder{
     /**
      * -lh2- �̈��k�f�[�^���������� BitInputStream
      */
-     private BitInputStream in;
+    private BitInputStream in;
 
 
     //------------------------------------------------------------------
@@ -189,34 +189,36 @@ public class PreLh2Decoder implements PreLzssDecoder{
     //  private PreLh2Decoder()
     //  public PreLh2Decoder( InputStream in )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private PreLh2Decoder(){    }
+    private PreLh2Decoder() {
+    }
 
 
     /**
      * -lh2- �𓀗p PreLzssDecoder ���\�z����B<br>
-     * 
+     *
      * @param in ���k�f�[�^������������̓X�g���[��
      */
-    public PreLh2Decoder( InputStream in ){
-        if( in != null ){
-            if( in instanceof BitInputStream ){
-                this.in       = (BitInputStream)in;
-            }else{
-                this.in       = new BitInputStream( in );
+    public PreLh2Decoder(InputStream in) {
+        if (in != null) {
+            if (in instanceof BitInputStream) {
+                this.in = (BitInputStream) in;
+            } else {
+                this.in = new BitInputStream(in);
             }
-            this.codeHuffman  = new DynamicHuffman( PreLh2Decoder.CodeSize );
-            this.offHiHuffman = new DynamicHuffman( 
-                                       PreLh2Decoder.DictionarySize >> 6, 1 );
+            this.codeHuffman = new DynamicHuffman(PreLh2Decoder.CodeSize);
+            this.offHiHuffman = new DynamicHuffman(
+                    PreLh2Decoder.DictionarySize >> 6, 1);
 
-            this.position     = 0;
+            this.position = 0;
             this.nextPosition = 1 << 6;
-            this.matchLength  = 0;
-        }else{
-            throw new NullPointerException( "in" );
+            this.matchLength = 0;
+        } else {
+            throw new NullPointerException("in");
         }
     }
 
@@ -229,36 +231,37 @@ public class PreLh2Decoder implements PreLzssDecoder{
     //  public int readCode()
     //  public int readOffset()
     //------------------------------------------------------------------
+
     /**
      * -lh2- �ň��k���ꂽ 
      * 1byte ��LZSS�����k�̃f�[�^�A
      * �������͈��k�R�[�h�̂�����v����ǂݍ��ށB<br>
-     * 
+     *
      * @return 1byte �� �����k�̃f�[�^�������́A
      *         ���k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      */
     public int readCode() throws IOException {
         final int CodeMax = PreLh2Decoder.CodeSize - 1;
 
-        int node = this.codeHuffman.childNode( DynamicHuffman.ROOT );
-        while( 0 <= node ){
-            node = this.codeHuffman.childNode( node - ( in.readBoolean() ? 1 : 0 ) );//throws EOFException,IOException
+        int node = this.codeHuffman.childNode(DynamicHuffman.ROOT);
+        while (0 <= node) {
+            node = this.codeHuffman.childNode(node - (in.readBoolean() ? 1 : 0));//throws EOFException,IOException
         }
         int code = ~node;
-        this.codeHuffman.update( code );
+        this.codeHuffman.update(code);
 
-        if( code < 0x100 ){
+        if (code < 0x100) {
             this.position++;
-        }else{
-            if( code == CodeMax ){
-                try{
-                    code += this.in.readBits( 8 );
-                }catch( BitDataBrokenException exception ){
-                    if( exception.getCause() instanceof EOFException )
-                        throw (EOFException)exception.getCause();
+        } else {
+            if (code == CodeMax) {
+                try {
+                    code += this.in.readBits(8);
+                } catch (BitDataBrokenException exception) {
+                    if (exception.getCause() instanceof EOFException)
+                        throw (EOFException) exception.getCause();
                 }
             }
             this.matchLength = code - 0x100 + PreLh2Decoder.Threshold;
@@ -269,32 +272,32 @@ public class PreLh2Decoder implements PreLzssDecoder{
     /**
      * -lh2- �ň��k���ꂽ
      * LZSS���k�R�[�h�̂�����v�ʒu��ǂݍ��ށB<br>
-     * 
+     *
      * @return -lh2- �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      */
     public int readOffset() throws IOException {
-        if( this.nextPosition < PreLh2Decoder.DictionarySize ){
-            while( this.nextPosition < this.position ){
-                this.offHiHuffman.addLeaf( this.nextPosition >> 6 );
+        if (this.nextPosition < PreLh2Decoder.DictionarySize) {
+            while (this.nextPosition < this.position) {
+                this.offHiHuffman.addLeaf(this.nextPosition >> 6);
                 this.nextPosition += 64;
 
-                if( PreLh2Decoder.DictionarySize <= this.nextPosition )
+                if (PreLh2Decoder.DictionarySize <= this.nextPosition)
                     break;
             }
         }
         this.position += this.matchLength;
 
-        int node = this.offHiHuffman.childNode( DynamicHuffman.ROOT );
-        while( 0 <= node ){
-            node = this.offHiHuffman.childNode( node - ( in.readBoolean() ? 1 : 0 ) );//throws EOFException,IOException
+        int node = this.offHiHuffman.childNode(DynamicHuffman.ROOT);
+        while (0 <= node) {
+            node = this.offHiHuffman.childNode(node - (in.readBoolean() ? 1 : 0));//throws EOFException,IOException
         }
         int offHi = ~node;
-        this.offHiHuffman.update( offHi );
+        this.offHiHuffman.update(offHi);
 
-        return ( offHi << 6 ) | this.in.readBits( 6 );
+        return (offHi << 6) | this.in.readBits(6);
     }
 
 
@@ -307,6 +310,7 @@ public class PreLh2Decoder implements PreLzssDecoder{
     //  public void reset()
     //  public boolean markSupported()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
@@ -314,27 +318,27 @@ public class PreLh2Decoder implements PreLzssDecoder{
      * InputStream �� mark() �ƈႢ�AreadLimit �Őݒ肵��
      * ���E�o�C�g�����O�Ƀ}�[�N�ʒu�������ɂȂ�\����
      * ���鎖�ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
      *                  �\��������B<br>
-     * 
+     *
      * @see PreLzssDecoder#available()
      */
-    public void mark( int readLimit ){
-        this.in.mark( readLimit * 18 / 8 + 4 );
-        this.markCodeHuffman  = (DynamicHuffman)this.codeHuffman.clone();
-        this.markOffHiHuffman = (DynamicHuffman)this.offHiHuffman.clone();
-        this.markPosition     = this.position;
+    public void mark(int readLimit) {
+        this.in.mark(readLimit * 18 / 8 + 4);
+        this.markCodeHuffman = (DynamicHuffman) this.codeHuffman.clone();
+        this.markOffHiHuffman = (DynamicHuffman) this.offHiHuffman.clone();
+        this.markPosition = this.position;
         this.markNextPosition = this.nextPosition;
-        this.markMatchLength  = this.matchLength;
+        this.markMatchLength = this.matchLength;
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void reset() throws IOException {
@@ -344,22 +348,22 @@ public class PreLh2Decoder implements PreLzssDecoder{
         //BitInputStream �� IOException �𓊂���B
         this.in.reset();                                                        //throws IOException
 
-        this.codeHuffman  = (DynamicHuffman)this.markCodeHuffman.clone();
-        this.offHiHuffman = (DynamicHuffman)this.markOffHiHuffman.clone();
-        this.position     = this.markPosition;
+        this.codeHuffman = (DynamicHuffman) this.markCodeHuffman.clone();
+        this.offHiHuffman = (DynamicHuffman) this.markOffHiHuffman.clone();
+        this.position = this.markPosition;
         this.nextPosition = this.markNextPosition;
-        this.matchLength  = this.markMatchLength;
+        this.matchLength = this.markMatchLength;
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ��
      * �T�|�[�g���邩�𓾂�B<br>
-     * 
+     *
      * @return �X�g���[���� mark() �� reset() ��
      *         �T�|�[�g����ꍇ�� true�B<br>
      *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
      */
-    public boolean markSupported(){
+    public boolean markSupported() {
         return this.in.markSupported();
     }
 
@@ -372,33 +376,34 @@ public class PreLh2Decoder implements PreLzssDecoder{
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �u���b�N�����ɓǂݏo�����Ƃ̏o����Œ�o�C�g���𓾂�B<br>
      * InputStream �� available() �ƈႢ�A
      * ���̍Œ�o�C�g���͕K�������ۏႳ��Ă��Ȃ����ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����Œ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PreLzssDecoder#available()
      */
     public int available() throws IOException {
-        return Math.max( this.in.availableBits() / 18 - 4, 0 );                 //throws IOException
+        return Math.max(this.in.availableBits() / 18 - 4, 0);                 //throws IOException
     }
 
     /**
      * ���̃X�g���[������A�g�p���Ă����S�Ă̎������������B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
         this.in.close();                                                        //throws IOException
 
-        this.in               = null;
-        this.codeHuffman      = null;
-        this.offHiHuffman     = null;
-        this.markCodeHuffman  = null;
+        this.in = null;
+        this.codeHuffman = null;
+        this.offHiHuffman = null;
+        this.markCodeHuffman = null;
         this.markOffHiHuffman = null;
     }
 
@@ -412,30 +417,31 @@ public class PreLh2Decoder implements PreLzssDecoder{
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * -lh2-�`���� LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return -lh2-�`���� LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return PreLh2Decoder.DictionarySize;
     }
 
     /**
      * -lh2-�`���� LZSS�̍ő��v���𓾂�B
-     * 
+     *
      * @return -lh2-�`���� LZSS�̍ő��v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return PreLh2Decoder.MaxMatch;
     }
 
     /**
      * -lh2-�`���� LZSS�̈��k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return -lh2-�`���� LZSS�̈��k�A�񈳏k��臒l
      */
-    public int getThreshold(){
+    public int getThreshold() {
         return PreLh2Decoder.Threshold;
     }
 

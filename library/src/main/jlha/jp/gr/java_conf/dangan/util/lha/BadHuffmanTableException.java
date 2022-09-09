@@ -3,7 +3,7 @@
 
 /**
  * BadHuffmanTableException.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
  */
 
@@ -12,6 +12,7 @@ package jp.gr.java_conf.dangan.util.lha;
 //import classes and interfaces
 
 //import exceptions
+
 import java.io.IOException;
 
 /**
@@ -24,11 +25,11 @@ import java.io.IOException;
  * [maintenance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class BadHuffmanTableException extends IOException{
+public class BadHuffmanTableException extends IOException {
 
 
     //------------------------------------------------------------------
@@ -37,16 +38,17 @@ public class BadHuffmanTableException extends IOException{
     //  public BadHuffmanTableException()
     //  public BadHuffmanTableException( String message )
     //------------------------------------------------------------------
+
     /**
      */
-    public BadHuffmanTableException(){
+    public BadHuffmanTableException() {
         super();
     }
 
     /**
      */
-    public BadHuffmanTableException( String message ){
-        super( message );
+    public BadHuffmanTableException(String message) {
+        super(message);
     }
 }
 //end of BadHuffmanTableException.java

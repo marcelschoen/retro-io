@@ -3,19 +3,19 @@
 
 /**
  * CompressMethod.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -43,7 +43,7 @@ import java.util.Properties;
 
 /**
  * LHA�̊e��萔���`����B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: CompressMethod.java,v $
@@ -63,11 +63,11 @@ import java.util.Properties;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class CompressMethod{
+public class CompressMethod {
 
 
     //------------------------------------------------------------------
@@ -210,10 +210,12 @@ public class CompressMethod{
     //------------------------------------------------------------------
     //  private CompressMethod()
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�g�p�s��
      */
-    private CompressMethod(){ }
+    private CompressMethod() {
+    }
 
 
     //------------------------------------------------------------------
@@ -223,120 +225,121 @@ public class CompressMethod{
     //  public static int toThreshold( String method )
     //  public static int toMaxMatch( String method )
     //------------------------------------------------------------------
+
     /**
      * ���k�@���ʎq���� �����T�C�Y�𓾂�B
-     * 
+     *
      * @param method ���k�@���ʎq
-     * 
+     *
      * @return �����T�C�Y
      */
-    public static int toDictionarySize( String method ){
-        if( CompressMethod.LZS.equalsIgnoreCase( method ) ){
-            return  2048;
-        }else if( CompressMethod.LZ5.equalsIgnoreCase( method ) ){
-            return  4096;
-        }else if( CompressMethod.LH1.equalsIgnoreCase( method ) ){
-            return  4096;
-        }else if( CompressMethod.LH2.equalsIgnoreCase( method ) ){
-            return  8192;
-        }else if( CompressMethod.LH3.equalsIgnoreCase( method ) ){
-            return  8192;
-        }else if( CompressMethod.LH4.equalsIgnoreCase( method ) ){
-            return  4096;
-        }else if( CompressMethod.LH5.equalsIgnoreCase( method ) ){
-            return  8192;
-        }else if( CompressMethod.LH6.equalsIgnoreCase( method ) ){
+    public static int toDictionarySize(String method) {
+        if (CompressMethod.LZS.equalsIgnoreCase(method)) {
+            return 2048;
+        } else if (CompressMethod.LZ5.equalsIgnoreCase(method)) {
+            return 4096;
+        } else if (CompressMethod.LH1.equalsIgnoreCase(method)) {
+            return 4096;
+        } else if (CompressMethod.LH2.equalsIgnoreCase(method)) {
+            return 8192;
+        } else if (CompressMethod.LH3.equalsIgnoreCase(method)) {
+            return 8192;
+        } else if (CompressMethod.LH4.equalsIgnoreCase(method)) {
+            return 4096;
+        } else if (CompressMethod.LH5.equalsIgnoreCase(method)) {
+            return 8192;
+        } else if (CompressMethod.LH6.equalsIgnoreCase(method)) {
             return 32768;
-        }else if( CompressMethod.LH7.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH7.equalsIgnoreCase(method)) {
             return 65536;
-        }else if( CompressMethod.LZ4.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( CompressMethod.LH0.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( CompressMethod.LHD.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( method == null ){
-            throw new NullPointerException( "method" );
-        }else{
-            throw new IllegalArgumentException( "Unknown compress method. " + method );
+        } else if (CompressMethod.LZ4.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (CompressMethod.LH0.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (CompressMethod.LHD.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (method == null) {
+            throw new NullPointerException("method");
+        } else {
+            throw new IllegalArgumentException("Unknown compress method. " + method);
         }
     }
 
     /**
      * ���k�@���ʎq���� ���k/�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @param method ���k�@���ʎq
-     * 
+     *
      * @return ���k/�񈳏k
      */
-    public static int toThreshold( String method ){
-        if( CompressMethod.LZS.equalsIgnoreCase( method ) ){
+    public static int toThreshold(String method) {
+        if (CompressMethod.LZS.equalsIgnoreCase(method)) {
             return 2;
-        }else if( CompressMethod.LZ5.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LZ5.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH1.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH1.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH2.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH2.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH3.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH3.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH4.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH4.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH5.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH5.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH6.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH6.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LH7.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH7.equalsIgnoreCase(method)) {
             return 3;
-        }else if( CompressMethod.LZ4.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( CompressMethod.LH0.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( CompressMethod.LHD.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( method == null ){
-            throw new NullPointerException( "method" );
-        }else{
-            throw new IllegalArgumentException( "Unknown compress method. " + method );
+        } else if (CompressMethod.LZ4.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (CompressMethod.LH0.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (CompressMethod.LHD.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (method == null) {
+            throw new NullPointerException("method");
+        } else {
+            throw new IllegalArgumentException("Unknown compress method. " + method);
         }
     }
 
     /**
      * ���k�@���ʎq���� �ő��v���𓾂�B
-     * 
+     *
      * @param method ���k�@���ʎq
-     * 
+     *
      * @return �ő��v��
      */
-    public static int toMaxMatch( String method ){
-        if( CompressMethod.LZS.equalsIgnoreCase( method ) ){
-            return  17;
-        }else if( CompressMethod.LZ5.equalsIgnoreCase( method ) ){
-            return  18;
-        }else if( CompressMethod.LH1.equalsIgnoreCase( method ) ){
-            return  60;
-        }else if( CompressMethod.LH2.equalsIgnoreCase( method ) ){
+    public static int toMaxMatch(String method) {
+        if (CompressMethod.LZS.equalsIgnoreCase(method)) {
+            return 17;
+        } else if (CompressMethod.LZ5.equalsIgnoreCase(method)) {
+            return 18;
+        } else if (CompressMethod.LH1.equalsIgnoreCase(method)) {
+            return 60;
+        } else if (CompressMethod.LH2.equalsIgnoreCase(method)) {
             return 256;
-        }else if( CompressMethod.LH3.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH3.equalsIgnoreCase(method)) {
             return 256;
-        }else if( CompressMethod.LH4.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH4.equalsIgnoreCase(method)) {
             return 256;
-        }else if( CompressMethod.LH5.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH5.equalsIgnoreCase(method)) {
             return 256;
-        }else if( CompressMethod.LH6.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH6.equalsIgnoreCase(method)) {
             return 256;
-        }else if( CompressMethod.LH7.equalsIgnoreCase( method ) ){
+        } else if (CompressMethod.LH7.equalsIgnoreCase(method)) {
             return 256;
-        }else if( CompressMethod.LZ4.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( CompressMethod.LH0.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( CompressMethod.LHD.equalsIgnoreCase( method ) ){
-            throw new IllegalArgumentException( method + " means no compress." );
-        }else if( method == null ){
-            throw new NullPointerException( "method" );
-        }else{
-            throw new IllegalArgumentException( "Unknown compress method. " + method );
+        } else if (CompressMethod.LZ4.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (CompressMethod.LH0.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (CompressMethod.LHD.equalsIgnoreCase(method)) {
+            throw new IllegalArgumentException(method + " means no compress.");
+        } else if (method == null) {
+            throw new NullPointerException("method");
+        } else {
+            throw new IllegalArgumentException("Unknown compress method. " + method);
         }
     }
 
@@ -351,76 +354,77 @@ public class CompressMethod{
     //  public static InputStream connectDecoder( InputStream in,
     //                 String method, Properties property, long length )
     //------------------------------------------------------------------
+
     /**
      * property �ɐݒ肳�ꂽ�������𗘗p����
      * method �̈��k�@�Ńf�[�^�����k���Aout�ɏo�͂���X�g���[�����\�z����B
-     * 
+     *
      * @param out      ���k�f�[�^�o�͐�̃X�g���[��
      * @param method   ���k�@���ʎq
      * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
-     * 
+     *
      * @return method �̈��k�@�Ńf�[�^�����k���Aout�ɏo�͂���X�g���[��
      */
-    public static OutputStream connectEncoder( OutputStream out,
-                                               String       method,
-                                               Properties   property ){
+    public static OutputStream connectEncoder(OutputStream out,
+                                              String method,
+                                              Properties property) {
 
-        String key = "lha." + CompressMethod.getCore( method ) + ".encoder";
+        String key = "lha." + CompressMethod.getCore(method) + ".encoder";
 
-        String generator = property.getProperty( key );
-        if( generator == null ){
-            generator = LhaProperty.getProperty( key );
+        String generator = property.getProperty(key);
+        if (generator == null) {
+            generator = LhaProperty.getProperty(key);
         }
 
-        String packages = property.getProperty( "lha.packages" );
-        if( packages == null ){
-            packages = LhaProperty.getProperty( "lha.packages" );
+        String packages = property.getProperty("lha.packages");
+        if (packages == null) {
+            packages = LhaProperty.getProperty("lha.packages");
         }
 
         Hashtable substitute = new Hashtable();
-        substitute.put( "out", out );
+        substitute.put("out", out);
 
-        return (OutputStream)LhaProperty.parse( generator,
-                                                substitute,
-                                                packages );
+        return (OutputStream) LhaProperty.parse(generator,
+                substitute,
+                packages);
     }
 
     /**
      * property �ɐݒ肳�ꂽ�������𗘗p����
      * in ���� method �̈��k�@�ň��k���ꂽ�f�[�^���𓀂�
      * ����������̓X�g���[�����\�z����B
-     * 
+     *
      * @param in       ���k�f�[�^����������X�g���[��
      * @param method   ���k�@���ʎq
      * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
-     * 
+     *
      * @return in ���� method �̈��k�@�ň��k���ꂽ�f�[�^���𓀂�
      *         ����������̓X�g���[�����\�z����B
      */
-    public static InputStream connectDecoder( InputStream in,
-                                              String      method,
-                                              Properties  property,
-                                              long        length ){
+    public static InputStream connectDecoder(InputStream in,
+                                             String method,
+                                             Properties property,
+                                             long length) {
 
-        String key = "lha." + CompressMethod.getCore( method ) + ".decoder";
+        String key = "lha." + CompressMethod.getCore(method) + ".decoder";
 
-        String generator = property.getProperty( key );
-        if( generator == null ){
-            generator = LhaProperty.getProperty( key );
+        String generator = property.getProperty(key);
+        if (generator == null) {
+            generator = LhaProperty.getProperty(key);
         }
 
-        String packages = property.getProperty( "lha.packages" );
-        if( packages == null ){
-            packages = LhaProperty.getProperty( "lha.packages" );
+        String packages = property.getProperty("lha.packages");
+        if (packages == null) {
+            packages = LhaProperty.getProperty("lha.packages");
         }
 
         Hashtable substitute = new Hashtable();
-        substitute.put( "in",     in );
-        substitute.put( "length", new Long( length ) );
+        substitute.put("in", in);
+        substitute.put("length", new Long(length));
 
-        return (InputStream)LhaProperty.parse( generator,
-                                               substitute,
-                                               packages );
+        return (InputStream) LhaProperty.parse(generator,
+                substitute,
+                packages);
     }
 
 
@@ -429,20 +433,21 @@ public class CompressMethod{
     //------------------------------------------------------------------
     //  private static String getCore( String method )
     //------------------------------------------------------------------
+
     /**
      * ���k�@���ʎq �̑O��� '-' ����苎����
      * LhaProperty �̃L�[ lha.???.encoder / lha.???.decoder 
      * �� ??? �ɓ��镶����𐶐�����B
-     * 
+     *
      * @param method ���k�@���ʎq
-     * 
+     *
      * @return �L�[�̒��S�Ɏg���镶����
      */
-    private static String getCore( String method ){
-        if( method.startsWith( "-" ) && method.endsWith( "-" ) ){
-            return method.substring( 1, method.lastIndexOf( '-' ) ).toLowerCase();
-        }else{
-            throw new IllegalArgumentException( "" );
+    private static String getCore(String method) {
+        if (method.startsWith("-") && method.endsWith("-")) {
+            return method.substring(1, method.lastIndexOf('-')).toLowerCase();
+        } else {
+            throw new IllegalArgumentException("");
         }
     }
 

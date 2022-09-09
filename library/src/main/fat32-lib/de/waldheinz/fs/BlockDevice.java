@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs;
 
 import java.io.IOException;
@@ -42,7 +42,7 @@ public interface BlockDevice {
      * Read a block of data from this device.
      *
      * @param devOffset the byte offset where to read the data from
-     * @param dest the destination buffer where to store the data read
+     * @param dest      the destination buffer where to store the data read
      * @throws IOException on read error
      */
     public abstract void read(long devOffset, ByteBuffer dest)
@@ -52,17 +52,17 @@ public interface BlockDevice {
      * Writes a block of data to this device.
      *
      * @param devOffset the byte offset where to store the data
-     * @param src the source {@code ByteBuffer} to write to the device
-     * @throws ReadOnlyException if this {@code BlockDevice} is read-only
-     * @throws IOException on write error
+     * @param src       the source {@code ByteBuffer} to write to the device
+     * @throws ReadOnlyException        if this {@code BlockDevice} is read-only
+     * @throws IOException              on write error
      * @throws IllegalArgumentException if the {@code devOffset} is negative
-     *      or the write would go beyond the end of the device
+     *                                  or the write would go beyond the end of the device
      * @see #isReadOnly()
      */
     public abstract void write(long devOffset, ByteBuffer src)
             throws ReadOnlyException, IOException,
             IllegalArgumentException;
-            
+
     /**
      * Flushes data in caches to the actual storage.
      *
@@ -83,7 +83,7 @@ public interface BlockDevice {
      * accesses after this method was called.
      *
      * @throws IOException on error closing this device
-     * @see #isClosed() 
+     * @see #isClosed()
      */
     public void close() throws IOException;
 
@@ -101,5 +101,5 @@ public interface BlockDevice {
      * @return if this {@code BlockDevice} is read-only
      */
     public boolean isReadOnly();
-    
+
 }

@@ -3,19 +3,19 @@
 
 /**
  * HashDefault.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -39,7 +39,7 @@ package jp.gr.java_conf.dangan.util.lha;
 /**
  * ����v���O���� ar940528 �� LHa for Unix �Ŏg�p����Ă���n�b�V���֐��B<br>
  * gzip �Ŏg�p����Ă�����Q�l�ɂ����悤���B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: HashDefault.java,v $
@@ -54,11 +54,11 @@ package jp.gr.java_conf.dangan.util.lha;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class HashDefault implements HashMethod{
+public class HashDefault implements HashMethod {
 
 
     //------------------------------------------------------------------
@@ -92,19 +92,21 @@ public class HashDefault implements HashMethod{
     //  private HashDefault()
     //  public HashDefault( byte[] TextBuffer )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s��
      */
-    private HashDefault(){  }
+    private HashDefault() {
+    }
 
     /**
      * ar940528 �� LHa for Unix �Ŏg�p����Ă���n�b�V���֐����\�z����B
-     * 
+     *
      * @param TextBuffer LZSS���k�p�̃o�b�t�@�B
      *                   Hash�l�����̂��ߓǂݍ��ݗp�Ɏg�p����B
      */
-    public HashDefault( byte[] TextBuffer ){
+    public HashDefault(byte[] TextBuffer) {
         this.TextBuffer = TextBuffer;
     }
 
@@ -116,20 +118,21 @@ public class HashDefault implements HashMethod{
     //  public int hashRequires()
     //  public int tableSize()
     //------------------------------------------------------------------
+
     /**
      * �n�b�V���֐��B<br>
      * �R���X�g���N�^�œn���ꂽ TextBuffer �� position �����
      * �f�[�^�p�^���� hash�l�𐶐�����B
      *
      * @param position �f�[�^�p�^���̊J�n�ʒu
-     * 
+     *
      * @return �n�b�V���l
      */
-    public int hash( int position ){
-        return ( ( ( this.TextBuffer[ position ] << 5 ) 
-                 ^ ( this.TextBuffer[ position + 1 ] & 0xFF ) )
-               << 5 ^( this.TextBuffer[ position + 2 ] & 0xFF ) )
-             & HashDefault.HashMask;
+    public int hash(int position) {
+        return (((this.TextBuffer[position] << 5)
+                ^ (this.TextBuffer[position + 1] & 0xFF))
+                << 5 ^ (this.TextBuffer[position + 2] & 0xFF))
+                & HashDefault.HashMask;
     }
 
     /**
@@ -137,10 +140,10 @@ public class HashDefault implements HashMethod{
      * ���̃n�b�V���֐��� 3�o�C�g�̃f�[�^����
      * �V�t�g��XOR���g�p���ăn�b�V���l�𐶐����邽�߁A
      * ���̃��\�b�h�͏�� 3 ��Ԃ��B
-     * 
+     *
      * @return ��� 3
      */
-    public int hashRequires(){
+    public int hashRequires() {
         return 3;
     }
 
@@ -148,10 +151,10 @@ public class HashDefault implements HashMethod{
      * �n�b�V���e�[�u���̃T�C�Y�𓾂�B<br>
      * ���̃n�b�V���֐��� 0x0000 �` 0x7FFF �̃n�b�V���l�𐶐����邽�߁A
      * ���̃��\�b�h�͏�� 0x8000(32768) ��Ԃ��B
-     * 
+     *
      * @return ��� 0x8000(32768)
      */
-    public int tableSize(){
+    public int tableSize() {
         return 0x8000;
     }
 

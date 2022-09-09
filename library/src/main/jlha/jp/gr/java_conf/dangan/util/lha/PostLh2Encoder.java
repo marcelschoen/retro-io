@@ -3,19 +3,19 @@
 
 /**
  * PostLh2Encoder.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -42,7 +42,7 @@ import java.io.OutputStream;
 
 /**
  * -lh2- ���k�p PostLzssEncoder�B <br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PostLh2Encoder.java,v $
@@ -58,8 +58,8 @@ import java.io.OutputStream;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
 public class PostLh2Encoder implements PostLzssEncoder {
@@ -77,10 +77,10 @@ public class PostLh2Encoder implements PostLzssEncoder {
     private static final int DictionarySize = 8192;
 
     /** �ő��v�� */
-    private static final int MaxMatch       = 256;
+    private static final int MaxMatch = 256;
 
     /** �ŏ���v�� */
-    private static final int Threshold      = 3;
+    private static final int Threshold = 3;
 
 
     //------------------------------------------------------------------
@@ -158,31 +158,33 @@ public class PostLh2Encoder implements PostLzssEncoder {
     //  private PostLh2Encoder()
     //  public PostLh2Encoder( OutputStream out )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private PostLh2Encoder(){   }
+    private PostLh2Encoder() {
+    }
 
     /**
      * -lh2- ���k�p PostLzssEncoder ���\�z����B
-     * 
+     *
      * @param out ���k�f�[�^���󂯎��o�̓X�g���[��
      */
-    public PostLh2Encoder( OutputStream out ){
-        if( out != null ){
-            if( out instanceof BitOutputStream ){
-                this.out = (BitOutputStream)out;
-            }else{
-                this.out = new BitOutputStream( out );
+    public PostLh2Encoder(OutputStream out) {
+        if (out != null) {
+            if (out instanceof BitOutputStream) {
+                this.out = (BitOutputStream) out;
+            } else {
+                this.out = new BitOutputStream(out);
             }
-            this.codeHuffman  = new DynamicHuffman( PostLh2Encoder.CodeSize );
+            this.codeHuffman = new DynamicHuffman(PostLh2Encoder.CodeSize);
             this.offHiHuffman = new DynamicHuffman(
-                                      PostLh2Encoder.DictionarySize >> 6, 1 );
-            this.position     = 0;
+                    PostLh2Encoder.DictionarySize >> 6, 1);
+            this.position = 0;
             this.nextPosition = 1 << 6;
-        }else{
-            throw new NullPointerException( "out" );
+        } else {
+            throw new NullPointerException("out");
         }
     }
 
@@ -195,75 +197,76 @@ public class PostLh2Encoder implements PostLzssEncoder {
     //  public void writeCode( int code )
     //  public void writeOffset( int offset )
     //------------------------------------------------------------------
+
     /**
      * 1byte �� LZSS�����k�̃f�[�^�������́A
      * LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�����������ށB<br>
-     * 
+     *
      * @param code 1byte �� LZSS�����k�̃f�[�^�������́A
      *             LZSS �ň��k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void writeCode( int code ) throws IOException {
+    public void writeCode(int code) throws IOException {
         final int CodeMax = PostLh2Encoder.CodeSize - 1;
 
-        int node  = this.codeHuffman.codeToNode( Math.min( code, CodeMax ) );
+        int node = this.codeHuffman.codeToNode(Math.min(code, CodeMax));
         int hcode = 0;
-        int hlen  = 0;
-        do{
+        int hlen = 0;
+        do {
             hcode >>>= 1;
             hlen++;
-            if( ( node & 1 ) != 0 ) hcode |= 0x80000000;
+            if ((node & 1) != 0) hcode |= 0x80000000;
 
-            node = this.codeHuffman.parentNode( node );
-        }while( node != DynamicHuffman.ROOT );
+            node = this.codeHuffman.parentNode(node);
+        } while (node != DynamicHuffman.ROOT);
 
-        this.out.writeBits( hlen, hcode >>> ( 32 - hlen ) );                    //throws IOException
+        this.out.writeBits(hlen, hcode >>> (32 - hlen));                    //throws IOException
 
 
-        if( code < 0x100 ){
+        if (code < 0x100) {
             this.position++;
-        }else{
-            this.matchLength = ( code & 0xFF ) + PostLh2Encoder.Threshold;
+        } else {
+            this.matchLength = (code & 0xFF) + PostLh2Encoder.Threshold;
 
-            if( CodeMax <= code ){
-                this.out.writeBits( 8, code - CodeMax );                        //throws IOException
+            if (CodeMax <= code) {
+                this.out.writeBits(8, code - CodeMax);                        //throws IOException
                 code = CodeMax;   //update����R�[�h��CodeMax�ɂ���B
             }
         }
-        this.codeHuffman.update( code );
+        this.codeHuffman.update(code);
     }
 
     /**
      * LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu���������ށB<br>
-     * 
+     *
      * @param offset LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
      */
-    public void writeOffset( int offset ) throws IOException {
-        if( this.nextPosition < PostLh2Encoder.DictionarySize ){
-            while( this.nextPosition < this.position ){
-                this.offHiHuffman.addLeaf( this.nextPosition >> 6 );
+    public void writeOffset(int offset) throws IOException {
+        if (this.nextPosition < PostLh2Encoder.DictionarySize) {
+            while (this.nextPosition < this.position) {
+                this.offHiHuffman.addLeaf(this.nextPosition >> 6);
                 this.nextPosition += 64;
 
-                if( PostLh2Encoder.DictionarySize <= this.nextPosition )
+                if (PostLh2Encoder.DictionarySize <= this.nextPosition)
                     break;
             }
         }
 
-        int node  = this.offHiHuffman.codeToNode( offset >> 6 );
+        int node = this.offHiHuffman.codeToNode(offset >> 6);
         int hcode = 0;
-        int hlen  = 0;
-        while( node != DynamicHuffman.ROOT ){
+        int hlen = 0;
+        while (node != DynamicHuffman.ROOT) {
             hcode >>>= 1;
             hlen++;
-            if( ( node & 1 ) != 0 ) hcode |= 0x80000000;
+            if ((node & 1) != 0) hcode |= 0x80000000;
 
-            node = this.offHiHuffman.parentNode( node );
+            node = this.offHiHuffman.parentNode(node);
         }
 
-        this.out.writeBits( hlen, hcode >> ( 32 - hlen ) );                     //throws IOException
-        this.out.writeBits( 6, offset );                                        //throws IOException
-        this.offHiHuffman.update( offset >> 6 );
+        this.out.writeBits(hlen, hcode >> (32 - hlen));                     //throws IOException
+        this.out.writeBits(6, offset);                                        //throws IOException
+        this.offHiHuffman.update(offset >> 6);
 
         this.position += this.matchLength;
     }
@@ -277,14 +280,15 @@ public class PostLh2Encoder implements PostLzssEncoder {
     //  public void flush()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * ���� PostLzssEncoder �Ƀo�b�t�@�����O����Ă���
      * �S�Ă� 8�r�b�g�P�ʂ̃f�[�^���o�͐�� OutputStream �ɏo�͂��A
      * �o�͐�� OutputStream �� flush() ����B<br>
      * ���̃��\�b�h�͈��k����ω������Ȃ��B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PostLzssEncoder#flush()
      * @see BitOutputStream#flush()
      */
@@ -295,14 +299,14 @@ public class PostLh2Encoder implements PostLzssEncoder {
     /**
      * ���̏o�̓X�g���[���ƁA�ڑ����ꂽ�o�̓X�g���[������A
      * �g�p���Ă������\�[�X���J������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
         this.out.close();                                                       //throws IOException
 
-        this.out          = null;
-        this.codeHuffman  = null;
+        this.out = null;
+        this.codeHuffman = null;
         this.offHiHuffman = null;
     }
 
@@ -316,30 +320,31 @@ public class PostLh2Encoder implements PostLzssEncoder {
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * -lh2-�`���� LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return -lh2-�`���� LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return PostLh2Encoder.DictionarySize;
     }
 
     /**
      * -lh2-�`���� LZSS�̍ő��v���𓾂�B
-     * 
+     *
      * @return -lh2-�`���� LZSS�̍ő��v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return PostLh2Encoder.MaxMatch;
     }
 
     /**
      * -lh2-�`���� LZSS�̈��k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return -lh2-�`���� LZSS�̈��k�A�񈳏k��臒l
      */
-    public int getThreshold(){
+    public int getThreshold() {
         return PostLh2Encoder.Threshold;
     }
 

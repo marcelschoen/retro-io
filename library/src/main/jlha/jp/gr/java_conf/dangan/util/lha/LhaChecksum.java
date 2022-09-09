@@ -3,14 +3,14 @@
 
 /**
  * LhaChecksum.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
  */
 
 package jp.gr.java_conf.dangan.util.lha;
 
 //import classes and interfaces
+
 import java.util.zip.Checksum;
 
 //import exceptions
@@ -25,11 +25,11 @@ import java.util.zip.Checksum;
  * [maintanance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class LhaChecksum implements Checksum{
+public class LhaChecksum implements Checksum {
 
 
     //------------------------------------------------------------------
@@ -37,7 +37,7 @@ public class LhaChecksum implements Checksum{
     //------------------------------------------------------------------
     //  private int checksum
     //------------------------------------------------------------------
-    /** 
+    /**
      */
     private int checksum;
 
@@ -47,9 +47,10 @@ public class LhaChecksum implements Checksum{
     //------------------------------------------------------------------
     //  public LhaChecksum()
     //------------------------------------------------------------------
+
     /**
      */
-    public LhaChecksum(){
+    public LhaChecksum() {
         super();
         this.reset();
     }
@@ -64,23 +65,24 @@ public class LhaChecksum implements Checksum{
     //  public void update( byte[] buffer )
     //  public void update( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      */
-    public void update( int byte8 ){
+    public void update(int byte8) {
         this.checksum += byte8;
     }
 
     /**
      *
      */
-    public void update( byte[] buffer ){
-        this.update( buffer, 0, buffer.length );
+    public void update(byte[] buffer) {
+        this.update(buffer, 0, buffer.length);
     }
 
     /**
      */
-    public void update( byte[] buffer, int index, int length ){
-        while( 0 < length-- )
+    public void update(byte[] buffer, int index, int length) {
+        while (0 < length--)
             this.checksum += buffer[index++];
     }
 
@@ -93,15 +95,16 @@ public class LhaChecksum implements Checksum{
     //  public void reset()
     //  public long getValue()
     //------------------------------------------------------------------
+
     /**
      */
-    public void reset(){
+    public void reset() {
         this.checksum = 0;
     }
 
     /**
      */
-    public long getValue(){
+    public long getValue() {
         return this.checksum & 0xFF;
     }
 

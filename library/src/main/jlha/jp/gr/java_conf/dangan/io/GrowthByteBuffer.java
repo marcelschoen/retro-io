@@ -3,19 +3,19 @@
 
 /**
  * GrowthByteBuffer.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -41,7 +41,7 @@ package jp.gr.java_conf.dangan.io;
  * �������A���܂苐��ȃf�[�^����舵���̂ɂ͌����Ȃ��B
  * �X���b�h�Z�[�t�ł͂Ȃ��B
  * jdk1.4 �ȍ~�� ByteBuffer�Ƃ͌݊����������B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: GrowthByteBuffer.java,v $
@@ -61,11 +61,11 @@ package jp.gr.java_conf.dangan.io;
  *     �\�[�X����
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class GrowthByteBuffer{
+public class GrowthByteBuffer {
 
 
     //------------------------------------------------------------------
@@ -116,12 +116,13 @@ public class GrowthByteBuffer{
     //  public GrowthByteBuffer()
     //  public GrouthByteBuffer( int BufferSize )
     //------------------------------------------------------------------
+
     /**
      * �T�C�Y�������ŐL������o�b�t�@���\�z����B<br>
      * �o�b�t�@�T�C�Y�ɂ̓f�t�H���g�l���g�p�����B
      */
-    public GrowthByteBuffer(){
-        this( GrowthByteBuffer.DefaultBufferSize );
+    public GrowthByteBuffer() {
+        this(GrowthByteBuffer.DefaultBufferSize);
     }
 
     /**
@@ -129,14 +130,14 @@ public class GrowthByteBuffer{
      *
      * @param BufferSize �o�b�t�@�̃T�C�Y
      */
-    public GrowthByteBuffer( int BufferSize ){
-        if( 0 < BufferSize ){
-            this.buffer    = new byte[16][];
-            this.buffer[0] = new byte[ BufferSize ];
-            this.position  = 0;
-            this.limit     = -1;
-        }else{
-            throw new IllegalArgumentException( "BufferSize most be 1 or more." );
+    public GrowthByteBuffer(int BufferSize) {
+        if (0 < BufferSize) {
+            this.buffer = new byte[16][];
+            this.buffer[0] = new byte[BufferSize];
+            this.position = 0;
+            this.limit = -1;
+        } else {
+            throw new IllegalArgumentException("BufferSize most be 1 or more.");
         }
     }
 
@@ -150,53 +151,54 @@ public class GrowthByteBuffer{
     //  public void write( byte[] buffer )
     //  public void write( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      * ���݈ʒu�� 1�o�C�g�̃f�[�^���������ށB
-     * 
+     *
      * @param data 1�o�C�g�̃f�[�^
      */
-    public void write( int data ){
-        this.grow( this.position );
+    public void write(int data) {
+        this.grow(this.position);
 
-        this.buffer[ this.position / this.buffer[0].length ]
-                   [ this.position % this.buffer[0].length ]
-            = (byte)data;
+        this.buffer[this.position / this.buffer[0].length]
+                [this.position % this.buffer[0].length]
+                = (byte) data;
 
         this.position++;
     }
 
     /**
      * ���݈ʒu�� buffer �̓��e���������ށB
-     * 
+     *
      * @param buffer �������ރf�[�^�يi�[���ꂽ�o�b�t�@
      */
-    public void write( byte[] buffer ){
-        this.write( buffer, 0, buffer.length );
+    public void write(byte[] buffer) {
+        this.write(buffer, 0, buffer.length);
     }
 
     /**
      * ���݈ʒu�� buffer �� index����length�o�C�g�̓��e���������ށB
-     * 
+     *
      * @param buffer �������ރf�[�^�يi�[���ꂽ�o�b�t�@
      * @param index  buffer���̏������ރf�[�^�̊J�n�ʒu
      * @param length �������ރf�[�^��
      */
-    public void write( byte[] buffer, int index, int length ){
-        this.grow( this.position + length - 1 );
+    public void write(byte[] buffer, int index, int length) {
+        this.grow(this.position + length - 1);
 
-        while( 0 < length ){
-            int copylen = Math.min( ( this.position / this.buffer[0].length + 1 )
-                                         * this.buffer[0].length,
-                                    this.position + length ) - this.position;
+        while (0 < length) {
+            int copylen = Math.min((this.position / this.buffer[0].length + 1)
+                            * this.buffer[0].length,
+                    this.position + length) - this.position;
 
-            System.arraycopy( buffer, index, 
-                              this.buffer[ this.position / this.buffer[0].length ], 
-                                           this.position % this.buffer[0].length,
-                              copylen );
+            System.arraycopy(buffer, index,
+                    this.buffer[this.position / this.buffer[0].length],
+                    this.position % this.buffer[0].length,
+                    copylen);
 
             this.position += copylen;
-            index         += copylen;
-            length        -= copylen;
+            index += copylen;
+            length -= copylen;
         }
     }
 
@@ -210,69 +212,70 @@ public class GrowthByteBuffer{
     //  public int read( byte[] buffer )
     //  public int read( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      * ���݈ʒu���� 1byte�̃f�[�^��ǂ݂��ށB
-     * 
+     *
      * @return �ǂ݂��܂ꂽ1byte�̃f�[�^�B<br>
      *         �ǂ݂��݌��E�𒴂��ēǂ����Ƃ����ꍇ�� -1
      */
-    public int read(){
-        if( this.position <= this.limit ){
-            return this.buffer[ this.position / this.buffer[0].length ]
-                              [ this.position++ % this.buffer[0].length ] & 0xFF;
-        }else{
+    public int read() {
+        if (this.position <= this.limit) {
+            return this.buffer[this.position / this.buffer[0].length]
+                    [this.position++ % this.buffer[0].length] & 0xFF;
+        } else {
             return -1;
         }
     }
 
     /**
      * ���݈ʒu���� buffer�𖞂����悤�Ƀf�[�^��ǂݍ��ށB
-     * 
+     *
      * @param buffer �f�[�^��ǂݍ��ރo�b�t�@
-     * 
+     *
      * @return ���ۂɓǂ݂��܂ꂽ�f�[�^��<br>
      *         �ǂ݂��݌��E�𒴂��ēǂ����Ƃ����ꍇ�� -1
      */
-    public int read( byte[] buffer ){
-        return this.read( buffer, 0, buffer.length );
+    public int read(byte[] buffer) {
+        return this.read(buffer, 0, buffer.length);
     }
 
     /**
      * ���݈ʒu���� buffer ��index�� length�̃f�[�^��ǂݍ��ށB
-     * 
+     *
      * @param buffer �f�[�^��ǂݍ��ރo�b�t�@
      * @param index  buffer���f�[�^�ǂ݂��݈ʒu
      * @param length �ǂݍ��ރf�[�^�̗�
-     * 
+     *
      * @return ���ۂɓǂ݂��܂ꂽ�f�[�^��<br>
      *         �ǂ݂��݌��E�𒴂��ēǂ����Ƃ����ꍇ�� -1
      */
-    public int read( byte[] buffer, int index, int length ){
-        if( this.position <= this.limit ){
+    public int read(byte[] buffer, int index, int length) {
+        if (this.position <= this.limit) {
             int len = 0;
-            while( 0 < length ){
-                int copylen = Math.min( Math.min( ( this.position / this.buffer[0].length + 1 )
-                                                  * this.buffer[0].length,
-                                                  this.position + length ),
-                                        this.limit + 1 ) - this.position;
-                if( 0 < copylen ){
-                    System.arraycopy( this.buffer[ this.position / this.buffer[0].length ], 
-                                                   this.position % this.buffer[0].length,
-                                      buffer, index, 
-                                     copylen );
+            while (0 < length) {
+                int copylen = Math.min(Math.min((this.position / this.buffer[0].length + 1)
+                                        * this.buffer[0].length,
+                                this.position + length),
+                        this.limit + 1) - this.position;
+                if (0 < copylen) {
+                    System.arraycopy(this.buffer[this.position / this.buffer[0].length],
+                            this.position % this.buffer[0].length,
+                            buffer, index,
+                            copylen);
 
                     this.position += copylen;
-                    index         += copylen;
-                    len           += copylen;
-                    length        -= copylen;
-                }else{
+                    index += copylen;
+                    len += copylen;
+                    length -= copylen;
+                } else {
                     break;
                 }
             }
             return len;
-        }else if( 0 < length ){
+        } else if (0 < length) {
             return -1;
-        }else{
+        } else {
             return 0;
         }
     }
@@ -289,35 +292,36 @@ public class GrowthByteBuffer{
     //  public void setPosition( int position )
     //  public void seek( int position )
     //------------------------------------------------------------------
+
     /**
      * ���݂̓ǂ݂��݌��E�𓾂�B
-     * 
+     *
      * @return ���݂̓ǂ݂��݌��E
      */
-    public int length(){
+    public int length() {
         return this.limit + 1;
     }
 
     /**
      * �ǂ݂��݌��E�ʒu��ݒ肷��B
-     * 
+     *
      * @param �V�����ǂ݂��݌��E�ʒu
      */
-    public void setLength( int length ){
+    public void setLength(int length) {
         length--;
-        if( this.limit < length ){
-            this.grow( length );
-        }else{
+        if (this.limit < length) {
+            this.grow(length);
+        } else {
             this.limit = length;
         }
     }
 
     /**
      * ���݈ʒu�𓾂�B
-     * 
+     *
      * @return ���݈ʒu
      */
-    public int position(){
+    public int position() {
         return this.position;
     }
 
@@ -328,10 +332,10 @@ public class GrowthByteBuffer{
      * �ݒ肵������ɂ̓o�b�t�@�͑������Ă��Ȃ��B
      * ���̌� write �ɂ���ď������񂾎��ɂ͂�
      * �߂ăo�b�t�@�͑�������B
-     * 
+     *
      * @param position �V�������݈ʒu
      */
-    public void setPosition( int position ){
+    public void setPosition(int position) {
         this.position = position;
     }
 
@@ -342,11 +346,11 @@ public class GrowthByteBuffer{
      * �ݒ肵������ɂ̓o�b�t�@�͑������Ă��Ȃ��B
      * ���̌� write �ɂ���ď������񂾎��ɂ͂�
      * �߂ăo�b�t�@�͑�������B
-     * 
+     *
      * @param position �V�������݈ʒu
      */
-    public void seek( int position ){
-        this.setPosition( position );
+    public void seek(int position) {
+        this.setPosition(position);
     }
 
 
@@ -355,33 +359,34 @@ public class GrowthByteBuffer{
     //------------------------------------------------------------------
     //  private void grow( int limit )
     //------------------------------------------------------------------
+
     /**
      * �V�����ǂ݂��݌��E limit ��ݒ肵�A
      * limit �܂� �o�b�t�@�𑝉�������B
-     * 
+     *
      * @param �V�����ǂ݂��݌��E
      */
-    private void grow( int limit ){
-        if( this.limit < limit ){
+    private void grow(int limit) {
+        if (this.limit < limit) {
             int last = 0;
-            while( last < this.buffer.length 
-                && this.buffer[last] != null )
+            while (last < this.buffer.length
+                    && this.buffer[last] != null)
                 last++;
 
             limit++;
-            if( last * this.buffer[0].length < limit ){
-                int need = ( limit / this.buffer[0].length )
-                         + ( limit % this.buffer[0].length == 0 ? 0 : 1 );
+            if (last * this.buffer[0].length < limit) {
+                int need = (limit / this.buffer[0].length)
+                        + (limit % this.buffer[0].length == 0 ? 0 : 1);
 
-                if( this.buffer.length < need ){
+                if (this.buffer.length < need) {
                     byte[][] old = this.buffer;
-                    this.buffer = new byte[ Math.max( old.length * 2, need ) ][];
+                    this.buffer = new byte[Math.max(old.length * 2, need)][];
 
-                    for( int i = 0 ; i < last ; i++ )
+                    for (int i = 0; i < last; i++)
                         this.buffer[i] = old[i];
                 }
-                for( int i = last ; i < need ; i++ )
-                    this.buffer[ i ] = new byte[ this.buffer[0].length ];
+                for (int i = last; i < need; i++)
+                    this.buffer[i] = new byte[this.buffer[0].length];
             }
 
             this.limit = limit - 1;

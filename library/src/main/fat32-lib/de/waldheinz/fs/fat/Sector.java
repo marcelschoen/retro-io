@@ -25,20 +25,17 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
- * 
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  */
 class Sector {
-    private final BlockDevice device;
-    private final long offset;
-
     /**
      * The buffer holding the contents of this {@code Sector}.
      */
     protected final ByteBuffer buffer;
-
+    private final BlockDevice device;
+    private final long offset;
     private boolean dirty;
-    
+
     protected Sector(BlockDevice device, long offset, int size) {
         this.offset = offset;
         this.device = device;
@@ -46,13 +43,13 @@ class Sector {
         this.buffer.order(ByteOrder.LITTLE_ENDIAN);
         this.dirty = true;
     }
-    
+
     /**
      * Reads the contents of this {@code Sector} from the device into the
      * internal buffer and resets the "dirty" state.
      *
      * @throws IOException on read error
-     * @see #isDirty() 
+     * @see #isDirty()
      */
     protected void read() throws IOException {
         buffer.rewind();
@@ -60,11 +57,11 @@ class Sector {
         device.read(offset, buffer);
         this.dirty = false;
     }
-    
+
     public final boolean isDirty() {
         return this.dirty;
     }
-    
+
     protected final void markDirty() {
         this.dirty = true;
     }
@@ -80,7 +77,7 @@ class Sector {
 
     public final void write() throws IOException {
         if (!isDirty()) return;
-        
+
         buffer.position(0);
         buffer.limit(buffer.capacity());
         device.write(offset, buffer);
@@ -94,11 +91,11 @@ class Sector {
     protected long get32(int offset) {
         return buffer.getInt(offset);
     }
-    
+
     protected int get8(int offset) {
         return buffer.get(offset) & 0xff;
     }
-    
+
     protected void set16(int offset, int value) {
         buffer.putShort(offset, (short) (value & 0xffff));
         dirty = true;
@@ -114,11 +111,11 @@ class Sector {
             throw new IllegalArgumentException(
                     value + " too big to be stored in a single octet");
         }
-        
+
         buffer.put(offset, (byte) (value & 0xff));
         dirty = true;
     }
-    
+
     /**
      * Returns the device offset to this {@code Sector}.
      *

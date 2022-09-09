@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs.fat;
 
 import de.waldheinz.fs.BlockDevice;
@@ -26,8 +26,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
- * 
- *
  * @author Ewout Prangsma &lt;epr at jnode.org&gt;
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  */
@@ -37,7 +35,7 @@ final class Fat {
      * The first cluster that really holds user data in a FAT.
      */
     public final static int FIRST_CLUSTER = 2;
-    
+
     private final long[] entries;
     private final FatType fatType;
     private final int sectorCount;
@@ -46,64 +44,9 @@ final class Fat {
     private final BootSector bs;
     private final long offset;
     private final int lastClusterIndex;
-    
+
     private int lastAllocatedCluster;
 
-    /**
-     * Reads a {@code Fat} as specified by a {@code BootSector}.
-     *
-     * @param bs the boot sector specifying the {@code Fat} layout
-     * @param fatNr the number of the {@code Fat} to read
-     * @return the {@code Fat} that was read
-     * @throws IOException on read error
-     * @throws IllegalArgumentException if {@code fatNr} is greater than
-     *      {@link BootSector#getNrFats()}
-     */
-    public static Fat read(BootSector bs, int fatNr)
-            throws IOException, IllegalArgumentException {
-        
-        if (fatNr > bs.getNrFats()) {
-            throw new IllegalArgumentException(
-                    "boot sector says there are only " + bs.getNrFats() +
-                    " FATs when reading FAT #" + fatNr);
-        }
-        
-        final long fatOffset = bs.getFatOffset(fatNr);
-        final Fat result = new Fat(bs, fatOffset);
-        result.read();
-        return result;
-    }
-    
-    /**
-     * Creates a new {@code Fat} as specified by a {@code BootSector}.
-     *
-     * @param bs the boot sector specifying the {@code Fat} layout
-     * @param fatNr the number of the {@code Fat} to create
-     * @return the {@code Fat} that was created
-     * @throws IOException on write error
-     * @throws IllegalArgumentException if {@code fatNr} is greater than
-     *      {@link BootSector#getNrFats()}
-     */
-    public static Fat create(BootSector bs, int fatNr)
-            throws IOException, IllegalArgumentException {
-        
-        if (fatNr > bs.getNrFats()) {
-            throw new IllegalArgumentException(
-                    "boot sector says there are only " + bs.getNrFats() +
-                    " FATs when creating FAT #" + fatNr);
-        }
-        
-        final long fatOffset = bs.getFatOffset(fatNr);
-        final Fat result = new Fat(bs, fatOffset);
-
-        if (bs.getDataClusterCount() > result.entries.length)
-            throw new IOException("FAT too small for device");
-            
-        result.init(bs.getMediumDescriptor());
-        result.write();
-        return result;
-    }
-    
     private Fat(BootSector bs, long offset) throws IOException {
         this.bs = bs;
         this.fatType = bs.getFatType();
@@ -112,38 +55,93 @@ final class Fat {
 
         if (bs.getSectorsPerFat() <= 0) throw new IOException(
                 "boot sector says there are " + bs.getSectorsPerFat() +
-                " sectors per FAT");
+                        " sectors per FAT");
 
         if (bs.getBytesPerSector() <= 0) throw new IOException(
                 "boot sector says there are " + bs.getBytesPerSector() +
-                " bytes per sector");
+                        " bytes per sector");
 
         this.sectorCount = (int) bs.getSectorsPerFat();
         this.sectorSize = bs.getBytesPerSector();
         this.device = bs.getDevice();
         this.offset = offset;
         this.lastAllocatedCluster = FIRST_CLUSTER;
-        
+
         if (bs.getDataClusterCount() > Integer.MAX_VALUE) throw
                 new IOException("too many data clusters");
-        
+
         if (bs.getDataClusterCount() == 0) throw
                 new IOException("no data clusters");
-        
+
         this.lastClusterIndex = (int) bs.getDataClusterCount() + FIRST_CLUSTER;
 
         entries = new long[(int) ((sectorCount * sectorSize) /
                 fatType.getEntrySize())];
-                
+
         if (lastClusterIndex > entries.length) throw new IOException(
-            "file system has " + lastClusterIndex +
-            "clusters but only " + entries.length + " FAT entries");
+                "file system has " + lastClusterIndex +
+                        "clusters but only " + entries.length + " FAT entries");
     }
-    
+
+    /**
+     * Reads a {@code Fat} as specified by a {@code BootSector}.
+     *
+     * @param bs    the boot sector specifying the {@code Fat} layout
+     * @param fatNr the number of the {@code Fat} to read
+     * @return the {@code Fat} that was read
+     * @throws IOException              on read error
+     * @throws IllegalArgumentException if {@code fatNr} is greater than
+     *                                  {@link BootSector#getNrFats()}
+     */
+    public static Fat read(BootSector bs, int fatNr)
+            throws IOException, IllegalArgumentException {
+
+        if (fatNr > bs.getNrFats()) {
+            throw new IllegalArgumentException(
+                    "boot sector says there are only " + bs.getNrFats() +
+                            " FATs when reading FAT #" + fatNr);
+        }
+
+        final long fatOffset = bs.getFatOffset(fatNr);
+        final Fat result = new Fat(bs, fatOffset);
+        result.read();
+        return result;
+    }
+
+    /**
+     * Creates a new {@code Fat} as specified by a {@code BootSector}.
+     *
+     * @param bs    the boot sector specifying the {@code Fat} layout
+     * @param fatNr the number of the {@code Fat} to create
+     * @return the {@code Fat} that was created
+     * @throws IOException              on write error
+     * @throws IllegalArgumentException if {@code fatNr} is greater than
+     *                                  {@link BootSector#getNrFats()}
+     */
+    public static Fat create(BootSector bs, int fatNr)
+            throws IOException, IllegalArgumentException {
+
+        if (fatNr > bs.getNrFats()) {
+            throw new IllegalArgumentException(
+                    "boot sector says there are only " + bs.getNrFats() +
+                            " FATs when creating FAT #" + fatNr);
+        }
+
+        final long fatOffset = bs.getFatOffset(fatNr);
+        final Fat result = new Fat(bs, fatOffset);
+
+        if (bs.getDataClusterCount() > result.entries.length)
+            throw new IOException("FAT too small for device");
+
+        result.init(bs.getMediumDescriptor());
+        result.write();
+        return result;
+    }
+
     public FatType getFatType() {
         return fatType;
     }
-    
+
     /**
      * Returns the {@code BootSector} that specifies this {@code Fat}.
      *
@@ -161,17 +159,17 @@ final class Fat {
     public BlockDevice getDevice() {
         return device;
     }
-    
+
     private void init(int mediumDescriptor) {
-        entries[0] = 
+        entries[0] =
                 (mediumDescriptor & 0xFF) |
-                (0xFFFFF00L & fatType.getBitMask());
+                        (0xFFFFF00L & fatType.getBitMask());
         entries[1] = fatType.getEofMarker();
     }
-    
+
     /**
      * Read the contents of this FAT from the given device at the given offset.
-     * 
+     *
      * @param offset the byte offset where to read the FAT from the device
      * @throws IOException on read error
      */
@@ -182,39 +180,39 @@ final class Fat {
         for (int i = 0; i < entries.length; i++)
             entries[i] = fatType.readEntry(data, i);
     }
-    
+
     public void write() throws IOException {
         this.writeCopy(offset);
     }
-    
+
     /**
      * Write the contents of this FAT to the given device at the given offset.
-     * 
+     *
      * @param offset the device offset where to write the FAT copy
      * @throws IOException on write error
      */
     public void writeCopy(long offset) throws IOException {
         final byte[] data = new byte[sectorCount * sectorSize];
-        
+
         for (int index = 0; index < entries.length; index++) {
             fatType.writeEntry(data, index, entries[index]);
         }
-        
+
         device.write(offset, ByteBuffer.wrap(data));
     }
-    
+
     /**
      * Gets the medium descriptor byte
-     * 
+     *
      * @return int
      */
     public int getMediumDescriptor() {
         return (int) (entries[0] & 0xFF);
     }
-    
+
     /**
      * Gets the entry at a given offset
-     * 
+     *
      * @param index
      * @return long
      */
@@ -230,7 +228,7 @@ final class Fat {
     public int getLastFreeCluster() {
         return this.lastAllocatedCluster;
     }
-    
+
     public long[] getChain(long startCluster) {
         testCluster(startCluster);
         // Count the chain first
@@ -254,7 +252,7 @@ final class Fat {
 
     /**
      * Gets the cluster after the given cluster
-     * 
+     *
      * @param cluster
      * @return long The next cluster number or -1 which means eof.
      */
@@ -270,7 +268,7 @@ final class Fat {
 
     /**
      * Allocate a cluster for a new file
-     * 
+     *
      * @return long the number of the newly allocated cluster
      * @throws IOException if there are no free clusters
      */
@@ -285,7 +283,7 @@ final class Fat {
                 break;
             }
         }
-        
+
         if (entryIndex < 0) {
             for (i = FIRST_CLUSTER; i < lastAllocatedCluster; i++) {
                 if (isFreeCluster(i)) {
@@ -294,21 +292,21 @@ final class Fat {
                 }
             }
         }
-        
+
         if (entryIndex < 0) {
             throw new IOException(
                     "FAT Full (" + (lastClusterIndex - FIRST_CLUSTER)
-                    + ", " + i + ")"); //NOI18N
+                            + ", " + i + ")"); //NOI18N
         }
-        
+
         entries[entryIndex] = fatType.getEofMarker();
         lastAllocatedCluster = entryIndex % lastClusterIndex;
         if (lastAllocatedCluster < FIRST_CLUSTER)
             lastAllocatedCluster = FIRST_CLUSTER;
-        
+
         return entryIndex;
     }
-    
+
     /**
      * Returns the number of clusters that are currently not in use by this FAT.
      * This estimate does only account for clusters that are really available in
@@ -323,7 +321,7 @@ final class Fat {
     public int getFreeClusterCount() {
         int result = 0;
 
-        for (int i=FIRST_CLUSTER; i < lastClusterIndex; i++) {
+        for (int i = FIRST_CLUSTER; i < lastClusterIndex; i++) {
             if (isFreeCluster(i)) result++;
         }
 
@@ -338,42 +336,42 @@ final class Fat {
     public int getLastAllocatedCluster() {
         return this.lastAllocatedCluster;
     }
-    
+
     /**
      * Allocate a series of clusters for a new file.
-     * 
+     *
      * @param nrClusters when number of clusters to allocate
      * @return long
      * @throws IOException if there are no free clusters
      */
     public long[] allocNew(int nrClusters) throws IOException {
         final long rc[] = new long[nrClusters];
-        
+
         rc[0] = allocNew();
         for (int i = 1; i < nrClusters; i++) {
             rc[i] = allocAppend(rc[i - 1]);
         }
-        
+
         return rc;
     }
-    
+
     /**
      * Allocate a cluster to append to a new file
-     * 
+     *
      * @param cluster a cluster from a chain where the new cluster should be
-     *      appended
+     *                appended
      * @return long the newly allocated and appended cluster number
      * @throws IOException if there are no free clusters
      */
     public long allocAppend(long cluster)
             throws IOException {
-        
+
         testCluster(cluster);
-        
+
         while (!isEofCluster(entries[(int) cluster])) {
             cluster = entries[(int) cluster];
         }
-        
+
         long newCluster = allocNew();
         entries[(int) cluster] = newCluster;
 
@@ -389,21 +387,21 @@ final class Fat {
         testCluster(cluster);
         entries[(int) cluster] = 0;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Fat)) return false;
-        
+
         final Fat other = (Fat) obj;
         if (this.fatType != other.fatType) return false;
         if (this.sectorCount != other.sectorCount) return false;
         if (this.sectorSize != other.sectorSize) return false;
         if (this.lastClusterIndex != other.lastClusterIndex) return false;
         if (!Arrays.equals(this.entries, other.entries)) return false;
-        
+
         return (this.getMediumDescriptor() == other.getMediumDescriptor());
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -414,7 +412,7 @@ final class Fat {
         hash = 23 * hash + this.lastClusterIndex;
         return hash;
     }
-    
+
     /**
      * Is the given entry a free cluster?
      *
@@ -425,7 +423,7 @@ final class Fat {
         if (entry > Integer.MAX_VALUE) throw new IllegalArgumentException();
         return (entries[(int) entry] == 0);
     }
-    
+
     /**
      * Is the given entry a reserved cluster?
      *
@@ -445,14 +443,14 @@ final class Fat {
     protected boolean isEofCluster(long entry) {
         return fatType.isEofCluster(entry);
     }
-    
+
     protected void testCluster(long cluster) throws IllegalArgumentException {
         if ((cluster < FIRST_CLUSTER) || (cluster >= entries.length)) {
             throw new IllegalArgumentException(
                     "invalid cluster value " + cluster);
         }
     }
-    
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -469,8 +467,8 @@ final class Fat {
         sb.append(", freeClusters=");
         sb.append(getFreeClusterCount());
         sb.append("]");
-        
+
         return sb.toString();
     }
-    
+
 }

@@ -27,27 +27,27 @@ import java.io.IOException;
  * <li>a {@link ClusterChainDirectory} grows beyond it's
  *      {@link ClusterChainDirectory#MAX_SIZE maximum size}
  * </ul>
- * 
+ *
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  */
 public final class DirectoryFullException extends IOException {
     private final static long serialVersionUID = 2;
     private final int currentCapacity;
     private final int requestedCapacity;
-    
+
     DirectoryFullException(int currentCapacity, int requestedCapacity) {
         this("directory is full", currentCapacity, requestedCapacity);
     }
-    
+
     DirectoryFullException(String message,
-            int currentCapacity, int requestedCapacity) {
+                           int currentCapacity, int requestedCapacity) {
 
         super(message);
 
         this.currentCapacity = currentCapacity;
         this.requestedCapacity = requestedCapacity;
     }
-    
+
     /**
      * Returns the current capacity of the directory.
      *
@@ -65,5 +65,5 @@ public final class DirectoryFullException extends IOException {
     public int getRequestedCapacity() {
         return requestedCapacity;
     }
-    
+
 }

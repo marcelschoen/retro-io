@@ -1,12 +1,17 @@
 package org.acme;
 
+import com.retroio.tools.ImageHandler;
+import com.retroio.tools.ImageHandlerFactory;
+import com.retroio.tools.ImageType;
+import com.retroio.tools.VirtualDisk;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -20,7 +25,7 @@ import java.util.UUID;
 
 /**
  * Information "stolen" from:
- *
+ * <p>
  * https://github.com/tivrfoa/resteasy-file-upload-with-quarkus/blob/main/src/main/java/org/acme/rest/client/multipart/MultipartClientResource.java
  */
 @Path("/handler")
@@ -38,7 +43,7 @@ public class FloppyImageUploadResource {
     public Response uploadFile(MultipartFormDataInput input) {
 
         File uploadDir = new File(uploadDirectory);
-        if(!uploadDir.exists()) {
+        if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
 
@@ -57,25 +62,44 @@ public class FloppyImageUploadResource {
 
                 MultivaluedMap<String, String> header = inputPart.getHeaders();
                 fileName = getFileName(header);
+                if (fileName.contains(".")) {
 
-                // convert the uploaded file to inputstream
-                InputStream inputStream = inputPart.getBody(InputStream.class, null);
+                    String suffix = fileName.substring(fileName.indexOf(".") + 1);
+                    ImageType imageType = ImageType.getTypeFromFileSuffix(suffix);
+                    if (imageType != ImageType.unknown) {
 
-                byte[] bytes = IOUtils.toByteArray(inputStream);
+                        // convert the uploaded file to inputstream
+                        InputStream inputStream = inputPart.getBody(InputStream.class, null);
 
-                writeFile(bytes, new File(finalDir, fileName));
+                        byte[] bytes = IOUtils.toByteArray(inputStream);
 
-                System.out.println("Done");
+                        File finalImageFile = new File(finalDir, fileName);
+                        writeFile(bytes, finalImageFile);
 
-            } catch (IOException e) {
+                        File unpackDir = new File(finalDir, fileName + "-unpacked");
+                        unpackDir.mkdirs();
+
+                        ImageHandler imageHandler = ImageHandlerFactory.get(imageType);
+                        VirtualDisk virtualDisk = imageHandler.loadImage(finalImageFile);
+                        virtualDisk.exportToDirectory(unpackDir);
+
+                        System.out.println("Done");
+
+                        URI uri = URI.create("/files/browse?path=" + uuid);
+                        return Response.status(302).location(uri).build();
+
+                    }
+                }
+
+                return Response.status(500).entity("Invalid/unsupported file format").build();
+
+            } catch (Exception e) {
                 e.printStackTrace();
+                return Response.status(500).entity("Unknown error: " + e).build();
             }
-
         }
 
-        URI uri = URI.create("/files/browse?path=" + uuid);
-        return Response.status(302).location(uri).build();
-
+        return Response.status(500).entity("Upload failed.").build();
     }
 
 

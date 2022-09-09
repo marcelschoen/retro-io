@@ -3,19 +3,19 @@
 
 /**
  * PreLz5Decoder.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -43,7 +43,7 @@ import java.io.InputStream;
 
 /**
  * -lz5- �𓀗p PreLzssDecoder�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PreLz5Decoder.java,v $
@@ -59,11 +59,11 @@ import java.io.InputStream;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class PreLz5Decoder implements PreLzssDecoder{
+public class PreLz5Decoder implements PreLzssDecoder {
 
 
     //------------------------------------------------------------------
@@ -79,10 +79,10 @@ public class PreLz5Decoder implements PreLzssDecoder{
     private static final int DictionarySize = 4096;
 
     /** �ő��v�� */
-    private static final int MaxMatch       = 18;
+    private static final int MaxMatch = 18;
 
     /** �ŏ���v�� */
-    private static final int Threshold      = 3;
+    private static final int Threshold = 3;
 
 
     //------------------------------------------------------------------
@@ -107,7 +107,7 @@ public class PreLz5Decoder implements PreLzssDecoder{
     //  private int matchPos
     //  private int matchLen
     //------------------------------------------------------------------
-    /** 
+    /**
      * ���ݏ����ʒu�B
      * larc �̈�v�ʒu���� lha �̈�v�ʒu�ւ̕ϊ��ɕK�v
      */
@@ -168,38 +168,40 @@ public class PreLz5Decoder implements PreLzssDecoder{
     //  private PreLz5Decoder()
     //  public PreLz5Decoder( InputStream in )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s��
      */
-    private PreLz5Decoder(){ }
+    private PreLz5Decoder() {
+    }
 
     /**
      * -lz5- �𓀗p PreLzssDecoder ���\�z����B
-     * 
+     *
      * @param in ���k�f�[�^������������̓X�g���[��
      */
-    public PreLz5Decoder( InputStream in ){
-        if( in != null ){
-            if( in instanceof CachedInputStream ){
-                this.in = (CachedInputStream)in;
-            }else{
-                this.in = new CachedInputStream( in );
+    public PreLz5Decoder(InputStream in) {
+        if (in != null) {
+            if (in instanceof CachedInputStream) {
+                this.in = (CachedInputStream) in;
+            } else {
+                this.in = new CachedInputStream(in);
             }
 
-            this.position     = 0;
-            this.matchPos     = 0;
-            this.matchLen     = 0;
-            this.flagByte     = 0;
-            this.flagBit      = 0x100;
+            this.position = 0;
+            this.matchPos = 0;
+            this.matchLen = 0;
+            this.flagByte = 0;
+            this.flagBit = 0x100;
 
             this.markPosition = 0;
             this.markMatchPos = 0;
             this.markMatchLen = 0;
             this.markFlagByte = 0;
-            this.markFlagBit  = 0;
-        }else{
-            throw new NullPointerException( "in" );
+            this.markFlagBit = 0;
+        } else {
+            throw new NullPointerException("in");
         }
     }
 
@@ -211,44 +213,45 @@ public class PreLz5Decoder implements PreLzssDecoder{
     //  public int readCode()
     //  public int readOffset()
     //------------------------------------------------------------------
+
     /**
      * -lz5- �ň��k���ꂽ 
      * 1byte �� LZSS�����k�̃f�[�^�A
      * �������͈��k�R�[�h�̂�����v����ǂݍ��ށB<br>
-     * 
+     *
      * @return 1byte �� �����k�̃f�[�^�������́A
      *         ���k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      */
     public int readCode() throws IOException {
-        if( this.flagBit == 0x100 ){
-            this.flagByte  = this.in.read();                                    //throws IOException
+        if (this.flagBit == 0x100) {
+            this.flagByte = this.in.read();                                    //throws IOException
 
-            if( 0 <= this.flagByte ){
+            if (0 <= this.flagByte) {
                 this.flagBit = 0x01;
-            }else{
+            } else {
                 throw new EOFException();
             }
         }
 
-        if( 0 != ( this.flagByte & this.flagBit ) ){
+        if (0 != (this.flagByte & this.flagBit)) {
             this.flagBit <<= 1;
             this.position++;
             int ret = this.in.read();                                           //throws IOException
-            if( 0 <= ret ) return ret;
-            else           throw new EOFException();
-        }else{
+            if (0 <= ret) return ret;
+            else throw new EOFException();
+        } else {
             this.flagBit <<= 1;
-            int c1   = this.in.read();                                          //throws IOException
-            int c2   = this.in.read();                                          //throws IOException
+            int c1 = this.in.read();                                          //throws IOException
+            int c2 = this.in.read();                                          //throws IOException
 
-            if( 0 <= c1 ){
-                this.matchPos = ( ( c2 & 0xF0 ) << 4 ) | c1;
+            if (0 <= c1) {
+                this.matchPos = ((c2 & 0xF0) << 4) | c1;
                 this.matchLen = c2 & 0x0F;
                 return this.matchLen | 0x100;
-            }else{
+            } else {
                 throw new EOFException();
             }
         }
@@ -257,15 +260,15 @@ public class PreLz5Decoder implements PreLzssDecoder{
     /**
      * -lz5- �ň��k���ꂽ
      * ���k�R�[�h�̂�����v�ʒu��ǂݍ��ށB<br>
-     * 
+     *
      * @return -lz5- �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public int readOffset() throws IOException {
-        int offset  = ( this.position - this.matchPos - 1
-                      - PreLz5Decoder.MaxMatch )
-                    & ( PreLz5Decoder.DictionarySize - 1 );
+        int offset = (this.position - this.matchPos - 1
+                - PreLz5Decoder.MaxMatch)
+                & (PreLz5Decoder.DictionarySize - 1);
 
         this.position += this.matchLen + PreLz5Decoder.Threshold;
 
@@ -282,11 +285,12 @@ public class PreLz5Decoder implements PreLzssDecoder{
     //  public void reset()
     //  public boolean markSupported()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
      * �߂��悤�ɂ���B<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
@@ -294,19 +298,19 @@ public class PreLz5Decoder implements PreLzssDecoder{
      *
      * @see PreLzssDecoder#mark(int)
      */
-    public void mark( int readLimit ){
-        this.in.mark( ( readLimit * 9 + 7 ) / 8 + 2 );
+    public void mark(int readLimit) {
+        this.in.mark((readLimit * 9 + 7) / 8 + 2);
         this.markPosition = this.position;
         this.markMatchLen = this.matchLen;
         this.markMatchPos = this.matchPos;
         this.markFlagByte = this.flagByte;
-        this.markFlagBit  = this.flagBit;
+        this.markFlagBit = this.flagBit;
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException <br>
      * &emsp;&emsp; (1) mark() ������ reset() ���悤�Ƃ����ꍇ�B<br>
      * &emsp;&emsp; (2) �ڑ����ꂽ���̓X�g���[���� markSupported()��
@@ -325,17 +329,17 @@ public class PreLz5Decoder implements PreLzssDecoder{
         this.matchLen = this.markMatchLen;
         this.matchPos = this.markMatchPos;
         this.flagByte = this.markFlagByte;
-        this.flagBit  = this.markFlagBit;
+        this.flagBit = this.markFlagBit;
     }
 
     /**
      * �ڑ����ꂽ�X�g���[���� mark() �� reset()
      * ���T�|�[�g���邩��Ԃ��B
-     * 
+     *
      * @return �ڑ����ꂽ�X�g���[���� mark,reset ���T�|�[�g����Ȃ�true,
      *         �T�|�[�g���Ȃ��Ȃ� false
      */
-    public boolean markSupported(){
+    public boolean markSupported() {
         return this.in.markSupported();
     }
 
@@ -348,23 +352,24 @@ public class PreLz5Decoder implements PreLzssDecoder{
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �u���b�N�����ɓǂݏo�����Ƃ̏o����Œ�o�C�g���𓾂�B<br>
      * ���̒l�͕ۏ؂����B
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����Œ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PreLzssDecoder#available()
      */
     public int available() throws IOException {
-        return Math.max( in.available() * 8 / 9 - 2, 0 );                       //throws IOException
+        return Math.max(in.available() * 8 / 9 - 2, 0);                       //throws IOException
     }
 
     /**
      * ���̃X�g���[������A�g�p���Ă����S�Ă̎������������B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
@@ -383,30 +388,31 @@ public class PreLz5Decoder implements PreLzssDecoder{
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * -lz5-�`���� LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return -lz5-�`���� LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return PreLz5Decoder.DictionarySize;
     }
 
     /**
      * -lz5-�`���� LZSS�̍ő��v���𓾂�B
-     * 
+     *
      * @return -lz5-�`���� LZSS�̍ő��v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return PreLz5Decoder.MaxMatch;
     }
 
     /**
      * -lz5-�`���� LZSS�̈��k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return -lz5-�`���� LZSS�̈��k�A�񈳏k��臒l
      */
-    public int getThreshold(){
+    public int getThreshold() {
         return PreLz5Decoder.Threshold;
     }
 

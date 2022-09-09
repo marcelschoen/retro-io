@@ -3,13 +3,14 @@
 
 /**
  * CRC16.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
  */
 
 package jp.gr.java_conf.dangan.util.lha;
 
 //import classes and interfaces
+
 import java.util.zip.Checksum;
 
 //import exceptions
@@ -26,11 +27,11 @@ import java.util.zip.Checksum;
  * [maintanance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class CRC16 implements Checksum{
+public class CRC16 implements Checksum {
 
 
     //------------------------------------------------------------------
@@ -75,16 +76,16 @@ public class CRC16 implements Checksum{
     //  private int init
     //  private int[] crcTable
     //------------------------------------------------------------------
-    /** 
+    /**
      * CRC16�l 
      */
     private int crc;
 
-    /** 
+    /**
      */
     private int init;
 
-    /** 
+    /**
      */
     private int[] crcTable;
 
@@ -97,40 +98,41 @@ public class CRC16 implements Checksum{
     //  public CRC16( int poly, int init )
     //  public CRC16( int[] crcTable, int init )
     //------------------------------------------------------------------
+
     /**
      */
-    public CRC16(){
-        this( DefaultPOLY, DefaultINIT );
+    public CRC16() {
+        this(DefaultPOLY, DefaultINIT);
     }
 
     /**
      *
      */
-    public CRC16( int poly ){
-        this( poly, 
-              ( poly == CRC16.CCITT_POLY ? 
-                        CRC16.CCITT_INIT : 
-                        CRC16.DefaultINIT ) );
+    public CRC16(int poly) {
+        this(poly,
+                (poly == CRC16.CCITT_POLY ?
+                        CRC16.CCITT_INIT :
+                        CRC16.DefaultINIT));
     }
 
     /**
      */
-    public  CRC16( int poly, int init ){
-        this( CRC16.makeCrcTable( poly ), init );
+    public CRC16(int poly, int init) {
+        this(CRC16.makeCrcTable(poly), init);
     }
 
     /**
      */
-    public  CRC16( int[] crcTable, int init ){
-        final int BYTE_PATTERNS= 256;
+    public CRC16(int[] crcTable, int init) {
+        final int BYTE_PATTERNS = 256;
 
-        if( crcTable.length == BYTE_PATTERNS ){
+        if (crcTable.length == BYTE_PATTERNS) {
             this.crcTable = crcTable;
-            this.init     = init;
+            this.init = init;
 
             this.reset();
-        }else{
-            throw new IllegalArgumentException( "crcTable.length must equals 256" );
+        } else {
+            throw new IllegalArgumentException("crcTable.length must equals 256");
         }
     }
 
@@ -144,54 +146,41 @@ public class CRC16 implements Checksum{
     //  public void update( byte[] buffer )
     //  public void update( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      */
-    public void update( int byte8 ){
+    public static int[] makeCrcTable(int poly) {
+        final int BYTE_PATTERNS = 256;
         final int BYTE_BITS = 8;
-        this.crc = ( this.crc >> BYTE_BITS )
-                    ^ this.crcTable[ ( this.crc ^ byte8 ) & 0xFF ];
+        int[] crcTable = new int[BYTE_PATTERNS];
+
+        for (int i = 0; i < BYTE_PATTERNS; i++) {
+            crcTable[i] = i;
+
+            for (int j = 0; j < BYTE_BITS; j++) {
+                if ((crcTable[i] & 1) != 0) {
+                    crcTable[i] = (crcTable[i] >> 1) ^ poly;
+                } else {
+                    crcTable[i] >>= 1;
+                }
+            }
+        }
+
+        return crcTable;
     }
 
     /**
      */
-    public void update( byte[] buffer ){
-        this.update( buffer, 0, buffer.length );
+    public void update(int byte8) {
+        final int BYTE_BITS = 8;
+        this.crc = (this.crc >> BYTE_BITS)
+                ^ this.crcTable[(this.crc ^ byte8) & 0xFF];
     }
 
     /**
      */
-    public void update( byte[] buffer, int index, int length ){
-        final int BYTE_BITS = 8;
-
-        while( 0 < ( index & 0x03 ) && 0 < length-- ){
-            this.crc = ( this.crc >> BYTE_BITS )
-                       ^ this.crcTable[ ( this.crc ^ buffer[index++] ) & 0xFF ];
-        }
-
-        while( 4 <= length ){
-            int data =  (   buffer[index++] & 0xFF )
-                      | ( ( buffer[index++] & 0xFF ) <<  8 )
-                      | ( ( buffer[index++] & 0xFF ) << 16 )
-                      | (   buffer[index++]          << 24 );
-
-            this.crc = ( this.crc >> BYTE_BITS )
-                       ^ this.crcTable[ ( this.crc ^ data ) & 0xFF ];
-            data >>>= BYTE_BITS;
-            this.crc = ( this.crc >> BYTE_BITS )
-                       ^ this.crcTable[ ( this.crc ^ data ) & 0xFF ];
-            data >>>= BYTE_BITS;
-            this.crc = ( this.crc >> BYTE_BITS )
-                       ^ this.crcTable[ ( this.crc ^ data ) & 0xFF ];
-            data >>>= BYTE_BITS;
-            this.crc = ( this.crc >> BYTE_BITS )
-                       ^ this.crcTable[ ( this.crc ^ data ) & 0xFF ];
-            length -= 4;
-        }
-
-        while( 0 < length-- ){
-            this.crc = ( this.crc >> BYTE_BITS )
-                       ^ this.crcTable[ ( this.crc ^ buffer[index++] ) & 0xFF ];
-        }
+    public void update(byte[] buffer) {
+        this.update(buffer, 0, buffer.length);
     }
 
 
@@ -203,16 +192,47 @@ public class CRC16 implements Checksum{
     //  public void reset()
     //  public long getValue()
     //------------------------------------------------------------------
+
     /**
      */
-    public void reset(){
-        this.crc = this.init;
+    public void update(byte[] buffer, int index, int length) {
+        final int BYTE_BITS = 8;
+
+        while (0 < (index & 0x03) && 0 < length--) {
+            this.crc = (this.crc >> BYTE_BITS)
+                    ^ this.crcTable[(this.crc ^ buffer[index++]) & 0xFF];
+        }
+
+        while (4 <= length) {
+            int data = (buffer[index++] & 0xFF)
+                    | ((buffer[index++] & 0xFF) << 8)
+                    | ((buffer[index++] & 0xFF) << 16)
+                    | (buffer[index++] << 24);
+
+            this.crc = (this.crc >> BYTE_BITS)
+                    ^ this.crcTable[(this.crc ^ data) & 0xFF];
+            data >>>= BYTE_BITS;
+            this.crc = (this.crc >> BYTE_BITS)
+                    ^ this.crcTable[(this.crc ^ data) & 0xFF];
+            data >>>= BYTE_BITS;
+            this.crc = (this.crc >> BYTE_BITS)
+                    ^ this.crcTable[(this.crc ^ data) & 0xFF];
+            data >>>= BYTE_BITS;
+            this.crc = (this.crc >> BYTE_BITS)
+                    ^ this.crcTable[(this.crc ^ data) & 0xFF];
+            length -= 4;
+        }
+
+        while (0 < length--) {
+            this.crc = (this.crc >> BYTE_BITS)
+                    ^ this.crcTable[(this.crc ^ buffer[index++]) & 0xFF];
+        }
     }
 
     /**
      */
-    public long getValue(){
-        return this.crc & 0xFFFF;
+    public void reset() {
+        this.crc = this.init;
     }
 
 
@@ -221,26 +241,11 @@ public class CRC16 implements Checksum{
     //------------------------------------------------------------------
     //  public static int[] makeCrcTable( int init )
     //------------------------------------------------------------------
+
     /**
      */
-    public static int[] makeCrcTable( int poly ){
-        final int BYTE_PATTERNS = 256;
-        final int BYTE_BITS     = 8;
-        int[] crcTable = new int[BYTE_PATTERNS];
-
-        for( int i = 0 ; i < BYTE_PATTERNS ; i++ ){
-            crcTable[i] = i;
-
-            for( int j = 0 ; j < BYTE_BITS ; j++ ){
-                if( ( crcTable[i] & 1 ) != 0 ){
-                    crcTable[i] = ( crcTable[i] >> 1 ) ^ poly;
-                }else{
-                    crcTable[i] >>= 1;
-                }
-            }
-        }
-
-        return crcTable;
+    public long getValue() {
+        return this.crc & 0xFFFF;
     }
 
 }

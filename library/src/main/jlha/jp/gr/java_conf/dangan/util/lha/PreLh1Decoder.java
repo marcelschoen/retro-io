@@ -3,19 +3,19 @@
 
 /**
  * PreLh1Decoder.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -46,7 +46,7 @@ import java.io.InputStream;
 
 /**
  * -lh1- �𓀗p�� PreLzssDecoder�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PreLh1Decoder.java,v $
@@ -62,11 +62,11 @@ import java.io.InputStream;
  *     �\�[�X����
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class PreLh1Decoder implements PreLzssDecoder{
+public class PreLh1Decoder implements PreLzssDecoder {
 
 
     //------------------------------------------------------------------
@@ -82,10 +82,10 @@ public class PreLh1Decoder implements PreLzssDecoder{
     private static final int DictionarySize = 4096;
 
     /** �ő��v�� */
-    private static final int MaxMatch       = 60;
+    private static final int MaxMatch = 60;
 
     /** �ŏ���v�� */
-    private static final int Threshold      = 3;
+    private static final int Threshold = 3;
 
 
     //------------------------------------------------------------------
@@ -149,29 +149,30 @@ public class PreLh1Decoder implements PreLzssDecoder{
     //------------------------------------------------------------------
     //  public PreLh1Decoder( InputStream in )
     //------------------------------------------------------------------
+
     /**
      * -lh1- �𓀗p PreLzssDecoder ���\�z����B
-     * 
+     *
      * @param in -lh1- �ň��k���ꂽ�f�[�^������������̓X�g���[��
      */
-    public PreLh1Decoder( InputStream in ){
-        if( in != null ){
-            if( in instanceof BitInputStream ){
-                this.in         = (BitInputStream)in;
-            }else{
-                this.in         = new BitInputStream( in );
+    public PreLh1Decoder(InputStream in) {
+        if (in != null) {
+            if (in instanceof BitInputStream) {
+                this.in = (BitInputStream) in;
+            } else {
+                this.in = new BitInputStream(in);
             }
-            this.huffman        = new DynamicHuffman( 314 );
-            this.markHuffman    = null;
+            this.huffman = new DynamicHuffman(314);
+            this.markHuffman = null;
 
-            this.offHiLen       = PreLh1Decoder.createLenList();
-            try{
-                this.offHiTable = StaticHuffman.createTable( this.offHiLen );
-            }catch( BadHuffmanTableException exception ){
+            this.offHiLen = PreLh1Decoder.createLenList();
+            try {
+                this.offHiTable = StaticHuffman.createTable(this.offHiLen);
+            } catch (BadHuffmanTableException exception) {
             }
-            this.offHiTableBits = Bits.len( this.offHiTable.length - 1 );
-        }else{
-            throw new NullPointerException( "in" );
+            this.offHiTableBits = Bits.len(this.offHiTable.length - 1);
+        } else {
+            throw new NullPointerException("in");
         }
     }
 
@@ -184,55 +185,51 @@ public class PreLh1Decoder implements PreLzssDecoder{
     //  public int readCode()
     //  public int readOffset()
     //------------------------------------------------------------------
+
     /**
-     * -lh1- �ň��k���ꂽ 
-     * 1byte ��LZSS�����k�̃f�[�^�A
-     * �������͈��k�R�[�h�̂�����v����ǂݍ��ށB<br>
-     * 
-     * @return 1byte �� �����k�̃f�[�^�������́A
-     *         ���k���ꂽ���k�R�[�h�̂�����v��
-     * 
-     * @exception IOException  ���o�̓G���[�����������ꍇ
-     * @exception EOFException EndOfStream�ɒB�����ꍇ
+     * -lh1- �� offset�f�R�[�h�pStaticHuffman��
+     * �n�t�}�����������X�g�𐶐�����B
+     *
+     * @return -lh1- �� offset�f�R�[�h�pStaticHuffman��
+     *         �n�t�}�����������X�g
      */
-    public int readCode() throws IOException {
-        int node = this.huffman.childNode( DynamicHuffman.ROOT );
-        while( 0 <= node ){
-            node = this.huffman.childNode( node - ( in.readBoolean() ? 1 : 0 ) );//throws EOFException,IOException
+    private static int[] createLenList() {
+        final int length = 64;
+        final int[] list = {3, 0x01, 0x04, 0x0C, 0x18, 0x30, 0};
+
+        int[] LenList = new int[length];
+        int index = 0;
+        int len = list[index++];
+
+        for (int i = 0; i < length; i++) {
+            if (list[index] == i) {
+                len++;
+                index++;
+            }
+            LenList[i] = len;
         }
-        int code = ~node;
-        this.huffman.update( code );
-        return code;
+        return LenList;
     }
 
     /**
      * -lh1- �ň��k���ꂽ
-     * LZSS���k�R�[�h�̂�����v�ʒu��ǂݍ��ށB<br>
-     * 
-     * @return -lh1- �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
-     * 
-     * @exception IOException  ���o�̓G���[�����������ꍇ�B
-     * @exception EOFException �f�[�^���r���܂ł����Ȃ�����
-     *                         �\������ EndOfStream �ɓ��B�����ꍇ�B
-     * @exception BitDataBrokenException
-     *                         �f�[�^���r���܂ł����Ȃ�����
-     *                         �\������ EndOfStream �ɓ��B�������A
-     *                         ���̓��o�̓G���[�����������B  
-     * @exception NotEnoughBitsException
-     *                         �f�[�^���r���܂ł����Ȃ�����
-     *                         �\������ EndOfStream �ɓ��B�������A
-     *                         ���̓��o�̓G���[�����������B  
+     * 1byte ��LZSS�����k�̃f�[�^�A
+     * �������͈��k�R�[�h�̂�����v����ǂݍ��ށB<br>
+     *
+     * @return 1byte �� �����k�̃f�[�^�������́A
+     *         ���k���ꂽ���k�R�[�h�̂�����v��
+     *
+     * @exception IOException  ���o�̓G���[�����������ꍇ
+     * @exception EOFException EndOfStream�ɒB�����ꍇ
      */
-    public int readOffset() throws IOException {
-        //offHi������킷�̂ɍŒZ�̏ꍇ�� 0 �� 3bit ��
-        //offHiTableBits �� 8bit�� ���҂̍��� 5bit�B 
-        //���̂��߁A����6bit��ǂݍ��ގ������������
-        //����ȃf�[�^�ł� peekBits �� 
-        //NotEnoughBitsException �𓊂��邱�Ƃ͖����B
-        int offHi = this.offHiTable[ this.in.peekBits( this.offHiTableBits ) ]; //throws NotEnoughBitsException IOException
-        this.in.skipBits( this.offHiLen[ offHi ] );                             //throws IOException
-
-        return ( offHi << 6 ) | this.in.readBits( 6 );                          //throws BitDataBrokenException NotEnoughBitsException IOException
+    public int readCode() throws IOException {
+        int node = this.huffman.childNode(DynamicHuffman.ROOT);
+        while (0 <= node) {
+            node = this.huffman.childNode(node - (in.readBoolean() ? 1 : 0));//throws EOFException,IOException
+        }
+        int code = ~node;
+        this.huffman.update(code);
+        return code;
     }
 
 
@@ -245,6 +242,37 @@ public class PreLh1Decoder implements PreLzssDecoder{
     //  public void reset()
     //  public boolean markSupported()
     //------------------------------------------------------------------
+
+    /**
+     * -lh1- �ň��k���ꂽ
+     * LZSS���k�R�[�h�̂�����v�ʒu��ǂݍ��ށB<br>
+     *
+     * @return -lh1- �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
+     *
+     * @exception IOException  ���o�̓G���[�����������ꍇ�B
+     * @exception EOFException �f�[�^���r���܂ł����Ȃ�����
+     *                         �\������ EndOfStream �ɓ��B�����ꍇ�B
+     * @exception BitDataBrokenException
+     *                         �f�[�^���r���܂ł����Ȃ�����
+     *                         �\������ EndOfStream �ɓ��B�������A
+     *                         ���̓��o�̓G���[�����������B
+     * @exception NotEnoughBitsException
+     *                         �f�[�^���r���܂ł����Ȃ�����
+     *                         �\������ EndOfStream �ɓ��B�������A
+     *                         ���̓��o�̓G���[�����������B
+     */
+    public int readOffset() throws IOException {
+        //offHi������킷�̂ɍŒZ�̏ꍇ�� 0 �� 3bit ��
+        //offHiTableBits �� 8bit�� ���҂̍��� 5bit�B
+        //���̂��߁A����6bit��ǂݍ��ގ������������
+        //����ȃf�[�^�ł� peekBits ��
+        //NotEnoughBitsException �𓊂��邱�Ƃ͖����B
+        int offHi = this.offHiTable[this.in.peekBits(this.offHiTableBits)]; //throws NotEnoughBitsException IOException
+        this.in.skipBits(this.offHiLen[offHi]);                             //throws IOException
+
+        return (offHi << 6) | this.in.readBits(6);                          //throws BitDataBrokenException NotEnoughBitsException IOException
+    }
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
@@ -252,23 +280,23 @@ public class PreLh1Decoder implements PreLzssDecoder{
      * InputStream �� mark() �ƈႢ�AreadLimit �Őݒ肵��
      * ���E�o�C�g�����O�Ƀ}�[�N�ʒu�������ɂȂ�\����
      * ���鎖�ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
      *                  �\��������B<br>
-     * 
+     *
      * @see PreLzssDecoder#mark(int)
      */
-    public void mark( int readLimit ){
-        this.in.mark( readLimit * 18 / 8 + 4 );
-        this.markHuffman = (DynamicHuffman)this.huffman.clone();
+    public void mark(int readLimit) {
+        this.in.mark(readLimit * 18 / 8 + 4);
+        this.markHuffman = (DynamicHuffman) this.huffman.clone();
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void reset() throws IOException {
@@ -278,18 +306,7 @@ public class PreLh1Decoder implements PreLzssDecoder{
         //BitInputStream �� IOException �𓊂���B
         this.in.reset();                                                        //throws IOException
 
-        this.huffman = (DynamicHuffman)this.markHuffman.clone();
-    }
-
-    /**
-     * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ���T�|�[�g���邩�𓾂�B<br>
-     * 
-     * @return �X�g���[���� mark() �� reset() ��
-     *         �T�|�[�g����ꍇ�� true�B<br>
-     *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
-     */
-    public boolean markSupported(){
-        return this.in.markSupported();
+        this.huffman = (DynamicHuffman) this.markHuffman.clone();
     }
 
 
@@ -301,36 +318,31 @@ public class PreLh1Decoder implements PreLzssDecoder{
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
+    /**
+     * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ���T�|�[�g���邩�𓾂�B<br>
+     *
+     * @return �X�g���[���� mark() �� reset() ��
+     *         �T�|�[�g����ꍇ�� true�B<br>
+     *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
+     */
+    public boolean markSupported() {
+        return this.in.markSupported();
+    }
+
     /**
      * �u���b�N�����ɓǂݏo�����Ƃ̏o����Œ�o�C�g���𓾂�B<br>
      * InputStream �� available() �ƈႢ�A
      * ���̍Œ�o�C�g���͕K�������ۏႳ��Ă��Ȃ����ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����Œ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PreLzssDecoder#available()
      */
     public int available() throws IOException {
-        return Math.max( this.in.availableBits() / 18 - 4, 0 );                 //throws IOException
-    }
-
-    /**
-     * ���̃X�g���[������A�g�p���Ă����S�Ă̎������������B
-     * 
-     * @exception IOException ���o�̓G���[�����������ꍇ
-     */
-    public void close() throws IOException {
-        this.in.close();                                                        //throws IOException
-
-        this.in             = null;
-        this.huffman        = null;
-        this.markHuffman    = null;
-
-        this.offHiLen       = null;
-        this.offHiTable     = null;
-        this.offHiTableBits = 0;
+        return Math.max(this.in.availableBits() / 18 - 4, 0);                 //throws IOException
     }
 
 
@@ -343,31 +355,40 @@ public class PreLh1Decoder implements PreLzssDecoder{
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
+    /**
+     * ���̃X�g���[������A�g�p���Ă����S�Ă̎������������B
+     *
+     * @exception IOException ���o�̓G���[�����������ꍇ
+     */
+    public void close() throws IOException {
+        this.in.close();                                                        //throws IOException
+
+        this.in = null;
+        this.huffman = null;
+        this.markHuffman = null;
+
+        this.offHiLen = null;
+        this.offHiTable = null;
+        this.offHiTableBits = 0;
+    }
+
     /**
      * -lh1-�`����LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return -lh1-�`����LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return PreLh1Decoder.DictionarySize;
     }
 
     /**
      * -lh1-�`����LZSS�̍ő��v���𓾂�B
-     * 
+     *
      * @return -lh1-�`����LZSS�̍ő��v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return PreLh1Decoder.MaxMatch;
-    }
-
-    /**
-     * -lh1-�`����LZSS�̈��k�A�񈳏k��臒l�𓾂�B
-     * 
-     * @return -lh1-�`����LZSS�̈��k�A�񈳏k��臒l
-     */
-    public int getThreshold(){
-        return PreLh1Decoder.Threshold;
     }
 
 
@@ -378,29 +399,14 @@ public class PreLh1Decoder implements PreLzssDecoder{
     //------------------------------------------------------------------
     //  private static int[] createLenList()
     //------------------------------------------------------------------
+
     /**
-     * -lh1- �� offset�f�R�[�h�pStaticHuffman��
-     * �n�t�}�����������X�g�𐶐�����B
-     * 
-     * @return -lh1- �� offset�f�R�[�h�pStaticHuffman��
-     *         �n�t�}�����������X�g
+     * -lh1-�`����LZSS�̈��k�A�񈳏k��臒l�𓾂�B
+     *
+     * @return -lh1-�`����LZSS�̈��k�A�񈳏k��臒l
      */
-    private static int[] createLenList(){
-        final int length = 64;
-        final int[] list = { 3, 0x01, 0x04, 0x0C, 0x18, 0x30, 0 };
-
-        int[] LenList = new int[ length ];
-        int index = 0;
-        int len = list[ index++ ];
-
-        for( int i = 0 ; i < length ; i++ ){
-            if( list[index] == i ){
-                len++;
-                index++;
-            }
-            LenList[i] = len;
-        }
-        return LenList;
+    public int getThreshold() {
+        return PreLh1Decoder.Threshold;
     }
 
 }

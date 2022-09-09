@@ -1,9 +1,10 @@
 # retro-io
+
 Java library and tool for reading and extracting floppy disk images of 8- and 16-bit computers
 
 ## Description
 
-The goal of this Java library is to allow to read, extract the contents of, and eventually also write various 
+The goal of this Java library is to allow to read, extract the contents of, and eventually also write various
 legacy floppy disk image formats of old 8- and 16-bit computer systems such as Commodore 64, Atari XL, ST or Amiga.
 
 Some of the actual image processing code might not be implemented in this project; it may use other, existing libraries
@@ -60,7 +61,6 @@ VirtualFile entry = ...
 byte[] fileContents = entry.getContents().array();
 ```
 
-
 ## Credits
 
 * https://github.com/waldheinz/fat32-lib - Great library for processing FAT images (DOS and Atari ST).
@@ -76,7 +76,7 @@ Currently supported disk image formats are:
 * Commodore Amiga (.ADF)
 * Commodore 64 (.D64)
 
-NOTE: Support may not be 100%; there may be compatibility issues with some images that 
+NOTE: Support may not be 100%; there may be compatibility issues with some images that
 still need to be ironed out.
 
 Planned for the future / currently looking into:
@@ -84,13 +84,12 @@ Planned for the future / currently looking into:
 * Atari XL (.ATR)
 * Commodore 64 Tapes (.T64)
 
-Future releases might include write support (at least for some formats). Of course any contributions to 
+Future releases might include write support (at least for some formats). Of course any contributions to
 include support for any missing retro system floppy format is welcome.
-
 
 ## Build
 
-This project requires Java 8 and Gradle to build it (I will probably add a Maven POM later too). 
+This project requires Java 8 and Gradle to build it (I will probably add a Maven POM later too).
 To just compile it and run all the tests, run
 
 ```

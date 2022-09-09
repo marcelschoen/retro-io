@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs.fat;
 
 /**
@@ -39,7 +39,7 @@ public enum FatType {
             final int b1 = data[idx] & 0xFF;
             final int b2 = data[idx + 1] & 0xFF;
             final int v = (b2 << 8) | b1;
-            
+
             if ((index % 2) == 0) {
                 return v & 0xFFF;
             } else {
@@ -50,7 +50,7 @@ public enum FatType {
         @Override
         void writeEntry(byte[] data, int index, long entry) {
             final int idx = (int) (index * 1.5);
-            
+
             if ((index % 2) == 0) {
                 data[idx] = (byte) (entry & 0xFF);
                 data[idx + 1] = (byte) ((entry >> 8) & 0x0F);
@@ -65,7 +65,7 @@ public enum FatType {
      * Represents a 16-bit file allocation table.
      */
     FAT16((1 << 16) - 16, 0xFFFFL, 2.0f, "FAT16   ") { //NOI18N
-        
+
         @Override
         long readEntry(byte[] data, int index) {
             final int idx = index << 1;
@@ -81,7 +81,7 @@ public enum FatType {
             data[idx + 1] = (byte) ((entry >> 8) & 0xFF);
         }
     },
-    
+
     /**
      * Represents a 32-bit file allocation table.
      */
@@ -117,8 +117,8 @@ public enum FatType {
     private final float entrySize;
 
     private FatType(int maxClusters,
-            long bitMask, float entrySize, String label) {
-        
+                    long bitMask, float entrySize, String label) {
+
         this.minReservedEntry = (0xFFFFFF0L & bitMask);
         this.maxReservedEntry = (0xFFFFFF6L & bitMask);
         this.eofCluster = (0xFFFFFF8L & bitMask);
@@ -141,7 +141,7 @@ public enum FatType {
     long maxClusters() {
         return this.maxClusters;
     }
-    
+
     /**
      * Returns the human-readable FAT name string as written to the
      * {@link BootSector}.
@@ -167,7 +167,7 @@ public enum FatType {
     float getEntrySize() {
         return entrySize;
     }
-    
+
     long getBitMask() {
         return bitMask;
     }

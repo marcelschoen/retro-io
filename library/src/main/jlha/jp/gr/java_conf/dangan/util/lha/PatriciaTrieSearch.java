@@ -3,19 +3,19 @@
 
 /**
  * PatriciaTrieSearch.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -41,7 +41,7 @@ import java.math.BigInteger;
 
 /**
  * PATRICIA Trie ���g�p���� LzssSearchMethod �̎����B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PatriciaTrieSearch.java,v $
@@ -67,11 +67,11 @@ import java.math.BigInteger;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.2 $
  */
-public class PatriciaTrieSearch implements LzssSearchMethod{
+public class PatriciaTrieSearch implements LzssSearchMethod {
 
 
     //------------------------------------------------------------------
@@ -180,10 +180,10 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
      * �����n�b�V���l������ ���̃m�[�h�̃m�[�h�ԍ��������B
      * next[ node ] �� node �Ɠ����n�b�V���l�������A
      * �A�����X�g���� node �̈���Ɉʒu����m�[�h�� node �ԍ��B
-     * 
+     *
      * �܂��A�t�łȂ��m�[�h�Ɋւ��Ă� next �� avail �� ���g�p�ȃm�[�h��
      * �X�^�b�N(������A�����X�g)���\������B
-     * 
+     *
      * ����ɁA���S��v�����������ߍ폜���ꂽ�t�m�[�h�ŁA
      * PATRICIA Trie ���ɑ��݂��Ă���t�m�[�h�ւ̈�����A�����X�g���\������B
      */
@@ -246,56 +246,58 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
     //  public PatriciaTreeSearch( int DictionarySize, int MaxMatch,
     //                             int Threshold, byte[] TextBuffer )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private PatriciaTrieSearch(){   }
+    private PatriciaTrieSearch() {
+    }
 
     /**
      * �R���X�g���N�^�B
      * PATRICIA Trie ���g�p���������@�\���\�z����B
-     * 
+     *
      * @param DictionarySize �����T�C�Y
      * @param MaxMatch       �Œ���v��
      * @param Threshold      ���k�A�񈳏k��臒l
      * @param TextBuffer     LZSS���k���{�����߂̃o�b�t�@
      */
-    public PatriciaTrieSearch( int    DictionarySize,
-                               int    MaxMatch,
-                               int    Threshold,
-                               byte[] TextBuffer ){
+    public PatriciaTrieSearch(int DictionarySize,
+                              int MaxMatch,
+                              int Threshold,
+                              byte[] TextBuffer) {
 
-        this.DictionarySize  = DictionarySize;
-        this.MaxMatch        = MaxMatch;
-        this.Threshold       = Threshold;
-        this.TextBuffer      = TextBuffer;
+        this.DictionarySize = DictionarySize;
+        this.MaxMatch = MaxMatch;
+        this.Threshold = Threshold;
+        this.TextBuffer = TextBuffer;
         this.DictionaryLimit = this.DictionarySize;
 
-        this.parent          = new int[ this.DictionarySize * 2 ];
-        this.prev            = new int[ this.DictionarySize * 2 ];
-        this.next            = new int[ this.DictionarySize * 2 ];
-        this.position        = new int[ this.DictionarySize ];
-        this.level           = new int[ this.DictionarySize ];
-        this.childnum        = new int[ this.DictionarySize ];
-        this.hashTable       = new int[ 
-                PatriciaTrieSearch.generateProbablePrime( 
-                        this.DictionarySize + ( this.DictionarySize >> 2 ) ) ];
+        this.parent = new int[this.DictionarySize * 2];
+        this.prev = new int[this.DictionarySize * 2];
+        this.next = new int[this.DictionarySize * 2];
+        this.position = new int[this.DictionarySize];
+        this.level = new int[this.DictionarySize];
+        this.childnum = new int[this.DictionarySize];
+        this.hashTable = new int[
+                PatriciaTrieSearch.generateProbablePrime(
+                        this.DictionarySize + (this.DictionarySize >> 2))];
 
-        for( int i = 2 ; i < this.DictionarySize ; i++ ){
+        for (int i = 2; i < this.DictionarySize; i++) {
             this.next[i] = i - 1;
         }
         this.avail = this.DictionarySize - 1;
 
-        for( int i = 0 ; i < this.DictionarySize * 2 ; i++ ){
-            this.parent[ i ]    = PatriciaTrieSearch.UNUSED;
+        for (int i = 0; i < this.DictionarySize * 2; i++) {
+            this.parent[i] = PatriciaTrieSearch.UNUSED;
         }
 
-        for( int i = 0 ; i < this.hashTable.length ; i++ ){
-            this.hashTable[ i ] = PatriciaTrieSearch.UNUSED;
+        for (int i = 0; i < this.hashTable.length; i++) {
+            this.hashTable[i] = PatriciaTrieSearch.UNUSED;
         }
 
-        this.shift = Bits.len( this.DictionarySize ) - 8;
+        this.shift = Bits.len(this.DictionarySize) - 8;
 
         this.lastMatchLen = 0;
         this.lastMatchPos = 0;
@@ -311,110 +313,131 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
     //  public void slide( int slideWidth, int slideEnd )
     //  public int putRequires()
     //------------------------------------------------------------------
+
+    /**
+     * num �ȏ�̍ł������� �f��(�������͋[���f��)�𐶐�����B
+     * �߂�l�� �f���łȂ��m���� 1/256 �ȉ��ł���B
+     *
+     * @param num ���̒l�ȏ�̑f���𐶐�����B
+     *
+     * @return �������ꂽ�f��(�������͋[���f��)
+     */
+    private static int generateProbablePrime(int num) {
+        num = num + ((num & 1) == 0 ? 1 : 0);
+
+        while (!(new BigInteger(Integer.toString(num))).isProbablePrime(8)) {
+            num += 2;
+            num = num + ((num % 3) == 0 ? 2 : 0);
+            num = num + ((num % 5) == 0 ? 2 : 0);
+            num = num + ((num % 7) == 0 ? 2 : 0);
+        }
+        return num;
+    }
+
     /**
      * position ����n�܂�f�[�^�p�^����
      * PATRICIA Trie �ɓo�^����B<br>
-     * 
+     *
      * @param position TextBuffer���̃f�[�^�p�^���̊J�n�ʒu
      */
-    public void put( int position ){
+    public void put(int position) {
 
         //------------------------------------------------------------------
         //  PATRICIA Trie ����ł��Â��f�[�^�p�^�����폜
-        int posnode = ( position & ( this.DictionarySize - 1 ) ) + this.DictionarySize;
-        this.deleteNode( posnode );
+        int posnode = (position & (this.DictionarySize - 1)) + this.DictionarySize;
+        this.deleteNode(posnode);
 
         //------------------------------------------------------------------
         //  PATRICIA Trie ����Œ���v������
         int matchnode = -1;
-        int matchpos  = position;
+        int matchpos = position;
         int scannode;
         int matchlen;
-        if( 3 < this.lastMatchLen ){
+        if (3 < this.lastMatchLen) {
 
             //�O��̈�v����臒l���傫����΁A
             //�t���� lastMatchLen - 1 �̈�v����������B
-            scannode  = ( this.lastMatchPos + 1 ) | this.DictionarySize;
+            scannode = (this.lastMatchPos + 1) | this.DictionarySize;
 
-            //�Œ���v�����������߂� scannode �� 
+            //�Œ���v�����������߂� scannode ��
             //PATRICIA Trie �����菜����Ă���ꍇ�̏���
-            while( this.parent[ scannode ] == PatriciaTrieSearch.UNUSED ){
-                scannode = this.next[ scannode ];
+            while (this.parent[scannode] == PatriciaTrieSearch.UNUSED) {
+                scannode = this.next[scannode];
             }
 
             //�t���� ���Ԃɐe�ւƒH����
             //lastMatchLen - 1 �ȉ��� level �����m�[�h��T���B
-            int node  = this.parent[ scannode ];
+            int node = this.parent[scannode];
             this.lastMatchLen--;
-            while( 0 < node 
-                && this.lastMatchLen <= this.level[ node ] ){
+            while (0 < node
+                    && this.lastMatchLen <= this.level[node]) {
                 scannode = node;
-                node = this.parent[ node ];
+                node = this.parent[node];
             }
 
             //����ɐe�ւƒH���� position ���X�V���Ă����B
-            while( 0 < node  ){
-                this.position[ node ] = position;
-                node = this.parent[ node ];
+            while (0 < node) {
+                this.position[node] = position;
+                node = this.parent[node];
             }
 
-            matchlen  = this.lastMatchLen;
-        }else{
+            matchlen = this.lastMatchLen;
+        } else {
 
             //PATRICIA Trie �� ������H��B
-            scannode  = this.child( this.TextBuffer[ position ] - 128, 
-                                    this.TextBuffer[ position + 1 ] & 0xFF );
-            matchlen  = 2;
+            scannode = this.child(this.TextBuffer[position] - 128,
+                    this.TextBuffer[position + 1] & 0xFF);
+            matchlen = 2;
 
-            if( scannode == PatriciaTrieSearch.UNUSED ){
+            if (scannode == PatriciaTrieSearch.UNUSED) {
                 //���� position ��ǉ�����B
-                this.attachNode( this.TextBuffer[ position ] - 128, posnode, 
-                                 this.TextBuffer[ position + 1 ] & 0xFF );
+                this.attachNode(this.TextBuffer[position] - 128, posnode,
+                        this.TextBuffer[position + 1] & 0xFF);
                 this.lastMatchLen = matchlen;
                 return;
             }
         }
 
-        while( true ){
+        while (true) {
             int max;
-            if( scannode < this.DictionarySize ){
-                max       = this.level[ scannode ];
+            if (scannode < this.DictionarySize) {
+                max = this.level[scannode];
                 matchnode = scannode;
-                matchpos  = this.position[ scannode ];
-            }else{
-                max       = this.MaxMatch;
+                matchpos = this.position[scannode];
+            } else {
+                max = this.MaxMatch;
                 matchnode = scannode;
-                matchpos  = ( position <= scannode
-                            ? scannode - this.DictionarySize
-                            : scannode );
+                matchpos = (position <= scannode
+                        ? scannode - this.DictionarySize
+                        : scannode);
             }
 
-            while( matchlen < max
-                && ( this.TextBuffer[ matchpos + matchlen ] 
-                  == this.TextBuffer[ position + matchlen ] ) ){
+            while (matchlen < max
+                    && (this.TextBuffer[matchpos + matchlen]
+                    == this.TextBuffer[position + matchlen])) {
                 matchlen++;
             }
 
-            if( matchlen == max && matchlen < this.MaxMatch ){
-                this.position[ scannode ] = position;
-                scannode = this.child( scannode, 
-                                       this.TextBuffer[ position + matchlen ] & 0xFF );
+            if (matchlen == max && matchlen < this.MaxMatch) {
+                this.position[scannode] = position;
+                scannode = this.child(scannode,
+                        this.TextBuffer[position + matchlen] & 0xFF);
 
-                if( scannode == PatriciaTrieSearch.UNUSED ){
-                    this.attachNode( matchnode, posnode, 
-                                     this.TextBuffer[ position + matchlen ] & 0xFF );
+                if (scannode == PatriciaTrieSearch.UNUSED) {
+                    this.attachNode(matchnode, posnode,
+                            this.TextBuffer[position + matchlen] & 0xFF);
                     break;
-                }else{
+                } else {
                     matchlen++;
                 }
-            }else if( matchlen < max ){
+            } else if (matchlen < max) {
                 //matchnode �� position �𕪊򂳂���B
-                this.splitNode( matchnode, matchpos, posnode, position, matchlen );
+                this.splitNode(matchnode, matchpos, posnode, position, matchlen);
                 break;
-            }else{
+            } else {
                 //���S��v�𔭌��A�m�[�h��u��������B
-                this.replaceNode( matchnode, posnode );
-                this.next[ matchnode ] = position;
+                this.replaceNode(matchnode, posnode);
+                this.next[matchnode] = position;
                 break;
             }
         }
@@ -425,122 +448,122 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
     }
 
     /**
-     * PATRICIA Trie �ɓo�^���ꂽ�f�[�^�p�^������ 
+     * PATRICIA Trie �ɓo�^���ꂽ�f�[�^�p�^������
      * position ����n�܂�f�[�^�p�^����
      * �Œ��̈�v�������̂��������A
-     * ������ position ����n�܂�f�[�^�p�^���� 
+     * ������ position ����n�܂�f�[�^�p�^����
      * PATRICIA Trie �ɓo�^����B<br>
-     * 
+     *
      * @param position TextBuffer���̃f�[�^�p�^���̊J�n�ʒu�B
-     * 
+     *
      * @return ��v�����������ꍇ��
-     *         LzssOutputStream.createSearchReturn 
+     *         LzssOutputStream.createSearchReturn
      *         �ɂ���Đ������ꂽ��v�ʒu�ƈ�v���̏������l�A
      *         ��v��������Ȃ������ꍇ��
      *         LzssOutputStream.NOMATCH�B
-     * 
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     *
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public int searchAndPut( int position ){
+    public int searchAndPut(int position) {
 
         //------------------------------------------------------------------
         //  PATRICIA Trie ����ł��Â��f�[�^�p�^�����폜
-        int posnode = ( position & ( this.DictionarySize - 1 ) ) + this.DictionarySize;
-        this.deleteNode( posnode );
+        int posnode = (position & (this.DictionarySize - 1)) + this.DictionarySize;
+        this.deleteNode(posnode);
 
         //------------------------------------------------------------------
         //  PATRICIA Trie ����Œ���v������
         int matchnode = -1;
-        int matchpos  = position;
-        int scannode  = 0;
-        int matchlen  = 0;
-        if( 3 < this.lastMatchLen ){
+        int matchpos = position;
+        int scannode = 0;
+        int matchlen = 0;
+        if (3 < this.lastMatchLen) {
 
             //�O��̈�v����臒l���傫����΁A
             //�t���� lastMatchLen - 1 �̈�v����������B
-            scannode  = ( this.lastMatchPos + 1 ) | this.DictionarySize;
+            scannode = (this.lastMatchPos + 1) | this.DictionarySize;
 
-            //�Œ���v�����������߂� scannode �� 
+            //�Œ���v�����������߂� scannode ��
             //PATRICIA Trie �����菜����Ă���ꍇ�̏���
-            while( this.parent[ scannode ] == PatriciaTrieSearch.UNUSED ){
-                scannode = this.next[ scannode ];
+            while (this.parent[scannode] == PatriciaTrieSearch.UNUSED) {
+                scannode = this.next[scannode];
             }
 
             //�t���� ���Ԃɐe�ւƒH����
             //lastMatchLen - 1 �ȉ��� level �����m�[�h��T���B
-            int node  = this.parent[ scannode ];
+            int node = this.parent[scannode];
             this.lastMatchLen--;
-            while( 0 < node 
-                && this.lastMatchLen <= this.level[ node ] ){
+            while (0 < node
+                    && this.lastMatchLen <= this.level[node]) {
                 scannode = node;
-                node = this.parent[ node ];
+                node = this.parent[node];
             }
 
             //����ɐe�ւƒH���� position ���X�V���Ă����B
-            while( 0 < node  ){
-                this.position[ node ] = position;
-                node = this.parent[ node ];
+            while (0 < node) {
+                this.position[node] = position;
+                node = this.parent[node];
             }
 
-            matchlen  = this.lastMatchLen;
-        }else{
+            matchlen = this.lastMatchLen;
+        } else {
             //PATRICIA Trie �� ������H��B
-            scannode  = this.child( this.TextBuffer[ position ] - 128, 
-                                    this.TextBuffer[ position + 1 ] & 0xFF );
-            matchlen  = 2;
+            scannode = this.child(this.TextBuffer[position] - 128,
+                    this.TextBuffer[position + 1] & 0xFF);
+            matchlen = 2;
         }
 
         // scannode == UNUSED �ƂȂ�̂� lastMatchLen ��臒l��菬�����Ƃ��̂݁B
-        if( scannode != PatriciaTrieSearch.UNUSED ){
-            while( true ){
+        if (scannode != PatriciaTrieSearch.UNUSED) {
+            while (true) {
                 int max;
-                if( scannode < this.DictionarySize ){
-                    max       = this.level[ scannode ];
+                if (scannode < this.DictionarySize) {
+                    max = this.level[scannode];
                     matchnode = scannode;
-                    matchpos  = this.position[ scannode ];
-                }else{
-                    max       = this.MaxMatch;
+                    matchpos = this.position[scannode];
+                } else {
+                    max = this.MaxMatch;
                     matchnode = scannode;
-                    matchpos  = ( position <= scannode
-                                ? scannode - this.DictionarySize
-                                : scannode );
+                    matchpos = (position <= scannode
+                            ? scannode - this.DictionarySize
+                            : scannode);
                 }
 
-                while( matchlen < max
-                    && ( this.TextBuffer[ matchpos + matchlen ] 
-                      == this.TextBuffer[ position + matchlen ] ) ){
+                while (matchlen < max
+                        && (this.TextBuffer[matchpos + matchlen]
+                        == this.TextBuffer[position + matchlen])) {
                     matchlen++;
                 }
 
-                if( matchlen == max && matchlen < this.MaxMatch ){
-                    this.position[ scannode ] = position;
-                    scannode = this.child( scannode, 
-                                           this.TextBuffer[ position + matchlen ] & 0xFF );
+                if (matchlen == max && matchlen < this.MaxMatch) {
+                    this.position[scannode] = position;
+                    scannode = this.child(scannode,
+                            this.TextBuffer[position + matchlen] & 0xFF);
 
-                    if( scannode == PatriciaTrieSearch.UNUSED ){
+                    if (scannode == PatriciaTrieSearch.UNUSED) {
                         //matchnode �� position ��ǉ�����B
-                        this.attachNode( matchnode, posnode, 
-                                         this.TextBuffer[ position + matchlen ] & 0xFF );
+                        this.attachNode(matchnode, posnode,
+                                this.TextBuffer[position + matchlen] & 0xFF);
                         break;
-                    }else{
+                    } else {
                         matchlen++;
                     }
-                }else if( matchlen < max ){
+                } else if (matchlen < max) {
                     //matchnode �� position �𕪊򂳂���B
-                    this.splitNode( matchnode, matchpos, posnode, position, matchlen );
+                    this.splitNode(matchnode, matchpos, posnode, position, matchlen);
                     break;
-                }else{
+                } else {
                     //���S��v�𔭌��A�m�[�h��u��������B
-                    this.replaceNode( matchnode, posnode );
-                    this.next[ matchnode ] = position;
+                    this.replaceNode(matchnode, posnode);
+                    this.next[matchnode] = position;
                     break;
                 }
             }
-        }else{ //if( scannode != PatriciaTrieSearch.UNUSED )
+        } else { //if( scannode != PatriciaTrieSearch.UNUSED )
             //���� position ��ǉ�����B
-            this.attachNode( this.TextBuffer[ position ] - 128, posnode, 
-                             this.TextBuffer[ position + 1 ] & 0xFF );
+            this.attachNode(this.TextBuffer[position] - 128, posnode,
+                    this.TextBuffer[position + 1] & 0xFF);
             matchlen = 0;
         }
 
@@ -552,13 +575,13 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
         //------------------------------------------------------------------
         //  ���\�b�h�擪�� PATRICIA Trie ����폜�����f�[�^�p�^�����`�F�b�N����B
         scannode = position - this.DictionarySize;
-        if( this.DictionaryLimit <= scannode ){
+        if (this.DictionaryLimit <= scannode) {
             int len = 0;
-            while( this.TextBuffer[ scannode + len ]
-                == this.TextBuffer[ position + len ] )
-                if( this.MaxMatch <= ++len ) break;
+            while (this.TextBuffer[scannode + len]
+                    == this.TextBuffer[position + len])
+                if (this.MaxMatch <= ++len) break;
 
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scannode;
                 matchlen = len;
             }
@@ -566,9 +589,9 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
 
         //------------------------------------------------------------------
         //  �Œ���v���Ăяo�����ɕԂ��B
-        if( this.Threshold <= matchlen ){
-            return LzssOutputStream.createSearchReturn( matchlen, matchpos );
-        }else{
+        if (this.Threshold <= matchlen) {
+            return LzssOutputStream.createSearchReturn(matchlen, matchpos);
+        } else {
             return LzssOutputStream.NOMATCH;
         }
     }
@@ -577,49 +600,49 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
      * PATRICIA Trie �ɓo�^���ꂽ�f�[�^�p�^����������
      * position ����n�܂�f�[�^�p�^����
      * �Œ��̈�v�������̂𓾂�B<br>
-     * 
+     *
      * @param position   TextBuffer���̃f�[�^�p�^���̊J�n�ʒu�B
      * @param lastPutPos �Ō�ɓo�^�����f�[�^�p�^���̊J�n�ʒu�B
-     * 
+     *
      * @return ��v�����������ꍇ��
-     *         LzssOutputStream.createSearchReturn 
+     *         LzssOutputStream.createSearchReturn
      *         �ɂ���Đ������ꂽ��v�ʒu�ƈ�v���̏������l�A
      *         ��v��������Ȃ������ꍇ��
      *         LzssOutputStream.NOMATCH�B
-     * 
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     *
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public int search( int position, int lastPutPos ){
+    public int search(int position, int lastPutPos) {
 
         //------------------------------------------------------------------
         //  PATRICIA Trie �ɓo�^����Ă��Ȃ��f�[�^�p�^����
         //  �P���Ȓ��������Ō�������B
-        int scanlimit = Math.max( this.DictionaryLimit, lastPutPos );
-        int scanpos   = position - 1;
-        int matchlen  = 0;
-        int matchpos  = 0;
+        int scanlimit = Math.max(this.DictionaryLimit, lastPutPos);
+        int scanpos = position - 1;
+        int matchlen = 0;
+        int matchpos = 0;
 
-        byte[] buf    = this.TextBuffer;
-        int max       = Math.min( this.TextBuffer.length,
-                                  position + this.MaxMatch );
-        int s         = 0;
-        int p         = 0;
-        int len       = 0;
-        while( scanlimit < scanpos ){
+        byte[] buf = this.TextBuffer;
+        int max = Math.min(this.TextBuffer.length,
+                position + this.MaxMatch);
+        int s = 0;
+        int p = 0;
+        int len = 0;
+        while (scanlimit < scanpos) {
             s = scanpos;
             p = position;
-            while( buf[ s ] == buf[ p ] ){
+            while (buf[s] == buf[p]) {
                 s++;
                 p++;
-                if( max <= p ) break;
+                if (max <= p) break;
             }
 
             len = p - position;
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scanpos;
                 matchlen = len;
-                if( max <= p ) break;
+                if (max <= p) break;
             }
             scanpos--;
         }
@@ -627,58 +650,58 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
 
         //------------------------------------------------------------------
         //  PATRICIA Trie ��T��
-        if( 2 < this.TextBuffer.length - position  ){
-            int matchnode = this.child( this.TextBuffer[ position ] - 128, 
-                                        this.TextBuffer[ position + 1 ] & 0xFF );
-            scanlimit = Math.max( this.DictionaryLimit, 
-                                  position - this.DictionarySize );
-            len       = 2;
-            while( matchnode != PatriciaTrieSearch.UNUSED ){
+        if (2 < this.TextBuffer.length - position) {
+            int matchnode = this.child(this.TextBuffer[position] - 128,
+                    this.TextBuffer[position + 1] & 0xFF);
+            scanlimit = Math.max(this.DictionaryLimit,
+                    position - this.DictionarySize);
+            len = 2;
+            while (matchnode != PatriciaTrieSearch.UNUSED) {
                 int maxlen;
-                if( matchnode < this.DictionarySize ){
-                    maxlen  = this.level[ matchnode ];
-                    scanpos = this.position[ matchnode ];
-                }else{
-                    maxlen  = this.MaxMatch;
-                    scanpos = ( lastPutPos < matchnode
-                              ? matchnode - this.DictionarySize
-                              : matchnode );
+                if (matchnode < this.DictionarySize) {
+                    maxlen = this.level[matchnode];
+                    scanpos = this.position[matchnode];
+                } else {
+                    maxlen = this.MaxMatch;
+                    scanpos = (lastPutPos < matchnode
+                            ? matchnode - this.DictionarySize
+                            : matchnode);
                 }
 
-                if( scanlimit <= scanpos ){
-                    max = Math.min( this.TextBuffer.length,
-                                    position + maxlen );
-                    s   = scanpos  + len;
-                    p   = position + len;
-                    if( p < max ){
-                        while( buf[ s ] == buf[ p ] ){
+                if (scanlimit <= scanpos) {
+                    max = Math.min(this.TextBuffer.length,
+                            position + maxlen);
+                    s = scanpos + len;
+                    p = position + len;
+                    if (p < max) {
+                        while (buf[s] == buf[p]) {
                             s++;
                             p++;
-                            if( max <= p ) break;
+                            if (max <= p) break;
                         }
                     }
 
                     len = p - position;
-                    if( matchlen < len ){
+                    if (matchlen < len) {
                         matchpos = scanpos;
                         matchlen = len;
                     }
 
-                    if( len == maxlen && matchlen < this.MaxMatch ){
-                        if( position + len < this.TextBuffer.length ){
-                            matchnode = this.child( matchnode, 
-                                                    this.TextBuffer[ position + len ] & 0xFF );
+                    if (len == maxlen && matchlen < this.MaxMatch) {
+                        if (position + len < this.TextBuffer.length) {
+                            matchnode = this.child(matchnode,
+                                    this.TextBuffer[position + len] & 0xFF);
 
-                            if( matchnode != PatriciaTrieSearch.UNUSED ){
+                            if (matchnode != PatriciaTrieSearch.UNUSED) {
                                 len++;
                             }
-                        }else{
+                        } else {
                             break;
                         }
-                    }else{  //maxlen �ɖ����Ȃ���v������������ ���S��v����������
+                    } else {  //maxlen �ɖ����Ȃ���v������������ ���S��v����������
                         break;
                     }
-                }else{ //if( scanlimit <= scanpos ) ��v�����p�^���͌������E�𒴂��Ă����B
+                } else { //if( scanlimit <= scanpos ) ��v�����p�^���͌������E�𒴂��Ă����B
                     break;
                 }
             }   //while( matchnode != PatriciaTrieSearch.UNUSED )
@@ -687,9 +710,9 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
 
         //------------------------------------------------------------------
         //  �Œ���v���Ăяo�����ɕԂ��B
-        if( this.Threshold <= matchlen ){
-            return LzssOutputStream.createSearchReturn( matchlen, matchpos );
-        }else{
+        if (this.Threshold <= matchlen) {
+            return LzssOutputStream.createSearchReturn(matchlen, matchpos);
+        } else {
             return LzssOutputStream.NOMATCH;
         }
     }
@@ -698,32 +721,21 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
      * TextBuffer����position�܂ł̃f�[�^��
      * �O���ֈړ�����ہA����ɉ����� LzssSearchMethod
      * ���̃f�[�^�� TextBuffer���̃f�[�^�Ɩ������Ȃ���
-     * ���ɑO���ֈړ����鏈�����s���B 
+     * ���ɑO���ֈړ����鏈�����s���B
      */
-    public void slide(){
-        this.DictionaryLimit = Math.max( 0, this.DictionaryLimit - this.DictionarySize );
-        this.lastMatchPos   -= this.DictionarySize;
+    public void slide() {
+        this.DictionaryLimit = Math.max(0, this.DictionaryLimit - this.DictionarySize);
+        this.lastMatchPos -= this.DictionarySize;
 
-        for( int i = 0 ; i < this.position.length ; i++ ){
+        for (int i = 0; i < this.position.length; i++) {
             int pos = this.position[i] - this.DictionarySize;
-            if( 0 < pos ){
+            if (0 < pos) {
                 this.position[i] = pos;
-            }else{
+            } else {
                 this.position[i] = 0;
             }
         }
     }
-
-    /**
-     * put() �� LzssSearchMethod�Ƀf�[�^��
-     * �o�^����Ƃ��Ɏg�p�����f�[�^�ʂ𓾂�B
-     * PatriciaTrieSearch �ł́A��� MaxMatch ��Ԃ��B
-     * 
-     * @return ��� MaxMatch
-     */
-    public int putRequires(){
-        return this.MaxMatch;
-    } 
 
     //------------------------------------------------------------------
     //  local method
@@ -736,65 +748,76 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
     //  private void replaceNode( int oldnode, int newnode )
     //  private void contractNode( int node )
     //------------------------------------------------------------------
+
+    /**
+     * put() �� LzssSearchMethod�Ƀf�[�^��
+     * �o�^����Ƃ��Ɏg�p�����f�[�^�ʂ𓾂�B
+     * PatriciaTrieSearch �ł́A��� MaxMatch ��Ԃ��B
+     *
+     * @return ��� MaxMatch
+     */
+    public int putRequires() {
+        return this.MaxMatch;
+    }
+
     /**
      * oldnode �� splitLen �ŕ��򂳂���B
      * oldnode �̂������ʒu�ɂ͐V�����m�[�h���V�݂���A
      * �V�����m�[�h�� oldnode �� position ���q�Ɏ��B
-     * 
-     * @param oldnode  ���򂳂���m�[�h 
+     *
+     * @param oldnode  ���򂳂���m�[�h
      * @param oldpos   oldnode ���w���f�[�^�p�^���̊J�n�ʒu
      * @param posnode  position �p�m�[�h
      * @param position TextBuffer ���̃f�[�^�p�^���̊J�n�ʒu
      * @param splitLen �f�[�^�p�^�����̕���ʒu
      */
-    private void splitNode( int oldnode, int oldpos, int posnode, int position, int splitLen ){
+    private void splitNode(int oldnode, int oldpos, int posnode, int position, int splitLen) {
         //�X�^�b�N���� �V�����m�[�h���擾����B
         int newnode = this.avail;
-        this.avail  = this.next[ newnode ];
+        this.avail = this.next[newnode];
 
-        this.replaceNode( oldnode, newnode );
-        this.level[ newnode ]     = splitLen;
-        this.position[ newnode ]  = position;
-        this.childnum[ newnode ]  = 0;
+        this.replaceNode(oldnode, newnode);
+        this.level[newnode] = splitLen;
+        this.position[newnode] = position;
+        this.childnum[newnode] = 0;
 
-        this.attachNode( newnode, oldnode,  
-                         this.TextBuffer[ oldpos   + splitLen ] & 0xFF );
-        this.attachNode( newnode, posnode, 
-                         this.TextBuffer[ position + splitLen ] & 0xFF );
+        this.attachNode(newnode, oldnode,
+                this.TextBuffer[oldpos + splitLen] & 0xFF);
+        this.attachNode(newnode, posnode,
+                this.TextBuffer[position + splitLen] & 0xFF);
     }
-
 
     /**
      * PATRICIA Trie ����t�ł��� node ���폜����B
      * �K�v�ł���� node �̐e�m�[�h�̌J�グ�������s���B
-     * 
+     *
      * @param node �폜����t�m�[�h
      */
-    private void deleteNode( int node ){
-        if( this.parent[ node ] != PatriciaTrieSearch.UNUSED ){
-            int parent = this.parent[ node ];
-            int prev   = this.prev[ node ];
-            int next   = this.next[ node ];
+    private void deleteNode(int node) {
+        if (this.parent[node] != PatriciaTrieSearch.UNUSED) {
+            int parent = this.parent[node];
+            int prev = this.prev[node];
+            int next = this.next[node];
 
-            this.parent[ node ] = PatriciaTrieSearch.UNUSED;
-            this.prev[ node ]   = PatriciaTrieSearch.UNUSED;
-            this.next[ node ]   = PatriciaTrieSearch.UNUSED;
+            this.parent[node] = PatriciaTrieSearch.UNUSED;
+            this.prev[node] = PatriciaTrieSearch.UNUSED;
+            this.next[node] = PatriciaTrieSearch.UNUSED;
 
-            if( 0 <= prev ){
-                this.next[ prev ]       = next;
-            }else{
-                this.hashTable[ ~prev ] = next;
+            if (0 <= prev) {
+                this.next[prev] = next;
+            } else {
+                this.hashTable[~prev] = next;
             }
-            this.prev[ next ] = prev;
+            this.prev[next] = prev;
 
-            if( 0 < parent ){ //parent �� PATRICIA Trie �̍��Ŗ����ꍇ true �ƂȂ������
-                this.childnum[ parent ]--;
+            if (0 < parent) { //parent �� PATRICIA Trie �̍��Ŗ����ꍇ true �ƂȂ������
+                this.childnum[parent]--;
 
-                if( this.childnum[ parent ] <= 1 ){
-                    this.contractNode( this.child( parent,
-                                        this.TextBuffer[ this.position[ parent ]
-                                                        + this.level[ parent ] ]
-                                        & 0xFF ) );
+                if (this.childnum[parent] <= 1) {
+                    this.contractNode(this.child(parent,
+                            this.TextBuffer[this.position[parent]
+                                    + this.level[parent]]
+                                    & 0xFF));
                 }
             }
         }
@@ -802,23 +825,23 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
 
     /**
      * parentnode �� childnode ��ǉ�����B
-     * 
+     *
      * @param parentnode childnode ��ǉ�����Ώۂ̐e�m�[�h
      * @param childnode  parentnode �ɒǉ�����m�[�h
      * @param pos        TextBuffer�����ݏ����ʒu�B
      *                   �t�� position ���m�肷�邽�߂Ɏg�p�����B
      */
-    private void attachNode( int parentnode, int childnode, int ch ){
-        int hash                 = this.hash( parentnode, ch );
-        int node                 = this.hashTable[ hash ];
-        this.hashTable[ hash ]   = childnode;
-        this.parent[ childnode ] = parentnode;
-        this.prev[ childnode ]   = ~hash;
-        this.next[ childnode ]   = node;
-        this.prev[ node ]        = childnode;
+    private void attachNode(int parentnode, int childnode, int ch) {
+        int hash = this.hash(parentnode, ch);
+        int node = this.hashTable[hash];
+        this.hashTable[hash] = childnode;
+        this.parent[childnode] = parentnode;
+        this.prev[childnode] = ~hash;
+        this.next[childnode] = node;
+        this.prev[node] = childnode;
 
-        if( 0 < parentnode ){
-            this.childnum[ parentnode ]++;
+        if (0 < parentnode) {
+            this.childnum[parentnode]++;
         }
     }
 
@@ -826,50 +849,26 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
      * oldnode �� newnode �����ւ���B
      * newnode �͎q�m�[�h�Ƃ̊֌W��ێ�����B
      * oldnode �͒u���������� PATRICIA Trie �����菜�����B
-     * 
+     *
      * @param oldnode ����ւ����� Trie ����폜�����m�[�h
      * @param newnode oldnode �̂������ʒu�֐ڑ������m�[�h
      */
-    private void replaceNode( int oldnode, int newnode ){
-        this.parent[ newnode ]   = this.parent[ oldnode ];
-        this.prev[ newnode ]     = this.prev[ oldnode ];
-        this.next[ newnode ]     = this.next[ oldnode ];
+    private void replaceNode(int oldnode, int newnode) {
+        this.parent[newnode] = this.parent[oldnode];
+        this.prev[newnode] = this.prev[oldnode];
+        this.next[newnode] = this.next[oldnode];
 
-        this.prev[ this.next[ newnode ] ] = newnode;
+        this.prev[this.next[newnode]] = newnode;
 
-        if( this.prev[ newnode ] < 0 ){
-            this.hashTable[ ~this.prev[ newnode ] ] = newnode;
-        }else{
-            this.next[ this.prev[ newnode ] ]       = newnode;
+        if (this.prev[newnode] < 0) {
+            this.hashTable[~this.prev[newnode]] = newnode;
+        } else {
+            this.next[this.prev[newnode]] = newnode;
         }
 
-        this.parent[ oldnode ] = PatriciaTrieSearch.UNUSED;
-        this.prev[ oldnode ]   = PatriciaTrieSearch.UNUSED;
-        this.next[ oldnode ]   = PatriciaTrieSearch.UNUSED;
-    }
-
-    /**
-     * �Z��̖����Ȃ��� node �������グ��B
-     * node �̐e�m�[�h�� PATRICIA Trie ����폜����A
-     * ����� node �����̈ʒu�ɐڑ������B
-     * �Z�킪�������ǂ����� ����͌Ăяo�������s���B
-     * 
-     * @param node �����グ��m�[�h
-     */
-    private void contractNode( int node ){
-        int parentnode    = this.parent[ node ];
-
-        this.prev[ this.next[ node ] ] = this.prev[ node ];
-        if( 0 <= this.prev[ node ] ){
-            this.next[ this.prev[ node ] ]        = this.next[ node ];
-        }else{
-            this.hashTable[ ~ this.prev[ node ] ] = this.next[ node ];
-        }
-        this.replaceNode( parentnode, node );
-
-        //�g�p����Ȃ��Ȃ��� parentnode ���X�^�b�N�ɕԊ҂���B
-        this.next[ parentnode ] = this.avail;
-        this.avail              = parentnode;
+        this.parent[oldnode] = PatriciaTrieSearch.UNUSED;
+        this.prev[oldnode] = PatriciaTrieSearch.UNUSED;
+        this.next[oldnode] = PatriciaTrieSearch.UNUSED;
     }
 
 
@@ -882,60 +881,73 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
     //  private int child( int parent, int ch )
     //  private int hash( int node, int ch )
     //------------------------------------------------------------------
+
+    /**
+     * �Z��̖����Ȃ��� node �������グ��B
+     * node �̐e�m�[�h�� PATRICIA Trie ����폜����A
+     * ����� node �����̈ʒu�ɐڑ������B
+     * �Z�킪�������ǂ����� ����͌Ăяo�������s���B
+     *
+     * @param node �����グ��m�[�h
+     */
+    private void contractNode(int node) {
+        int parentnode = this.parent[node];
+
+        this.prev[this.next[node]] = this.prev[node];
+        if (0 <= this.prev[node]) {
+            this.next[this.prev[node]] = this.next[node];
+        } else {
+            this.hashTable[~this.prev[node]] = this.next[node];
+        }
+        this.replaceNode(parentnode, node);
+
+        //�g�p����Ȃ��Ȃ��� parentnode ���X�^�b�N�ɕԊ҂���B
+        this.next[parentnode] = this.avail;
+        this.avail = parentnode;
+    }
+
     /**
      * slide ���� Trie �̊e�v�f���ړ������鏈�����s���B
-     * 
+     *
      * @param src   �ړ���
      * @param dst   �ړ���
      * @param width �ړ���
      */
-    private void slideTree( int[] src, int[] dst, int width ){
-        for( int i = 0 ; i < this.DictionarySize ; i++ )
-            dst[i] = ( src[ i ] < this.DictionarySize
-                     ? src[ i ]
-                     : ( ( src[ i ] - width ) & ( this.DictionarySize - 1 ) ) 
-                         + this.DictionarySize );
+    private void slideTree(int[] src, int[] dst, int width) {
+        for (int i = 0; i < this.DictionarySize; i++)
+            dst[i] = (src[i] < this.DictionarySize
+                    ? src[i]
+                    : ((src[i] - width) & (this.DictionarySize - 1))
+                    + this.DictionarySize);
 
-        for( int i = this.DictionarySize ; i < src.length ; i++  )
-            dst[ ( ( i - width ) & ( this.DictionarySize - 1 ) ) 
-                 + this.DictionarySize ] = ( src[ i ] < this.DictionarySize
-                                           ? src[ i ]
-                                           : ( ( src[ i ] - width ) 
-                                               & ( this.DictionarySize - 1 ) )
-                                             + this.DictionarySize );
+        for (int i = this.DictionarySize; i < src.length; i++)
+            dst[((i - width) & (this.DictionarySize - 1))
+                    + this.DictionarySize] = (src[i] < this.DictionarySize
+                    ? src[i]
+                    : ((src[i] - width)
+                    & (this.DictionarySize - 1))
+                    + this.DictionarySize);
     }
 
     /**
      * parent ���� ch �ŕ��򂵂��q�𓾂�B
      * �m�[�h�������ꍇ�� UNUSED ��Ԃ��B
-     * 
+     *
      * @param parent �e�m�[�h
      * @param ch     ���򕶎�
-     * 
+     *
      * @return �q�m�[�h
      */
-    private int child( int parent, int ch ){
-        int node = this.hashTable[ this.hash( parent, ch ) ];
+    private int child(int parent, int ch) {
+        int node = this.hashTable[this.hash(parent, ch)];
 
         //this.parent[ PatriciaTrieSearch.UNUSED ] = parent;
-        while( node != PatriciaTrieSearch.UNUSED
-            && this.parent[ node ] != parent ){
-            node = this.next[ node ];
+        while (node != PatriciaTrieSearch.UNUSED
+                && this.parent[node] != parent) {
+            node = this.next[node];
         }
 
         return node;
-    }
-
-    /**
-     * node �� ch ���� �n�b�V���l�𓾂�
-     * 
-     * @param node �m�[�h
-     * @param ch   ���򕶎�
-     * 
-     * @return �n�b�V���l
-     */
-    private int hash( int node, int ch ){
-        return ( node + ( ch << this.shift ) + 256 ) % this.hashTable.length;
     }
 
     //------------------------------------------------------------------
@@ -945,24 +957,17 @@ public class PatriciaTrieSearch implements LzssSearchMethod{
     //------------------------------------------------------------------
     //  private static int generateProbablePrime( int num )
     //------------------------------------------------------------------
-    /**
-     * num �ȏ�̍ł������� �f��(�������͋[���f��)�𐶐�����B 
-     * �߂�l�� �f���łȂ��m���� 1/256 �ȉ��ł���B
-     * 
-     * @param num ���̒l�ȏ�̑f���𐶐�����B
-     *
-     * @return �������ꂽ�f��(�������͋[���f��)
-     */
-    private static int generateProbablePrime( int num ){
-        num = num + ( ( num & 1 ) == 0 ? 1 : 0 );
 
-        while( !(new BigInteger(Integer.toString(num))).isProbablePrime( 8 ) ){
-            num += 2;
-            num = num + ( ( num % 3 ) == 0 ? 2 : 0 );
-            num = num + ( ( num % 5 ) == 0 ? 2 : 0 );
-            num = num + ( ( num % 7 ) == 0 ? 2 : 0 );
-        }
-        return num;
+    /**
+     * node �� ch ���� �n�b�V���l�𓾂�
+     *
+     * @param node �m�[�h
+     * @param ch   ���򕶎�
+     *
+     * @return �n�b�V���l
+     */
+    private int hash(int node, int ch) {
+        return (node + (ch << this.shift) + 256) % this.hashTable.length;
     }
 
 }

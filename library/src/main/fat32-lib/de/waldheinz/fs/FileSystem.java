@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs;
 
 import java.io.IOException;
@@ -28,11 +28,11 @@ import java.io.IOException;
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  */
 public interface FileSystem {
-    
+
     /**
      * Gets the root entry of this filesystem. This is usually a directory, but
      * this is not required.
-     * 
+     *
      * @return the file system's root entry
      * @throws IOException on read error
      */
@@ -49,15 +49,15 @@ public interface FileSystem {
      * Close this file system. After a close, all invocations of methods of
      * this file system or objects created by this file system will throw an
      * {@link IllegalStateException}.
-     * 
+     *
      * @throws IOException on error closing the file system
      */
     public void close() throws IOException;
-    
+
     /**
      * Returns {@code true} if this file system is closed. If the file system
      * is closed, no more operations may be performed on it.
-     * 
+     *
      * @return if this file system is closed
      */
     public boolean isClosed();

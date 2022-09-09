@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs.fat;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ class ClusterChainDirectory extends AbstractDirectory {
      * directory may occupy on disk. The {@code ClusterChainDirectory} takes
      * care not to grow beyond this limit.
      *
-     * @see #changeSize(int) 
+     * @see #changeSize(int)
      */
     public final static int MAX_SIZE = 65536 * 32;
 
@@ -44,27 +44,27 @@ class ClusterChainDirectory extends AbstractDirectory {
      * for testing.
      */
     final ClusterChain chain;
-    
+
     protected ClusterChainDirectory(ClusterChain chain, boolean isRoot) {
-        
+
         super(
                 chain.getFat().getFatType(),
-                (int)(chain.getLengthOnDisk() / FatDirectoryEntry.SIZE),
+                (int) (chain.getLengthOnDisk() / FatDirectoryEntry.SIZE),
                 chain.isReadOnly(), isRoot);
-        
-        this.chain = chain;   
+
+        this.chain = chain;
     }
-    
+
     public static ClusterChainDirectory readRoot(
             ClusterChain chain) throws IOException {
-        
+
         final ClusterChainDirectory result =
                 new ClusterChainDirectory(chain, true);
-        
+
         result.read();
         return result;
     }
-    
+
     public static ClusterChainDirectory createRoot(Fat fat) throws IOException {
 
         if (fat.getFatType() != FatType.FAT32) {
@@ -75,16 +75,16 @@ class ClusterChainDirectory extends AbstractDirectory {
         final Fat32BootSector bs = (Fat32BootSector) fat.getBootSector();
         final ClusterChain cc = new ClusterChain(fat, false);
         cc.setChainLength(1);
-        
+
         bs.setRootDirFirstCluster(cc.getStartCluster());
-        
+
         final ClusterChainDirectory result =
                 new ClusterChainDirectory(cc, true);
-        
+
         result.flush();
         return result;
     }
-    
+
     @Override
     protected final void read(ByteBuffer data) throws IOException {
         this.chain.readData(0, data);
@@ -95,7 +95,7 @@ class ClusterChainDirectory extends AbstractDirectory {
         final int toWrite = data.remaining();
         chain.writeData(0, data);
         final long trueSize = chain.getLengthOnDisk();
-        
+
         /* TODO: check if the code below is really needed */
         if (trueSize > toWrite) {
             final int rest = (int) (trueSize - toWrite);
@@ -109,17 +109,17 @@ class ClusterChainDirectory extends AbstractDirectory {
      * non-root instances or 0 if this is the root directory.
      *
      * @return the first storage cluster of this directory
-     * @see #isRoot() 
+     * @see #isRoot()
      */
     @Override
     protected final long getStorageCluster() {
         return isRoot() ? 0 : chain.getStartCluster();
     }
-    
+
     public final void delete() throws IOException {
         chain.setChainLength(0);
     }
-    
+
     @Override
     protected final void changeSize(int entryCount)
             throws IOException, IllegalArgumentException {
@@ -131,8 +131,8 @@ class ClusterChainDirectory extends AbstractDirectory {
         if (size > MAX_SIZE) throw new DirectoryFullException(
                 "directory would grow beyond " + MAX_SIZE + " bytes",
                 getCapacity(), entryCount);
-        
+
         sizeChanged(chain.setSize(Math.max(size, chain.getClusterSize())));
     }
-    
+
 }

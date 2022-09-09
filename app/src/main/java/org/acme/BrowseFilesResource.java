@@ -24,15 +24,9 @@ public class BrowseFilesResource {
     @Produces("text/html")
     public Response browse(@QueryParam("path") String path) {
         File pathDir = new File(uploadDirectory, path);
-        File[] contents = pathDir.listFiles();
         String body = "<html><body>";
-
-        for(File entry : contents) {
-            body += "<h3>" + entry.getName() + " / " + entry.length() + " bytes</h3>";
-        }
-
+        body += new FolderNode(pathDir).getFolderDivTag();
         body += "</body></html>";
-
         return Response.status(200).entity(body).build();
     }
 }

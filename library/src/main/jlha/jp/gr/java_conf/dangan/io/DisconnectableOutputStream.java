@@ -3,19 +3,19 @@
 
 /**
  * DisconnectableOutputStream.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -42,7 +42,7 @@ import java.io.OutputStream;
  * �f�[�^���������ďo�͂���o�̓X�g���[����
  * �f�[�^���f�o�C�X�ɏo�͂���X�g���[���Ƃ�
  * �ڑ����������邽�߂̃��[�e�B���e�B�N���X�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: DisconnectableOutputStream.java,v $
@@ -52,14 +52,14 @@ import java.io.OutputStream;
  *     �^�u�p�~
  *     ���C�Z���X���̏C��
  *     �\�[�X����
- * 
+ *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
 public class DisconnectableOutputStream extends OutputStream
-                                        implements Disconnectable {
+        implements Disconnectable {
 
     //------------------------------------------------------------------
     //  instance field
@@ -80,22 +80,24 @@ public class DisconnectableOutputStream extends OutputStream
     //  private DisconnectableOutputStream()
     //  public DisconnectableOutputStream( OutputStream out )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private DisconnectableOutputStream(){   }
+    private DisconnectableOutputStream() {
+    }
 
     /**
      * out �Ƃ̐ڑ��������\�ȏo�̓X�g���[�����\�z����B
-     * 
+     *
      * @param out �o�̓X�g���[��
      */
-    public DisconnectableOutputStream( OutputStream out ){
-        if( out != null ){
+    public DisconnectableOutputStream(OutputStream out) {
+        if (out != null) {
             this.out = out;
-        }else{
-            throw new NullPointerException( "out" );
+        } else {
+            throw new NullPointerException("out");
         }
     }
 
@@ -109,45 +111,46 @@ public class DisconnectableOutputStream extends OutputStream
     //  public void write( byte[] buffer )
     //  public void write( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ�o�̓X�g���[���� 1�o�C�g�̃f�[�^���o�͂���B<br>
-     * 
+     *
      * @param data �������܂��ׂ� 1�o�C�g�̃f�[�^�B<br>
      *             ��ʓI�ɏ��3�o�C�g�͖��������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void write( int data ) throws IOException {
-        this.out.write( data );                                                 //throws IOException
+    public void write(int data) throws IOException {
+        this.out.write(data);                                                 //throws IOException
     }
 
     /**
      * �ڑ����ꂽ�o�̓X�g���[���� buffer���̃f�[�^��
      * �S�ďo�͂���B<br>
-     * 
+     *
      * @param buffer �������܂��ׂ��f�[�^���i�[����
      *               �o�C�g�z��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void write( byte[] buffer ) throws IOException {
-        this.out.write( buffer, 0, buffer.length );                             //throws IOException
+    public void write(byte[] buffer) throws IOException {
+        this.out.write(buffer, 0, buffer.length);                             //throws IOException
     }
 
     /**
      * �ڑ����ꂽ�o�̓X�g���[���� buffer���̃f�[�^��
      * index�Ŏw�肳�ꂽ�ʒu���� length�o�C�g�o�͂���B<br>
-     * 
+     *
      * @param buffer �������܂��ׂ��f�[�^���i�[����
      *               �o�C�g�z��B<br>
      * @param index  buffer���̏������ނׂ��f�[�^�̊J�n�ʒu�B<br>
      * @param length �������ނׂ��f�[�^�ʁB<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void write( byte[] buffer, int index, int length )
-                                                           throws IOException {
-        this.out.write( buffer, index, length );                                //throws IOException
+    public void write(byte[] buffer, int index, int length)
+            throws IOException {
+        this.out.write(buffer, index, length);                                //throws IOException
     }
 
 
@@ -159,10 +162,11 @@ public class DisconnectableOutputStream extends OutputStream
     //  public void flush()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ�o�̓X�g���[���ɒ~����ꂽ�f�[�^��S�ďo�͂���
      * �悤�Ɏw������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void flush() throws IOException {
@@ -173,7 +177,7 @@ public class DisconnectableOutputStream extends OutputStream
      * �ڑ����ꂽ�o�̓X�g���[���Ƃ̐ڑ�����������B<br>
      * ���̃��\�b�h�� disconnect() ���Ăяo�������ł���B<br>
      */
-    public void close(){
+    public void close() {
         this.disconnect();
     }
 
@@ -183,10 +187,11 @@ public class DisconnectableOutputStream extends OutputStream
     //------------------------------------------------------------------
     //  public void disconnect()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ�o�̓X�g���[���Ƃ̐ڑ�����������B<br>
      */
-    public void disconnect(){
+    public void disconnect() {
         this.out = null;
     }
 

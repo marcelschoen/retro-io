@@ -44,21 +44,21 @@ final class Fat32BootSector extends BootSector {
      * Offset to the file system type label.
      */
     public static final int FILE_SYSTEM_TYPE_OFFSET = 0x52;
-    
+
     public static final int VERSION_OFFSET = 0x2a;
     public static final int VERSION = 0;
 
     public static final int FS_INFO_SECTOR_OFFSET = 0x30;
     public static final int BOOT_SECTOR_COPY_OFFSET = 0x32;
     public static final int EXTENDED_BOOT_SIGNATURE_OFFSET = 0x42;
-    
+
     /*
      * TODO: make this constructor private
      */
     public Fat32BootSector(BlockDevice device) throws IOException {
         super(device);
     }
-    
+
     @Override
     public void init() throws IOException {
         super.init();
@@ -84,23 +84,10 @@ final class Fat32BootSector extends BootSector {
      */
     public void setRootDirFirstCluster(long value) {
         if (getRootDirFirstCluster() == value) return;
-        
+
         set32(ROOT_DIR_FIRST_CLUSTER_OFFSET, value);
     }
 
-    /**
-     * Sets the sectur number that contains a copy of the boot sector.
-     *
-     * @param sectNr the sector that contains a boot sector copy
-     */
-    public void setBootSectorCopySector(int sectNr) {
-        if (getBootSectorCopySector() == sectNr) return;
-        if (sectNr < 0) throw new IllegalArgumentException(
-                "boot sector copy sector must be >= 0");
-        
-        set16(BOOT_SECTOR_COPY_OFFSET, sectNr);
-    }
-    
     /**
      * Returns the sector that contains a copy of the boot sector, or 0 if
      * there is no copy.
@@ -112,15 +99,28 @@ final class Fat32BootSector extends BootSector {
     }
 
     /**
+     * Sets the sectur number that contains a copy of the boot sector.
+     *
+     * @param sectNr the sector that contains a boot sector copy
+     */
+    public void setBootSectorCopySector(int sectNr) {
+        if (getBootSectorCopySector() == sectNr) return;
+        if (sectNr < 0) throw new IllegalArgumentException(
+                "boot sector copy sector must be >= 0");
+
+        set16(BOOT_SECTOR_COPY_OFFSET, sectNr);
+    }
+
+    /**
      * Sets the 11-byte volume label stored at offset 0x47.
      *
      * @param label the new volume label, may be {@code null}
      */
     public void setVolumeLabel(String label) {
-        for (int i=0; i < 11; i++) {
+        for (int i = 0; i < 11; i++) {
             final byte c =
                     (label == null) ? 0 :
-                    (label.length() > i) ? (byte) label.charAt(i) : 0x20;
+                            (label.length() > i) ? (byte) label.charAt(i) : 0x20;
 
             set8(0x47 + i, c);
         }
@@ -135,17 +135,17 @@ final class Fat32BootSector extends BootSector {
 
         set16(FS_INFO_SECTOR_OFFSET, offset);
     }
-    
-    @Override
-    public void setSectorsPerFat(long v) {
-        if (getSectorsPerFat() == v) return;
-        
-        set32(SECTORS_PER_FAT_OFFSET, v);
-    }
-    
+
     @Override
     public long getSectorsPerFat() {
         return get32(SECTORS_PER_FAT_OFFSET);
+    }
+
+    @Override
+    public void setSectorsPerFat(long v) {
+        if (getSectorsPerFat() == v) return;
+
+        set32(SECTORS_PER_FAT_OFFSET, v);
     }
 
     @Override
@@ -154,13 +154,13 @@ final class Fat32BootSector extends BootSector {
     }
 
     @Override
-    public void setSectorCount(long count) {
-        super.setNrTotalSectors(count);
+    public long getSectorCount() {
+        return super.getNrTotalSectors();
     }
 
     @Override
-    public long getSectorCount() {
-        return super.getNrTotalSectors();
+    public void setSectorCount(long count) {
+        super.setNrTotalSectors(count);
     }
 
     /**
@@ -172,13 +172,13 @@ final class Fat32BootSector extends BootSector {
     public int getRootDirEntryCount() {
         return 0;
     }
-    
-    public void setFileSystemId(int id) {
-        super.set32(0x43, id);
-    }
 
     public int getFileSystemId() {
         return (int) super.get32(0x43);
+    }
+
+    public void setFileSystemId(int id) {
+        super.set32(0x43, id);
     }
 
     /**
@@ -187,11 +187,11 @@ final class Fat32BootSector extends BootSector {
      *
      * @param device the device to write the boot sector copy to
      * @throws IOException on write error
-     * @see #getBootSectorCopySector() 
+     * @see #getBootSectorCopySector()
      */
     public void writeCopy(BlockDevice device) throws IOException {
         if (getBootSectorCopySector() > 0) {
-            final long offset = (long)getBootSectorCopySector() * SIZE;
+            final long offset = (long) getBootSectorCopySector() * SIZE;
             buffer.rewind();
             buffer.limit(buffer.capacity());
             device.write(offset, buffer);

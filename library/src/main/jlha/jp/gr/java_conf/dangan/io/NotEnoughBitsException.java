@@ -3,9 +3,8 @@
 
 /**
  * NotEnoughBitsException.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
  */
 
 package jp.gr.java_conf.dangan.io;
@@ -13,6 +12,7 @@ package jp.gr.java_conf.dangan.io;
 //import classes and interfaces
 
 //import exceptions
+
 import java.io.IOException;
 
 /**
@@ -25,11 +25,11 @@ import java.io.IOException;
  * [maintenance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class NotEnoughBitsException extends IOException{
+public class NotEnoughBitsException extends IOException {
 
 
     //------------------------------------------------------------------
@@ -49,21 +49,23 @@ public class NotEnoughBitsException extends IOException{
     //  public NotEnoughBitsException( int availableBits )
     //  public NotEnoughBitsException( String message, int availableBits )
     //------------------------------------------------------------------
-    /**
-     */
-    private NotEnoughBitsException(){ }
 
     /**
      */
-    public NotEnoughBitsException( int availableBits ){
+    private NotEnoughBitsException() {
+    }
+
+    /**
+     */
+    public NotEnoughBitsException(int availableBits) {
         super();
         this.availableBits = availableBits;
     }
 
     /**
      */
-    public NotEnoughBitsException( String message, int availableBits ){
-        super( message );
+    public NotEnoughBitsException(String message, int availableBits) {
+        super(message);
         this.availableBits = availableBits;
     }
 
@@ -73,9 +75,10 @@ public class NotEnoughBitsException extends IOException{
     //------------------------------------------------------------------
     //  public int getAvailableBits()
     //------------------------------------------------------------------
+
     /**
      */
-    public int getAvailableBits(){
+    public int getAvailableBits() {
         return this.availableBits;
     }
 

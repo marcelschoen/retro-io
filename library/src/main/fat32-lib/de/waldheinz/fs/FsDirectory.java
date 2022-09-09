@@ -16,7 +16,7 @@
  * along with this library; If not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 package de.waldheinz.fs;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.Iterator;
  * @author Matthias Treydte
  */
 public interface FsDirectory extends Iterable<FsDirectoryEntry>, FsObject {
-    
+
     /**
      * Gets an iterator to iterate over the entries of this directory.
      *
@@ -40,7 +40,7 @@ public interface FsDirectory extends Iterable<FsDirectoryEntry>, FsObject {
 
     /**
      * Gets the entry with the given name.
-     * 
+     *
      * @param name the name of the entry to get
      * @return the entry, if it existed
      * @throws IOException on error retrieving the entry
@@ -49,7 +49,7 @@ public interface FsDirectory extends Iterable<FsDirectoryEntry>, FsObject {
 
     /**
      * Add a new file with a given name to this directory.
-     * 
+     *
      * @param name the name of the file to add
      * @return the entry pointing to the new file
      * @throws IOException on error creating the file
@@ -58,7 +58,7 @@ public interface FsDirectory extends Iterable<FsDirectoryEntry>, FsObject {
 
     /**
      * Add a new (sub-)directory with a given name to this directory.
-     * 
+     *
      * @param name the name of the sub-directory to add
      * @return the entry pointing to the new directory
      * @throws IOException on error creating the directory
@@ -67,7 +67,7 @@ public interface FsDirectory extends Iterable<FsDirectoryEntry>, FsObject {
 
     /**
      * Remove the entry with the given name from this directory.
-     * 
+     *
      * @param name name of the entry to remove
      * @throws IOException on error deleting the entry
      */
@@ -75,9 +75,9 @@ public interface FsDirectory extends Iterable<FsDirectoryEntry>, FsObject {
 
     /**
      * Save all dirty (unsaved) data to the device.
-     * 
+     *
      * @throws IOException on write error
      */
     public void flush() throws IOException;
-    
+
 }

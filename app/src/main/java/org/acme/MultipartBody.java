@@ -1,12 +1,11 @@
 package org.acme;
 
 
-import java.io.InputStream;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
-
-import org.jboss.resteasy.annotations.providers.multipart.PartType;
+import java.io.InputStream;
 
 public class MultipartBody {
 

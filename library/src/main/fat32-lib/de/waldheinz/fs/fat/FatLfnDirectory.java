@@ -32,7 +32,7 @@ import java.util.*;
  * the quite complex naming system regarding the long file names (LFNs) and
  * their corresponding 8+3 short file names. This also means that an
  * {@code FatLfnDirectory} is case-preserving but <em>not</em> case-sensitive.
- * 
+ *
  * @author gbin
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  * @since 0.6
@@ -41,6 +41,7 @@ public final class FatLfnDirectory
         extends AbstractFsObject
         implements FsDirectory {
 
+    final AbstractDirectory dir;
     /**
      * This set is used to check if a file name is already in use in this
      * directory. The FAT specification says that file names must be unique
@@ -54,41 +55,56 @@ public final class FatLfnDirectory
     private final Map<FatDirectoryEntry, FatFile> entryToFile;
     private final Map<FatDirectoryEntry, FatLfnDirectory> entryToDirectory;
     private final ShortNameGenerator sng;
-    
-    final AbstractDirectory dir;
-    
+
     FatLfnDirectory(AbstractDirectory dir, Fat fat, boolean readOnly)
             throws IOException {
-        
+
         super(readOnly);
-        
+
         if ((dir == null) || (fat == null)) throw new NullPointerException();
-        
+
         this.fat = fat;
         this.dir = dir;
-        
+
         this.shortNameIndex =
                 new LinkedHashMap<ShortName, FatLfnDirectoryEntry>();
-                
+
         this.longNameIndex =
                 new LinkedHashMap<String, FatLfnDirectoryEntry>();
-                
+
         this.entryToFile =
                 new LinkedHashMap<FatDirectoryEntry, FatFile>();
-                
+
         this.entryToDirectory =
                 new LinkedHashMap<FatDirectoryEntry, FatLfnDirectory>();
-                
+
         this.usedNames = new HashSet<String>();
         this.sng = new ShortNameGenerator(this.usedNames);
-        
+
         parseLfn();
+    }
+
+    private static ClusterChainDirectory read(FatDirectoryEntry entry, Fat fat)
+            throws IOException {
+
+        if (!entry.isDirectory()) throw
+                new IllegalArgumentException(entry + " is no directory");
+
+        final ClusterChain chain = new ClusterChain(
+                fat, entry.getStartCluster(),
+                entry.isReadonlyFlag());
+
+        final ClusterChainDirectory result =
+                new ClusterChainDirectory(chain, false);
+
+        result.read();
+        return result;
     }
 
     Fat getFat() {
         return fat;
     }
-    
+
     FatFile getFile(FatDirectoryEntry entry) throws IOException {
         FatFile file = entryToFile.get(entry);
 
@@ -96,10 +112,10 @@ public final class FatLfnDirectory
             file = FatFile.get(fat, entry);
             entryToFile.put(entry, file);
         }
-        
+
         return file;
     }
-    
+
     FatLfnDirectory getDirectory(FatDirectoryEntry entry) throws IOException {
         FatLfnDirectory result = entryToDirectory.get(entry);
 
@@ -108,10 +124,10 @@ public final class FatLfnDirectory
             result = new FatLfnDirectory(storage, fat, isReadOnly());
             entryToDirectory.put(entry, result);
         }
-        
+
         return result;
     }
-    
+
     /**
      * <p>
      * {@inheritDoc}
@@ -119,7 +135,7 @@ public final class FatLfnDirectory
      * According to the FAT file system specification, leading and trailing
      * spaces in the {@code name} are ignored by this method.
      * </p>
-     * 
+     *
      * @param name {@inheritDoc}
      * @return {@inheritDoc}
      * @throws IOException {@inheritDoc}
@@ -128,37 +144,37 @@ public final class FatLfnDirectory
     public FatLfnDirectoryEntry addFile(String name) throws IOException {
         checkWritable();
         checkUniqueName(name);
-        
+
         name = name.trim();
         final ShortName sn = makeShortName(name);
-        
+
         final FatLfnDirectoryEntry entry =
                 new FatLfnDirectoryEntry(name, sn, this, false);
 
         dir.addEntries(entry.compactForm());
-        
+
         shortNameIndex.put(sn, entry);
         longNameIndex.put(name.toLowerCase(Locale.ROOT), entry);
 
         getFile(entry.realEntry);
-        
+
         dir.setDirty();
         return entry;
     }
-    
+
     boolean isFreeName(String name) {
         return !this.usedNames.contains(name.toLowerCase(Locale.ROOT));
     }
-    
+
     private void checkUniqueName(String name) throws IOException {
         final String lowerName = name.toLowerCase(Locale.ROOT);
-        
+
         if (!this.usedNames.add(lowerName)) {
             throw new IOException(
                     "an entry named " + name + " already exists");
         }
     }
-    
+
     private ShortName makeShortName(String name) throws IOException {
         final ShortName result;
 
@@ -168,11 +184,11 @@ public final class FatLfnDirectory
             throw new IOException(
                     "could not generate short name for \"" + name + "\"", ex);
         }
-        
+
         this.usedNames.add(result.asSimpleString().toLowerCase(Locale.ROOT));
         return result;
     }
-    
+
     /**
      * <p>
      * {@inheritDoc}
@@ -189,14 +205,14 @@ public final class FatLfnDirectory
     public FatLfnDirectoryEntry addDirectory(String name) throws IOException {
         checkWritable();
         checkUniqueName(name);
-        
+
         name = name.trim();
         final ShortName sn = makeShortName(name);
         final FatDirectoryEntry real = dir.createSub(fat);
         real.setShortName(sn);
         final FatLfnDirectoryEntry e =
                 new FatLfnDirectoryEntry(this, real, name);
-        
+
         try {
             dir.addEntries(e.compactForm());
         } catch (IOException ex) {
@@ -206,16 +222,16 @@ public final class FatLfnDirectory
             dir.removeEntry(real);
             throw ex;
         }
-        
+
         shortNameIndex.put(sn, e);
         longNameIndex.put(name.toLowerCase(Locale.ROOT), e);
 
         getDirectory(real);
-        
+
         flush();
         return e;
     }
-    
+
     /**
      * <p>
      * {@inheritDoc}
@@ -230,9 +246,9 @@ public final class FatLfnDirectory
     @Override
     public FatLfnDirectoryEntry getEntry(String name) {
         name = name.trim().toLowerCase(Locale.ROOT);
-        
+
         final FatLfnDirectoryEntry entry = longNameIndex.get(name);
-        
+
         if (entry == null) {
             if (!ShortName.canConvert(name)) return null;
             return shortNameIndex.get(ShortName.get(name));
@@ -240,11 +256,11 @@ public final class FatLfnDirectory
             return entry;
         }
     }
-    
+
     private void parseLfn() throws IOException {
         int i = 0;
         final int size = dir.getEntryCount();
-        
+
         while (i < size) {
             // jump over empty entries
             while (i < size && dir.getEntry(i) == null) {
@@ -264,19 +280,19 @@ public final class FatLfnDirectory
                     break;
                 }
             }
-            
+
             if (i >= size) {
                 // This is a cutted entry, forgive it
                 break;
             }
-            
+
             final FatLfnDirectoryEntry current =
                     FatLfnDirectoryEntry.extract(this, offset, ++i - offset);
-            
+
             if (!current.realEntry.isDeleted() && current.isValid()) {
                 checkUniqueName(current.getName());
                 this.usedNames.add(current.realEntry.getShortName().asSimpleString().toLowerCase(Locale.ROOT));
-                
+
                 shortNameIndex.put(current.realEntry.getShortName(), current);
                 longNameIndex.put(current
                         .getName()
@@ -284,7 +300,7 @@ public final class FatLfnDirectory
             }
         }
     }
-    
+
     private void updateLFN() throws IOException {
         ArrayList<FatDirectoryEntry> dest =
                 new ArrayList<FatDirectoryEntry>();
@@ -293,7 +309,7 @@ public final class FatLfnDirectory
             FatDirectoryEntry[] encoded = currentEntry.compactForm();
             dest.addAll(Arrays.asList(encoded));
         }
-        
+
         final int size = dest.size();
 
         dir.changeSize(size);
@@ -303,15 +319,15 @@ public final class FatLfnDirectory
     @Override
     public void flush() throws IOException {
         checkWritable();
-        
+
         for (FatFile f : entryToFile.values()) {
             f.flush();
         }
-        
+
         for (FatLfnDirectory d : entryToDirectory.values()) {
             d.flush();
         }
-        
+
         updateLFN();
         dir.flush();
     }
@@ -347,7 +363,7 @@ public final class FatLfnDirectory
      * Remove the entry with the given name from this directory.
      *
      * @param name the name of the entry to remove
-     * @throws IOException on error removing the entry
+     * @throws IOException              on error removing the entry
      * @throws IllegalArgumentException on an attempt to remove the dot entries
      */
     @Override
@@ -381,7 +397,7 @@ public final class FatLfnDirectory
 
         if (sn.equals(ShortName.DOT) || sn.equals(ShortName.DOT_DOT)) throw
                 new IllegalArgumentException(
-                    "the dot entries can not be removed");
+                        "the dot entries can not be removed");
 
         final String lowerName = entry.getName().toLowerCase(Locale.ROOT);
 
@@ -414,35 +430,18 @@ public final class FatLfnDirectory
 
         final ShortName sn = makeShortName(entry.getName());
         entry.realEntry.setShortName(sn);
-        
+
         this.longNameIndex.put(entry.getName().toLowerCase(Locale.ROOT), entry);
         this.shortNameIndex.put(entry.realEntry.getShortName(), entry);
-        
+
         updateLFN();
     }
-    
+
     @Override
     public String toString() {
         return getClass().getSimpleName() +
                 " [size=" + shortNameIndex.size() + //NOI18N
                 ", dir=" + dir + "]"; //NOI18N
     }
-    
-    private static ClusterChainDirectory read(FatDirectoryEntry entry, Fat fat)
-            throws IOException {
 
-        if (!entry.isDirectory()) throw
-                new IllegalArgumentException(entry + " is no directory");
-
-        final ClusterChain chain = new ClusterChain(
-                fat, entry.getStartCluster(),
-                entry.isReadonlyFlag());
-
-        final ClusterChainDirectory result =
-                new ClusterChainDirectory(chain, false);
-
-        result.read();
-        return result;
-    }
-    
 }

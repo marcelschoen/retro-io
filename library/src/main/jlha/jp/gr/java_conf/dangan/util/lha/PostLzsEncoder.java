@@ -3,19 +3,19 @@
 
 /**
  * PostLzsEncoder.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -44,7 +44,7 @@ import java.io.OutputStream;
 
 /**
  * -lzs- ���k�p PostLzssEncoder�B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PostLzsEncoder.java,v $
@@ -62,8 +62,8 @@ import java.io.OutputStream;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
 public class PostLzsEncoder implements PostLzssEncoder {
@@ -82,10 +82,10 @@ public class PostLzsEncoder implements PostLzssEncoder {
     private static final int DictionarySize = 2048;
 
     /** �ő��v�� */
-    private static final int MaxMatch       = 17;
+    private static final int MaxMatch = 17;
 
     /** �ŏ���v�� */
-    private static final int Threshold      = 2;
+    private static final int Threshold = 2;
 
 
     //------------------------------------------------------------------
@@ -97,10 +97,10 @@ public class PostLzsEncoder implements PostLzssEncoder {
     //  private static final int LengthBits
     //------------------------------------------------------------------
     /** ��v�ʒu�̃r�b�g�� */
-    private static final int PositionBits = Bits.len( PostLzsEncoder.DictionarySize - 1 );
+    private static final int PositionBits = Bits.len(PostLzsEncoder.DictionarySize - 1);
 
     /** ��v���̃r�b�g�� */
-    private static final int LengthBits = Bits.len( PostLzsEncoder.MaxMatch - PostLzsEncoder.Threshold );
+    private static final int LengthBits = Bits.len(PostLzsEncoder.MaxMatch - PostLzsEncoder.Threshold);
 
 
     //------------------------------------------------------------------
@@ -132,28 +132,30 @@ public class PostLzsEncoder implements PostLzssEncoder {
     //  private PostLzsEncoder()
     //  public PostLzsEncoder( OutputStream out )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private PostLzsEncoder(){   }
+    private PostLzsEncoder() {
+    }
 
     /**
      * -lzs- ���k�p PostLzssEncoder ���\�z����B
-     * 
+     *
      * @param out -lzs- �`���̈��k�f�[�^���o�͂���X�g���[��
      */
-    public PostLzsEncoder( OutputStream out ){
-        if( out != null ){
-            if( out instanceof BitOutputStream ){
-                this.out = (BitOutputStream)out;
-            }else{
-                this.out = new BitOutputStream( out );
+    public PostLzsEncoder(OutputStream out) {
+        if (out != null) {
+            if (out instanceof BitOutputStream) {
+                this.out = (BitOutputStream) out;
+            } else {
+                this.out = new BitOutputStream(out);
             }
-            this.position    = 0;
+            this.position = 0;
             this.matchLength = 0;
-        }else{
-            throw new NullPointerException( "out" );
+        } else {
+            throw new NullPointerException("out");
         }
     }
 
@@ -166,42 +168,43 @@ public class PostLzsEncoder implements PostLzssEncoder {
     //  public void writeCode( int code )
     //  public void writeOffset( int offset )
     //------------------------------------------------------------------
+
     /**
      * 1byte �� LZSS�����k�̃f�[�^�������́A
      * LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�����������ށB<br>
-     * 
+     *
      * @param code 1byte �� LZSS�����k�̃f�[�^�������́A
      *             LZSS �ň��k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void writeCode( int code ) throws IOException {
-        if( code < 0x100 ){
-            this.out.writeBit( 1 );                                             //throws IOException
-            this.out.writeBits( 8, code );                                      //throws IOException
+    public void writeCode(int code) throws IOException {
+        if (code < 0x100) {
+            this.out.writeBit(1);                                             //throws IOException
+            this.out.writeBits(8, code);                                      //throws IOException
             this.position++;
-        }else{
+        } else {
             // close() ��� writeCode() ��
             // NullPointerException �𓊂��邱�Ƃ����҂��Ă���B
-            this.out.writeBit( 0 );                                             //throws IOException
+            this.out.writeBit(0);                                             //throws IOException
             this.matchLength = code - 0x100;
         }
     }
 
     /**
      * LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu���������ށB<br>
-     * 
+     *
      * @param offset LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
      */
-    public void writeOffset( int offset ) throws IOException {
-        int pos = ( this.position - offset - 1
-                  - PostLzsEncoder.MaxMatch )
-                & ( PostLzsEncoder.DictionarySize - 1 );
+    public void writeOffset(int offset) throws IOException {
+        int pos = (this.position - offset - 1
+                - PostLzsEncoder.MaxMatch)
+                & (PostLzsEncoder.DictionarySize - 1);
 
         this.position += this.matchLength + PostLzsEncoder.Threshold;
 
-        this.out.writeBits( this.PositionBits, pos );                           //throws IOException
-        this.out.writeBits( this.LengthBits,   this.matchLength );              //throws IOException
+        this.out.writeBits(this.PositionBits, pos);                           //throws IOException
+        this.out.writeBits(this.LengthBits, this.matchLength);              //throws IOException
     }
 
 
@@ -213,12 +216,13 @@ public class PostLzsEncoder implements PostLzssEncoder {
     //  public void flush()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * ���� PostLzssEncoder �Ƀo�b�t�@�����O����Ă���
      * �S�Ă� 8�r�b�g�P�ʂ̃f�[�^���o�͐�� OutputStream �ɏo�͂��A 
      * �o�͐�� OutputStream �� flush() ����B<br>
      * ���̃��\�b�h�͈��k����ω������Ȃ��B 
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      *
      * @see PostLzssEncoder#flush()
@@ -231,7 +235,7 @@ public class PostLzsEncoder implements PostLzssEncoder {
     /**
      * ���̏o�̓X�g���[���ƁA�ڑ����ꂽ�o�̓X�g���[������A
      * �g�p���Ă������\�[�X���������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
@@ -250,30 +254,31 @@ public class PostLzsEncoder implements PostLzssEncoder {
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * -lzs-�`���� LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return -lzs-�`���� LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return PostLzsEncoder.DictionarySize;
     }
 
     /**
      * -lzs-�`���� LZSS�̍ő��v���𓾂�B
-     * 
+     *
      * @return -lzs-�`���� LZSS�̍ő��v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return PostLzsEncoder.MaxMatch;
     }
 
     /**
      * -lzs-�`���� LZSS�̈��k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return -lzs-�`���� LZSS�̈��k�A�񈳏k��臒l
      */
-    public int getThreshold(){
+    public int getThreshold() {
         return PostLzsEncoder.Threshold;
     }
 

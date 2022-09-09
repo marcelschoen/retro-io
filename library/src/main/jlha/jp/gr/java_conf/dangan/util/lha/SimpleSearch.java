@@ -3,19 +3,19 @@
 
 /**
  * SimpleSearch.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -41,7 +41,7 @@ package jp.gr.java_conf.dangan.util.lha;
  * �����@�\��p���Ȃ����߁A
  * ���̌����@�\��p��������Ɣ�ׂ�ƒx�����A
  * ����������ʂ����ɏ��Ȃ��B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: SimpleSearch.java,v $
@@ -55,11 +55,11 @@ package jp.gr.java_conf.dangan.util.lha;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class SimpleSearch implements LzssSearchMethod{
+public class SimpleSearch implements LzssSearchMethod {
 
 
     //------------------------------------------------------------------
@@ -121,30 +121,32 @@ public class SimpleSearch implements LzssSearchMethod{
     //  public SimpleSearch( int DictionarySize, int MaxMatch, 
     //                       int Threshold, byte[] TextBuffer )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      *�g�p�s��
      */
-    private SimpleSearch(){ }
+    private SimpleSearch() {
+    }
 
     /**
      * ���ʂȌ����@�\��p���Ȃ��V���v����
      * LzssSearchMethod ���\�z����B<br>
-     * 
+     *
      * @param DictionarySize  �����T�C�Y
      * @param MaxMatch        �ő��v��
      * @param Threshold       ���k�A�񈳏k��臒l
      * @param TextBuffer      LZSS���k���{�����߂̃o�b�t�@
      */
-    public SimpleSearch( int    DictionarySize,
-                         int    MaxMatch,
-                         int    Threshold,
-                         byte[] TextBuffer ){
+    public SimpleSearch(int DictionarySize,
+                        int MaxMatch,
+                        int Threshold,
+                        byte[] TextBuffer) {
 
-        this.DictionarySize  = DictionarySize;
-        this.MaxMatch        = MaxMatch;
-        this.Threshold       = Threshold;
-        this.TextBuffer      = TextBuffer;
+        this.DictionarySize = DictionarySize;
+        this.MaxMatch = MaxMatch;
+        this.Threshold = Threshold;
+        this.TextBuffer = TextBuffer;
         this.DictionaryLimit = this.DictionarySize;
     }
 
@@ -158,63 +160,65 @@ public class SimpleSearch implements LzssSearchMethod{
     //  public void slide()
     //  public int putRequires()
     //------------------------------------------------------------------
+
     /**
      * SimpleSearch �͌����@�\���g�p���Ȃ�����
      * ���̃��\�b�h�͉������Ȃ��B
-     * 
+     *
      * @param position TextBuffer���̃f�[�^�p�^���̊J�n�ʒu
      */
-    public void put( int position ){    }
+    public void put(int position) {
+    }
 
     /**
      * TextBuffer ���̎����̈�ɂ���f�[�^�p�^������
      * position ����n�܂�f�[�^�p�^����
      * �Œ��̈�v�������̂���������B<br>
-     * 
+     *
      * @param position TextBuffer���̃f�[�^�p�^���̊J�n�ʒu�B
-     * 
+     *
      * @return ��v�����������ꍇ��
      *         LzssOutputStream.createSearchReturn 
      *         �ɂ���Đ������ꂽ��v�ʒu�ƈ�v���̏������l�A
      *         ��v��������Ȃ������ꍇ��
      *         LzssOutputStream.NOMATCH�B
-     * 
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     *
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public int searchAndPut( int position ){
-        int matchlen   = this.Threshold - 1;
-        int matchpos   = position;
-        int scanlimit  = Math.max( this.DictionaryLimit,
-                                   position - this.DictionarySize );
-        int scanpos    = position - 1;
+    public int searchAndPut(int position) {
+        int matchlen = this.Threshold - 1;
+        int matchpos = position;
+        int scanlimit = Math.max(this.DictionaryLimit,
+                position - this.DictionarySize);
+        int scanpos = position - 1;
 
-        byte[] buf     = this.TextBuffer;
-        int max        = position + this.MaxMatch;
-        int p          = 0;
-        int s          = 0;
-        int len        = 0;
-        while( scanlimit < scanpos ){
+        byte[] buf = this.TextBuffer;
+        int max = position + this.MaxMatch;
+        int p = 0;
+        int s = 0;
+        int len = 0;
+        while (scanlimit < scanpos) {
             s = scanpos;
             p = position;
-            while( buf[ s ] == buf[ p ] ){
+            while (buf[s] == buf[p]) {
                 s++;
                 p++;
-                if( max <= p ) break;
+                if (max <= p) break;
             }
 
             len = p - position;
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scanpos;
                 matchlen = len;
-                if( this.MaxMatch == len ) break;
+                if (this.MaxMatch == len) break;
             }
             scanpos--;
         }
 
-        if( this.Threshold <= matchlen ){
-            return LzssOutputStream.createSearchReturn( matchlen, matchpos );
-        }else{
+        if (this.Threshold <= matchlen) {
+            return LzssOutputStream.createSearchReturn(matchlen, matchpos);
+        } else {
             return LzssOutputStream.NOMATCH;
         }
     }
@@ -223,53 +227,53 @@ public class SimpleSearch implements LzssSearchMethod{
      * TextBuffer ���̎����̈�ɂ���f�[�^�p�^������
      * position ����n�܂�f�[�^�p�^����
      * �Œ��̈�v�������̂���������B<br>
-     * 
+     *
      * @param position   TextBuffer���̃f�[�^�p�^���̊J�n�ʒu�B
      * @param lastPutPos �Ō�ɓo�^�����f�[�^�p�^���̊J�n�ʒu�B
-     * 
+     *
      * @return ��v�����������ꍇ��
      *         LzssOutputStream.createSearchReturn 
      *         �ɂ���Đ������ꂽ��v�ʒu�ƈ�v���̏������l�A
      *         ��v��������Ȃ������ꍇ��
      *         LzssOutputStream.NOMATCH�B
-     * 
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     *
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public int search( int position, int lastPutPos ){
-        int matchlen   = this.Threshold - 1;
-        int matchpos   = position;
-        int scanlimit  = Math.max( this.DictionaryLimit,
-                                   position - this.DictionarySize );
-        int scanpos    = position - 1;
+    public int search(int position, int lastPutPos) {
+        int matchlen = this.Threshold - 1;
+        int matchpos = position;
+        int scanlimit = Math.max(this.DictionaryLimit,
+                position - this.DictionarySize);
+        int scanpos = position - 1;
 
-        byte[] buf     = this.TextBuffer;
-        int max        = Math.min( position + this.MaxMatch, 
-                                   this.TextBuffer.length );
-        int p          = 0;
-        int s          = 0;
-        int len        = 0;
-        while( scanlimit < scanpos ){
+        byte[] buf = this.TextBuffer;
+        int max = Math.min(position + this.MaxMatch,
+                this.TextBuffer.length);
+        int p = 0;
+        int s = 0;
+        int len = 0;
+        while (scanlimit < scanpos) {
             s = scanpos;
             p = position;
-            while( buf[ s ] == buf[ p ] ){
+            while (buf[s] == buf[p]) {
                 s++;
                 p++;
-                if( max <= p ) break;
+                if (max <= p) break;
             }
 
             len = p - position;
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scanpos;
                 matchlen = len;
-                if( this.MaxMatch == len ) break;
+                if (this.MaxMatch == len) break;
             }
             scanpos--;
         }
 
-        if( this.Threshold <= matchlen ){
-            return LzssOutputStream.createSearchReturn( matchlen, matchpos );
-        }else{
+        if (this.Threshold <= matchlen) {
+            return LzssOutputStream.createSearchReturn(matchlen, matchpos);
+        } else {
             return LzssOutputStream.NOMATCH;
         }
     }
@@ -279,16 +283,16 @@ public class SimpleSearch implements LzssSearchMethod{
      * DictionarySize �����ړ�������ۂɌ����@�\���̃f�[�^��
      * �����Ɩ��������ړ������鏈�����s���B
      */
-    public void slide(){
-        this.DictionaryLimit = Math.max( 0, this.DictionaryLimit - this.DictionarySize );
+    public void slide() {
+        this.DictionaryLimit = Math.max(0, this.DictionaryLimit - this.DictionarySize);
     }
 
     /**
      * SimpleSearch �͌����@�\���g�p���Ȃ����ߏ�� 0 ��Ԃ��B
-     * 
+     *
      * @return ��� 0
      */
-    public int putRequires(){
+    public int putRequires() {
         return 0;
     }
 

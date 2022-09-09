@@ -3,19 +3,19 @@
 
 /**
  * PreLzssDecoder.java
- * 
+ * <p>
  * Copyright (C) 2001  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -40,7 +40,7 @@ import java.io.IOException;
 
 /**
  * LZSS���k�R�[�h����������C���^�[�t�F�C�X�B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PreLzssDecoder.java,v $
@@ -52,11 +52,11 @@ import java.io.IOException;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public interface PreLzssDecoder{
+public interface PreLzssDecoder {
 
 
     //------------------------------------------------------------------
@@ -68,6 +68,7 @@ public interface PreLzssDecoder{
     //  public abstract void reset()
     //  public abstract boolean markSupported()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�̓ǂݍ��݈ʒu�ɖ߂��悤�ɂ���B<br>
@@ -76,17 +77,17 @@ public interface PreLzssDecoder{
      * �������AreadLimit �𖳎����Ė����� reset() �\�� 
      * InputStream �Ɛڑ����Ă���ꍇ�� readLimit �ɂǂ̂悤�Ȓl��ݒ肳��Ă�
      * reset() �ŕK���}�[�N�ʒu�ɕ����ł��Ȃ���΂Ȃ�Ȃ��B<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂݍ��񂾏ꍇ 
      *                  reset()�ł��Ȃ��Ȃ�\��������B<br>
      */
-    public abstract void mark( int readLimit );
+    public abstract void mark(int readLimit);
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public abstract void reset() throws IOException;
@@ -94,7 +95,7 @@ public interface PreLzssDecoder{
     /**
      * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ��
      * �T�|�[�g���邩�𓾂�B<br>
-     * 
+     *
      * @return �X�g���[���� mark() �� reset() ��
      *         �T�|�[�g����ꍇ�� true�B<br>
      *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
@@ -110,6 +111,7 @@ public interface PreLzssDecoder{
     //  public abstract int available()
     //  public abstract void close()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������u���b�N���Ȃ���
      * �ǂݍ��ނ��Ƃ̂ł���Œ�o�C�g���𓾂�B<br>
@@ -117,9 +119,9 @@ public interface PreLzssDecoder{
      * ����͌̈ӂɍ쐬���ꂽ�f�[�^���ł̓u���b�N������
      * �ǂݍ��ގ��̏o����Œ�o�C�g���𓾂�ɂ�
      * ���ۂɓǂݍ���ł݂�ȊO�ɕ��@���Ȃ����߂ł���B
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����Œ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public abstract int available() throws IOException;
@@ -127,7 +129,7 @@ public interface PreLzssDecoder{
     /**
      * ���̓��̓X�g���[������A�g�p���Ă���
      * �S�Ẵ��\�[�X���J������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public abstract void close() throws IOException;
@@ -141,15 +143,16 @@ public interface PreLzssDecoder{
     //  public abstract int readCode()
     //  public abstract int readOffset()
     //------------------------------------------------------------------
+
     /**
      * 1byte �� LZSS�����k�̃f�[�^�������́A
      * LZSS �ň��k���ꂽ���k�R�[�h�̂�����v����ǂݍ��ށB<br>
      * �����k�f�[�^�� 0�`255�A
      * LZSS���k�R�[�h(��v��)�� 256�`511 �̒l�����Ȃ���΂Ȃ�Ȃ��B<br>
-     * 
+     *
      * @return 1byte �� LZSS�����k�̃f�[�^�������́A
      *         LZSS �ň��k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ<br>
      */
@@ -157,9 +160,9 @@ public interface PreLzssDecoder{
 
     /**
      * LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu��ǂݍ��ށB<br>
-     * 
+     *
      * @return LZSS �ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public abstract int readOffset() throws IOException;
@@ -174,23 +177,24 @@ public interface PreLzssDecoder{
     //  public abstract int getMaxMatch()
     //  public abstract int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * ����PreLzssDecoder����������LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return LZSS�����̃T�C�Y
      */
     public abstract int getDictionarySize();
 
     /**
      * ����PreLzssDecoder����������Œ���v���𓾂�B
-     * 
+     *
      * @return �Œ���v��
      */
     public abstract int getMaxMatch();
 
     /**
      * ����PreLzssDecoder���������鈳�k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return LZSS��臒l
      */
     public abstract int getThreshold();

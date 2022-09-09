@@ -3,19 +3,19 @@
 
 /**
  * PreLh5Decoder.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -46,7 +46,7 @@ import java.io.InputStream;
 
 /**
  * -lh4-, -lh5-, -lh6-, -lh7- �𓀗p�� PreLzssDecoder�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: PreLh5Decoder.java,v $
@@ -72,11 +72,11 @@ import java.io.InputStream;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.3 $
  */
-public class PreLh5Decoder implements PreLzssDecoder{
+public class PreLh5Decoder implements PreLzssDecoder {
 
 
     //------------------------------------------------------------------
@@ -111,12 +111,12 @@ public class PreLh5Decoder implements PreLzssDecoder{
     /**
      * cache ���̗L���o�C�g��
      */
-    private int    cacheLimit;
+    private int cacheLimit;
 
     /**
      * cache ���̌��ݏ����ʒu
      */
-    private int    cachePosition;
+    private int cachePosition;
 
 
     //------------------------------------------------------------------
@@ -132,12 +132,12 @@ public class PreLh5Decoder implements PreLzssDecoder{
     /**
      * �r�b�g�o�b�t�@
      */
-    private int    bitBuffer;
+    private int bitBuffer;
 
     /**
      * bitBuffer �� �L���r�b�g��
      */
-    private int    bitCount;
+    private int bitCount;
 
 
     //------------------------------------------------------------------
@@ -252,7 +252,7 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  private short[]   markOffLenTable
     //  private short[][] markOffLenTree
     //------------------------------------------------------------------
-    /** 
+    /**
      * mark�ʒu���L���b�V���͈͓̔��ɂ��邩�������B
      * mark���ꂽ�Ƃ� true �ɐݒ肳��A
      * ���� in ���� �L���b�V���ւ̓ǂݍ��݂�
@@ -261,27 +261,27 @@ public class PreLh5Decoder implements PreLzssDecoder{
     private boolean markPositionIsInCache;
 
     /** cache �� �o�b�N�A�b�v�p */
-    private byte[]    markCache;
+    private byte[] markCache;
     /** cacheAvailable �̃o�b�N�A�b�v�p */
-    private int       markCacheLimit;
+    private int markCacheLimit;
     /** cachePosition �̃o�b�N�A�b�v�p */
-    private int       markCachePosition;
+    private int markCachePosition;
     /** bitBuffer �̃o�b�N�A�b�v�p */
-    private int       markBitBuffer;
+    private int markBitBuffer;
     /** bitCount �̃o�b�N�A�b�v�p */
-    private int       markBitCount;
+    private int markBitCount;
     /** blockSize�̃o�b�N�A�b�v�p */
-    private int       markBlockSize;
+    private int markBlockSize;
     /** codeLen �̃o�b�N�A�b�v�p */
-    private int[]     markCodeLen;
+    private int[] markCodeLen;
     /** codeTable �̃o�b�N�A�b�v�p */
-    private short[]   markCodeTable;
+    private short[] markCodeTable;
     /** codeTree �̃o�b�N�A�b�v�p */
     private short[][] markCodeTree;
     /** offLenLen �̃o�b�N�A�b�v�p */
-    private int[]     markOffLenLen;
+    private int[] markOffLenLen;
     /** offLenTable �̃o�b�N�A�b�v�p */
-    private short[]   markOffLenTable;
+    private short[] markOffLenTable;
     /** offLenTree �̃o�b�N�A�b�v�p */
     private short[][] markOffLenTree;
 
@@ -295,26 +295,28 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  public PreLh5Decoder( InputStream in, String CompressMethod, 
     //                            int CodeTableBits, int OffLenTableBits )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private PreLh5Decoder(){    }
+    private PreLh5Decoder() {
+    }
 
     /**
      * -lh5- �𓀗p PreLzssDecoder ���\�z����B<br>
      * �e�[�u���T�C�Y�̓f�t�H���g�l���g�p����B
-     * 
+     *
      * @param in -lh5-�`���̈��k�f�[�^������������̓X�g���[��
      */
-    public PreLh5Decoder( InputStream in ){
-        this( in, CompressMethod.LH5, 12, 8 );
+    public PreLh5Decoder(InputStream in) {
+        this(in, CompressMethod.LH5, 12, 8);
     }
 
     /**
      * -lh4-,-lh5-,-lh6-,-lh7- �𓀗p PreLzssDecoder ���\�z����B<br>
      * �e�[�u���T�C�Y�ɂ� �f�t�H���g�l���g�p����B
-     * 
+     *
      * @param in      ���k�f�[�^������������̓X�g���[��
      * @param method  ���k�@���ʎq<br>
      *  &emsp;&emsp; CompressMethod.LH4 <br>
@@ -322,19 +324,19 @@ public class PreLh5Decoder implements PreLzssDecoder{
      *  &emsp;&emsp; CompressMethod.LH6 <br>
      *  &emsp;&emsp; CompressMethod.LH7 <br>
      *  &emsp;&emsp; �̉��ꂩ���w�肷��B
-     * 
-     * @exception IllegalArgumentException 
+     *
+     * @exception IllegalArgumentException
      *               method ����L�ȊO�̏ꍇ
      */
-    public PreLh5Decoder( InputStream in,
-                              String      method ){
+    public PreLh5Decoder(InputStream in,
+                         String method) {
 
-        this( in, method, 12, 8 );
+        this(in, method, 12, 8);
     }
 
     /**
      * -lh4-,-lh5-,-lh6-,-lh7- �𓀗p PreLzssDecoder ���\�z����B
-     * 
+     *
      * @param in              ���k�f�[�^������������̓X�g���[��
      * @param method          ���k�@���ʎq<br>
      *           &emsp;&emsp; CompressMethod.LH4 <br>
@@ -348,57 +350,57 @@ public class PreLh5Decoder implements PreLzssDecoder{
      * @param OffLenTableBits offLen ���𕜍����邽�߂Ɏg�p����
      *                        �e�[�u���̃T�C�Y���r�b�g���Ŏw�肷��B
      *                        8 ���w�肷��� 256 �̃��b�N�A�b�v�e�[�u���𐶐�����B 
-     * 
+     *
      * @exception IllegalArgumentException <br>
      *           &emsp;&emsp; (1) method ����L�ȊO�̏ꍇ<br>
      *           &emsp;&emsp; (2) CodeTableBits �������� 
      *                            OffLenTableBits �� 0�ȉ��̏ꍇ<br>
      *           &emsp;&emsp; �̉��ꂩ
      */
-    public PreLh5Decoder( InputStream in,
-                              String      method,
-                              int         CodeTableBits,
-                              int         OffLenTableBits ){
-        if( CompressMethod.LH4.equals( method )
-         || CompressMethod.LH5.equals( method )
-         || CompressMethod.LH6.equals( method )
-         || CompressMethod.LH7.equals( method ) ){
+    public PreLh5Decoder(InputStream in,
+                         String method,
+                         int CodeTableBits,
+                         int OffLenTableBits) {
+        if (CompressMethod.LH4.equals(method)
+                || CompressMethod.LH5.equals(method)
+                || CompressMethod.LH6.equals(method)
+                || CompressMethod.LH7.equals(method)) {
 
-            this.DictionarySize = CompressMethod.toDictionarySize( method );
-            this.MaxMatch       = CompressMethod.toMaxMatch( method );
-            this.Threshold      = CompressMethod.toThreshold( method );
+            this.DictionarySize = CompressMethod.toDictionarySize(method);
+            this.MaxMatch = CompressMethod.toMaxMatch(method);
+            this.Threshold = CompressMethod.toThreshold(method);
 
-            if( in != null
-             && 0 < CodeTableBits
-             && 0 < OffLenTableBits ){
-                this.in              = in;
-                this.cache           = new byte[ 1024 ];
-                this.cacheLimit      = 0;
-                this.cachePosition   = 0;
-                this.bitBuffer       = 0;
-                this.bitCount        = 0;
-                this.blockSize       = 0;
-                this.codeTableBits   = CodeTableBits;
+            if (in != null
+                    && 0 < CodeTableBits
+                    && 0 < OffLenTableBits) {
+                this.in = in;
+                this.cache = new byte[1024];
+                this.cacheLimit = 0;
+                this.cachePosition = 0;
+                this.bitBuffer = 0;
+                this.bitCount = 0;
+                this.blockSize = 0;
+                this.codeTableBits = CodeTableBits;
                 this.offLenTableBits = OffLenTableBits;
 
                 this.markPositionIsInCache = false;
-                this.markCache             = null;
-                this.markCacheLimit        = 0;
-                this.markCachePosition     = 0;
-                this.markBitBuffer         = 0;
-                this.markBitCount          = 0;
+                this.markCache = null;
+                this.markCacheLimit = 0;
+                this.markCachePosition = 0;
+                this.markBitBuffer = 0;
+                this.markBitCount = 0;
 
-            }else if( in == null ){
-                throw new NullPointerException( "in" );
-            }else if( CodeTableBits <= 0 ){
-                throw new IllegalArgumentException( "CodeTableBits too small. CodeTableBits must be larger than 1." );
-            }else{
-                throw new IllegalArgumentException( "OffHiTableBits too small. OffHiTableBits must be larger than 1." );
+            } else if (in == null) {
+                throw new NullPointerException("in");
+            } else if (CodeTableBits <= 0) {
+                throw new IllegalArgumentException("CodeTableBits too small. CodeTableBits must be larger than 1.");
+            } else {
+                throw new IllegalArgumentException("OffHiTableBits too small. OffHiTableBits must be larger than 1.");
             }
-        }else if( null == method ){
-            throw new NullPointerException( "method" );
-        }else{
-            throw new IllegalArgumentException( "Unknown compress method " + method );
+        } else if (null == method) {
+            throw new NullPointerException("method");
+        } else {
+            throw new IllegalArgumentException("Unknown compress method " + method);
         }
     }
 
@@ -411,14 +413,15 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  public int readCode()
     //  public int readOffset()
     //------------------------------------------------------------------
+
     /**
      * -lh5- �n�̈��k�@�ň��k���ꂽ 
      * 1byte ��LZSS�����k�̃f�[�^�A
      * �������͈��k�R�[�h�̂�����v����ǂݍ��ށB<br>
-     * 
+     *
      * @return 1byte �� �����k�̃f�[�^�A
      *         �������͈��k���ꂽ���k�R�[�h�̂�����v��
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      * @exception BadHuffmanTableException
@@ -426,52 +429,52 @@ public class PreLh5Decoder implements PreLzssDecoder{
      *                         �n�t�}���������̕\���s���ł���ꍇ
      */
     public int readCode() throws IOException {
-        if( this.blockSize <= 0 ){
+        if (this.blockSize <= 0) {
             this.readBlockHead();
         }
         this.blockSize--;
 
-        if( this.bitCount < 16 ){
-            if( 2 <= this.cacheLimit - this.cachePosition ){
-                this.bitBuffer |=   ( ( this.cache[ this.cachePosition++ ] & 0xFF ) << ( 24 - this.bitCount ) )
-                                  | ( ( this.cache[ this.cachePosition++ ] & 0xFF ) << ( 16 - this.bitCount ) );
-                this.bitCount  += 16;
-            }else{
+        if (this.bitCount < 16) {
+            if (2 <= this.cacheLimit - this.cachePosition) {
+                this.bitBuffer |= ((this.cache[this.cachePosition++] & 0xFF) << (24 - this.bitCount))
+                        | ((this.cache[this.cachePosition++] & 0xFF) << (16 - this.bitCount));
+                this.bitCount += 16;
+            } else {
                 this.fillBitBuffer();
 
-                int node = this.codeTable[ this.bitBuffer >>> ( 32 - this.codeTableBits ) ];
-                if( 0 <= node ){
+                int node = this.codeTable[this.bitBuffer >>> (32 - this.codeTableBits)];
+                if (0 <= node) {
                     int bits = this.bitBuffer << this.codeTableBits;
-                    do{
-                        node = this.codeTree[ bits >>> 31 ][ node ];
+                    do {
+                        node = this.codeTree[bits >>> 31][node];
                         bits <<= 1;
-                    }while( 0 <= node );
+                    } while (0 <= node);
                 }
-                int len = this.codeLen[ ~node ];
-                if( len <= this.bitCount ){
+                int len = this.codeLen[~node];
+                if (len <= this.bitCount) {
                     this.bitBuffer <<= len;
-                    this.bitCount   -= len;
+                    this.bitCount -= len;
 
                     return ~node;
-                }else{
-                    this.bitCount  = 0;
+                } else {
+                    this.bitCount = 0;
                     this.bitBuffer = 0;
                     throw new EOFException();
                 }
             }
         }
 
-        int node = this.codeTable[ this.bitBuffer >>> ( 32 - this.codeTableBits ) ];
-        if( 0 <= node ){
+        int node = this.codeTable[this.bitBuffer >>> (32 - this.codeTableBits)];
+        if (0 <= node) {
             int bits = this.bitBuffer << this.codeTableBits;
-            do{
-                node = this.codeTree[ bits >>> 31 ][ node ];
+            do {
+                node = this.codeTree[bits >>> 31][node];
                 bits <<= 1;
-            }while( 0 <= node );
+            } while (0 <= node);
         }
-        int len = this.codeLen[ ~node ];
+        int len = this.codeLen[~node];
         this.bitBuffer <<= len;
-        this.bitCount   -= len;
+        this.bitCount -= len;
 
         return ~node;
     }
@@ -479,39 +482,39 @@ public class PreLh5Decoder implements PreLzssDecoder{
     /**
      * -lh5- �n�̈��k�@�ň��k���ꂽ
      * LZSS���k�R�[�h�̂�����v�ʒu��ǂݍ��ށB<br>
-     * 
+     *
      * @return -lh5- �n�ň��k���ꂽ���k�R�[�h�̂�����v�ʒu
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public int readOffset() throws IOException {
-        if( this.bitCount < 16 ){
-            if( 2 <= this.cacheLimit - this.cachePosition ){
-                this.bitBuffer |=   ( ( this.cache[ this.cachePosition++ ] & 0xFF ) << ( 24 - this.bitCount ) )
-                                  | ( ( this.cache[ this.cachePosition++ ] & 0xFF ) << ( 16 - this.bitCount ) );
-                this.bitCount  += 16;
-            }else{
+        if (this.bitCount < 16) {
+            if (2 <= this.cacheLimit - this.cachePosition) {
+                this.bitBuffer |= ((this.cache[this.cachePosition++] & 0xFF) << (24 - this.bitCount))
+                        | ((this.cache[this.cachePosition++] & 0xFF) << (16 - this.bitCount));
+                this.bitCount += 16;
+            } else {
                 this.fillBitBuffer();
             }
         }
 
-        int node = this.offLenTable[ this.bitBuffer >>> ( 32 - this.offLenTableBits ) ];
-        if( 0 <= node ){
+        int node = this.offLenTable[this.bitBuffer >>> (32 - this.offLenTableBits)];
+        if (0 <= node) {
             int bits = this.bitBuffer << this.offLenTableBits;
-            do{
-                node = this.offLenTree[ bits >>> 31 ][ node ];
+            do {
+                node = this.offLenTree[bits >>> 31][node];
                 bits <<= 1;
-            }while( 0 <= node );
+            } while (0 <= node);
         }
         int offlen = ~node;
-        int len = this.offLenLen[ offlen ];
+        int len = this.offLenLen[offlen];
         this.bitBuffer <<= len;
-        this.bitCount   -= len;
+        this.bitCount -= len;
 
         offlen--;
-        if( 0 <= offlen ){
-            return ( 1 << offlen ) | this.readBits( offlen );
-        }else{
+        if (0 <= offlen) {
+            return (1 << offlen) | this.readBits(offlen);
+        } else {
             return 0;
         }
     }
@@ -526,6 +529,7 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  public void reset()
     //  public boolean markSupported()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
@@ -533,22 +537,22 @@ public class PreLh5Decoder implements PreLzssDecoder{
      * InputStream �� mark() �ƈႢ�AreadLimit �Őݒ肵��
      * ���E�o�C�g�����O�Ƀ}�[�N�ʒu�������ɂȂ�\����
      * ���鎖�ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
      *                  �\��������B<br>
-     * 
+     *
      * @see PreLzssDecoder#mark(int)
      */
-    public void mark( int readLimit ){
+    public void mark(int readLimit) {
 
         //------------------------------------------------------------------
         //  �n�t�}���������ōň��̏ꍇ���l������ readLimit ���v�Z����
-        if( this.blockSize < readLimit ){
+        if (this.blockSize < readLimit) {
             readLimit = readLimit * StaticHuffman.LimitLen / 8;
             readLimit += 272; //block head
-        }else{
+        } else {
             readLimit = readLimit * StaticHuffman.LimitLen / 8;
         }
 
@@ -557,39 +561,39 @@ public class PreLh5Decoder implements PreLzssDecoder{
         readLimit -= this.cacheLimit - this.cachePosition;
         readLimit -= this.bitCount / 8;
         readLimit += 4;
-        readLimit  = ( readLimit + this.cache.length - 1 ) / this.cache.length 
-                                                           * this.cache.length;
+        readLimit = (readLimit + this.cache.length - 1) / this.cache.length
+                * this.cache.length;
 
         //------------------------------------------------------------------
         //  mark ����
-        this.in.mark( readLimit );
+        this.in.mark(readLimit);
 
-        if( this.markCache == null ){
-            this.markCache = (byte[])this.cache.clone();
-        }else{
-            System.arraycopy( this.cache, 0, 
-                              this.markCache, 0, 
-                              this.cacheLimit );
+        if (this.markCache == null) {
+            this.markCache = (byte[]) this.cache.clone();
+        } else {
+            System.arraycopy(this.cache, 0,
+                    this.markCache, 0,
+                    this.cacheLimit);
         }
-        this.markCacheLimit        = this.cacheLimit;
-        this.markCachePosition     = this.cachePosition;
-        this.markBitBuffer         = this.bitBuffer;
-        this.markBitCount          = this.bitCount;
+        this.markCacheLimit = this.cacheLimit;
+        this.markCachePosition = this.cachePosition;
+        this.markBitBuffer = this.bitBuffer;
+        this.markBitCount = this.bitCount;
         this.markPositionIsInCache = true;
 
-        this.markBlockSize   = this.blockSize;
-        this.markCodeLen     = this.codeLen;
-        this.markCodeTable   = this.codeTable;
-        this.markCodeTree    = this.codeTree;
-        this.markOffLenLen   = this.offLenLen;
+        this.markBlockSize = this.blockSize;
+        this.markCodeLen = this.codeLen;
+        this.markCodeTable = this.codeTable;
+        this.markCodeTree = this.codeTree;
+        this.markOffLenLen = this.offLenLen;
         this.markOffLenTable = this.offLenTable;
-        this.markOffLenTree  = this.offLenTree;
+        this.markOffLenTree = this.offLenTree;
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException <br>
      * &emsp;&emsp; (1) mark() ������ reset() ���悤�Ƃ����ꍇ�B<br>
      * &emsp;&emsp; (2) �ڑ����ꂽ���̓X�g���[���� markSupported()��
@@ -599,54 +603,54 @@ public class PreLh5Decoder implements PreLzssDecoder{
      * &emsp;&emsp; �̉��ꂩ�B
      */
     public void reset() throws IOException {
-        if( this.markPositionIsInCache ){
+        if (this.markPositionIsInCache) {
             this.cachePosition = this.markCachePosition;
-            this.bitBuffer     = this.markBitBuffer;
-            this.bitCount      = this.markBitCount;
+            this.bitBuffer = this.markBitBuffer;
+            this.bitCount = this.markBitCount;
 
-            this.blockSize     = this.markBlockSize;
-            this.codeLen       = this.markCodeLen;
-            this.codeTable     = this.markCodeTable;
-            this.codeTree      = this.markCodeTree;
-            this.offLenLen     = this.markOffLenLen;
-            this.offLenTable   = this.markOffLenTable;
-            this.offLenTree    = this.markOffLenTree;
-        }else if( !this.in.markSupported() ){
-            throw new IOException( "not support mark()/reset()." );
-        }else if( this.markCache == null ){ //���̏������͖����Ƀ}�[�N����Ă��Ȃ����Ƃ������B�R���X�g���N�^�� markCache �� null �ɐݒ肳���̂𗘗p����B 
-            throw new IOException( "not marked." );
-        }else{
+            this.blockSize = this.markBlockSize;
+            this.codeLen = this.markCodeLen;
+            this.codeTable = this.markCodeTable;
+            this.codeTree = this.markCodeTree;
+            this.offLenLen = this.markOffLenLen;
+            this.offLenTable = this.markOffLenTable;
+            this.offLenTree = this.markOffLenTree;
+        } else if (!this.in.markSupported()) {
+            throw new IOException("not support mark()/reset().");
+        } else if (this.markCache == null) { //���̏������͖����Ƀ}�[�N����Ă��Ȃ����Ƃ������B�R���X�g���N�^�� markCache �� null �ɐݒ肳���̂𗘗p����B
+            throw new IOException("not marked.");
+        } else {
             //in �� reset() �ł��Ȃ��ꍇ��
             //�ŏ��̍s�� this.in.reset() ��
             //IOException �𓊂��邱�Ƃ����҂��Ă���B
             this.in.reset();                                                    //throws IOException
-            System.arraycopy( this.markCache, 0, 
-                              this.cache, 0, 
-                              this.markCacheLimit );
-            this.cacheLimit    = this.markCacheLimit;
+            System.arraycopy(this.markCache, 0,
+                    this.cache, 0,
+                    this.markCacheLimit);
+            this.cacheLimit = this.markCacheLimit;
             this.cachePosition = this.markCachePosition;
-            this.bitBuffer     = this.markBitBuffer;
-            this.bitCount      = this.markBitCount;
+            this.bitBuffer = this.markBitBuffer;
+            this.bitCount = this.markBitCount;
 
-            this.blockSize     = this.markBlockSize;
-            this.codeLen       = this.markCodeLen;
-            this.codeTable     = this.markCodeTable;
-            this.codeTree      = this.markCodeTree;
-            this.offLenLen     = this.markOffLenLen;
-            this.offLenTable   = this.markOffLenTable;
-            this.offLenTree    = this.markOffLenTree;
+            this.blockSize = this.markBlockSize;
+            this.codeLen = this.markCodeLen;
+            this.codeTable = this.markCodeTable;
+            this.codeTree = this.markCodeTree;
+            this.offLenLen = this.markOffLenLen;
+            this.offLenTable = this.markOffLenTable;
+            this.offLenTree = this.markOffLenTree;
         }
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ��
      * �T�|�[�g���邩�𓾂�B<br>
-     * 
+     *
      * @return �X�g���[���� mark() �� reset() ��
      *         �T�|�[�g����ꍇ�� true�B<br>
      *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
      */
-    public boolean markSupported(){
+    public boolean markSupported() {
         return this.in.markSupported();
     }
 
@@ -659,65 +663,66 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �u���b�N�����ɓǂݏo�����Ƃ̏o����Œ�o�C�g���𓾂�B<br>
      * InputStream �� available() �ƈႢ�A
      * ���̍Œ�o�C�g���͕K�������ۏႳ��Ă��Ȃ����ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����Œ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PreLzssDecoder#available()
      */
     public int available() throws IOException {
-        int avail = ( ( this.cacheLimit - this.cachePosition )
-                    + this.in.available() / this.cache.length * this.cache.length );//throws IOException
+        int avail = ((this.cacheLimit - this.cachePosition)
+                + this.in.available() / this.cache.length * this.cache.length);//throws IOException
         avail += this.bitCount - 32;
         avail = avail / StaticHuffman.LimitLen;
-        if( this.blockSize < avail ){
+        if (this.blockSize < avail) {
             avail -= 272;
         }
-        return Math.max( avail, 0 );
+        return Math.max(avail, 0);
     }
 
     /**
      * ���̃X�g���[������A�g�p���Ă����S�Ă̎������������B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
         this.in.close();                                                        //throws IOException
-        this.in                    = null;
+        this.in = null;
 
-        this.cache                 = null;
-        this.cacheLimit            = 0;
-        this.cachePosition         = 0;
-        this.bitBuffer             = 0;
-        this.bitCount              = 0;
+        this.cache = null;
+        this.cacheLimit = 0;
+        this.cachePosition = 0;
+        this.bitBuffer = 0;
+        this.bitCount = 0;
 
-        this.markCache             = null;
-        this.markCacheLimit        = 0;
-        this.markCachePosition     = 0;
-        this.markBitBuffer         = 0;
-        this.markBitCount          = 0;
+        this.markCache = null;
+        this.markCacheLimit = 0;
+        this.markCachePosition = 0;
+        this.markBitBuffer = 0;
+        this.markBitCount = 0;
         this.markPositionIsInCache = false;
 
-        this.blockSize       = 0;
-        this.codeLen         = null;
-        this.codeTable       = null;
-        this.codeTree        = null;
-        this.offLenLen       = null;
-        this.offLenTable     = null;
-        this.offLenTree      = null;
+        this.blockSize = 0;
+        this.codeLen = null;
+        this.codeTable = null;
+        this.codeTree = null;
+        this.offLenLen = null;
+        this.offLenTable = null;
+        this.offLenTree = null;
 
-        this.markBlockSize   = 0;
-        this.markCodeLen     = null;
-        this.markCodeTable   = null;
-        this.markCodeTree    = null;
-        this.markOffLenLen   = null;
+        this.markBlockSize = 0;
+        this.markCodeLen = null;
+        this.markCodeTable = null;
+        this.markCodeTree = null;
+        this.markOffLenLen = null;
         this.markOffLenTable = null;
-        this.markOffLenTree  = null;
+        this.markOffLenTree = null;
     }
 
 
@@ -730,30 +735,31 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  public int getMaxMatch()
     //  public int getThreshold()
     //------------------------------------------------------------------
+
     /**
      * ���� PreLh5Decoder ������LZSS�����̃T�C�Y�𓾂�B
-     * 
+     *
      * @return ���� PreLh5Decoder ������LZSS�����̃T�C�Y
      */
-    public int getDictionarySize(){
+    public int getDictionarySize() {
         return this.DictionarySize;
     }
 
     /**
      * ���� PreLh5Decoder ������LZSS�̍ő��v���𓾂�B
-     * 
+     *
      * @return ���� PreLh5Decoder ������LZSS�̍ő��v��
      */
-    public int getMaxMatch(){
+    public int getMaxMatch() {
         return this.MaxMatch;
     }
 
     /**
      * ���� PreLh5Decoder ���������k�A�񈳏k��臒l�𓾂�B
-     * 
+     *
      * @return ���� PreLh5Decoder ���������k�A�񈳏k��臒l
      */
-    public int getThreshold(){
+    public int getThreshold() {
         return this.Threshold;
     }
 
@@ -768,10 +774,11 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  private int[] readCodeLenList( HuffmanDecoder decoder )
     //  private int[] readOffLenLenList()
     //------------------------------------------------------------------
+
     /**
      * �n�t�}���u���b�N�̐擪�ɂ���
      * �u���b�N�T�C�Y��n�t�}���������̃��X�g��ǂݍ��ށB
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      * @exception BadHuffmanTableException
@@ -790,12 +797,12 @@ public class PreLh5Decoder implements PreLzssDecoder{
     private void readBlockHead() throws IOException {
         //�u���b�N�T�C�Y�ǂݍ���
         //����ȃf�[�^�̏ꍇ�A���̕����� EndOfStream �ɓ��B����B
-        try{
-            this.blockSize = this.readBits( 16 );                               //throws BitDataBrokenException, EOFException, IOException
-        }catch( BitDataBrokenException exception ){
-            if( exception.getCause() instanceof EOFException ){
-                throw (EOFException)exception.getCause();
-            }else{
+        try {
+            this.blockSize = this.readBits(16);                               //throws BitDataBrokenException, EOFException, IOException
+        } catch (BitDataBrokenException exception) {
+            if (exception.getCause() instanceof EOFException) {
+                throw (EOFException) exception.getCause();
+            } else {
                 throw exception;
             }
         }
@@ -803,45 +810,45 @@ public class PreLh5Decoder implements PreLzssDecoder{
         //codeLen ���̏���
         int[] codeLenLen = this.readCodeLenLen();                               //throws BitDataBrokenException, EOFException, IOException
         short[] codeLenTable;
-        if( null != codeLenLen ){
-            codeLenTable = StaticHuffman.createTable( codeLenLen );             //throws BadHuffmanTableException
-        }else{
-            codeLenTable = new short[]{ (short)this.readBits( 5 ) };            //throws BitDataBrokenException EOFException IOException
-            codeLenLen   = new int[ codeLenTable[0] + 1 ];
+        if (null != codeLenLen) {
+            codeLenTable = StaticHuffman.createTable(codeLenLen);             //throws BadHuffmanTableException
+        } else {
+            codeLenTable = new short[]{(short) this.readBits(5)};            //throws BitDataBrokenException EOFException IOException
+            codeLenLen = new int[codeLenTable[0] + 1];
         }
 
         //code ���̏���
-        this.codeLen = this.readCodeLen( codeLenTable, codeLenLen );            //throws BitDataBrokenException NotEnoughBitsException EOFException IOException
-        if( null != this.codeLen ){
-            short[][] tableAndTree = 
-                StaticHuffman.createTableAndTree( this.codeLen, this.codeTableBits );//throws BadHuffmanTableException
+        this.codeLen = this.readCodeLen(codeLenTable, codeLenLen);            //throws BitDataBrokenException NotEnoughBitsException EOFException IOException
+        if (null != this.codeLen) {
+            short[][] tableAndTree =
+                    StaticHuffman.createTableAndTree(this.codeLen, this.codeTableBits);//throws BadHuffmanTableException
             this.codeTable = tableAndTree[0];
-            this.codeTree  = new short[][]{ tableAndTree[1], tableAndTree[2] };
-        }else{
-            int code = this.readBits( 9 );                                      //throws BitDataBrokenException EOFException IOException
-            this.codeLen   = new int[ 256 + this.MaxMatch - this.Threshold + 1 ];
-            this.codeTable = new short[ 1 << this.codeTableBits ];
-            for( int i = 0 ; i < this.codeTable.length ; i++ ){
-                this.codeTable[i] = ((short)~code);
+            this.codeTree = new short[][]{tableAndTree[1], tableAndTree[2]};
+        } else {
+            int code = this.readBits(9);                                      //throws BitDataBrokenException EOFException IOException
+            this.codeLen = new int[256 + this.MaxMatch - this.Threshold + 1];
+            this.codeTable = new short[1 << this.codeTableBits];
+            for (int i = 0; i < this.codeTable.length; i++) {
+                this.codeTable[i] = ((short) ~code);
             }
-            this.codeTree = new short[][]{ new short[0], new short[0] };
+            this.codeTree = new short[][]{new short[0], new short[0]};
         }
 
         //offLen ���̏���
         this.offLenLen = this.readOffLenLen();                                  //throws BitDataBrokenException EOFException IOException
-        if( null != this.offLenLen ){
-            short[][] tableAndTree = 
-                StaticHuffman.createTableAndTree( this.offLenLen, this.offLenTableBits );//throws BadHuffmanTableException
+        if (null != this.offLenLen) {
+            short[][] tableAndTree =
+                    StaticHuffman.createTableAndTree(this.offLenLen, this.offLenTableBits);//throws BadHuffmanTableException
             this.offLenTable = tableAndTree[0];
-            this.offLenTree  = new short[][]{ tableAndTree[1], tableAndTree[2] };
-        }else{
-            int offLen = this.readBits( Bits.len( Bits.len( this.DictionarySize ) ) );//throws BitDataBrokenException EOFException IOException
-            this.offLenLen   = new int[ Bits.len( this.DictionarySize ) ];
-            this.offLenTable = new short[ 1 << this.offLenTableBits ];
-            for( int i = 0 ; i < this.offLenTable.length ; i++ ){
-                this.offLenTable[i] = ((short)~offLen);
+            this.offLenTree = new short[][]{tableAndTree[1], tableAndTree[2]};
+        } else {
+            int offLen = this.readBits(Bits.len(Bits.len(this.DictionarySize)));//throws BitDataBrokenException EOFException IOException
+            this.offLenLen = new int[Bits.len(this.DictionarySize)];
+            this.offLenTable = new short[1 << this.offLenTableBits];
+            for (int i = 0; i < this.offLenTable.length; i++) {
+                this.offLenTable[i] = ((short) ~offLen);
             }
-            this.offLenTree = new short[][]{ new short[0], new short[0] };
+            this.offLenTree = new short[][]{new short[0], new short[0]};
         }
     }
 
@@ -849,10 +856,10 @@ public class PreLh5Decoder implements PreLzssDecoder{
      * Code�̃n�t�}���������̃��X�g��
      * �n�t�}�������𕜍����邽�߂�
      * �n�t�}���������̃��X�g��ǂ݂��ށB
-     * 
+     *
      * @return �n�t�}���������̃��X�g�B
      *         �������̃��X�g�������ꍇ�� null
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      * @exception BitDataBrokenException
@@ -861,34 +868,34 @@ public class PreLh5Decoder implements PreLzssDecoder{
      *                         �̃f�[�^�������Ȃ������ꍇ
      */
     private int[] readCodeLenLen() throws IOException {
-        int listlen = this.readBits( 5 );                                       //throws BitDataBrokenException, EOFException, IOException
-        if( 0 < listlen ){
+        int listlen = this.readBits(5);                                       //throws BitDataBrokenException, EOFException, IOException
+        if (0 < listlen) {
             int[] codeLenLen = new int[listlen];
-            int   index = 0;
+            int index = 0;
 
-            while( index < listlen ){
-                int codelenlen = this.readBits( 3 );                            //throws BitDataBrokenException, EOFException, IOException
-                if( codelenlen == 0x07 ){
-                    while( this.readBoolean() ) codelenlen++;                   //throws EOFException, IOException
+            while (index < listlen) {
+                int codelenlen = this.readBits(3);                            //throws BitDataBrokenException, EOFException, IOException
+                if (codelenlen == 0x07) {
+                    while (this.readBoolean()) codelenlen++;                   //throws EOFException, IOException
                 }
                 codeLenLen[index++] = codelenlen;
 
-                if( index == 3 ){
-                    index += this.readBits( 2 );                                //throws BitDataBrokenException, EOFException, IOException
+                if (index == 3) {
+                    index += this.readBits(2);                                //throws BitDataBrokenException, EOFException, IOException
                 }
             }
             return codeLenLen;
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * Code�̃n�t�}���������̃��X�g�𕜍����Ȃ���ǂ݂���
-     * 
+     *
      * @return �n�t�}���������̃��X�g�B
      *         �������̃��X�g�������ꍇ�� null
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      * @exception BitDataBrokenException
@@ -900,43 +907,45 @@ public class PreLh5Decoder implements PreLzssDecoder{
      *                         ���f���ꂽ���ߗv�����ꂽ�r�b�g��
      *                         �̃f�[�^�������Ȃ������ꍇ
      */
-    private int[] readCodeLen( short[] codeLenTable, int[] codeLenLen ) 
-                                                            throws IOException {
+    private int[] readCodeLen(short[] codeLenTable, int[] codeLenLen)
+            throws IOException {
 
-        final int codeLenTableBits = Bits.len( codeLenTable.length - 1 );
+        final int codeLenTableBits = Bits.len(codeLenTable.length - 1);
 
-        int listlen = this.readBits( 9 );                                       //throws BitDataBrokenException, EOFException, IOException
-        if( 0 < listlen ){
+        int listlen = this.readBits(9);                                       //throws BitDataBrokenException, EOFException, IOException
+        if (0 < listlen) {
             int[] codeLen = new int[listlen];
-            int   index = 0;
+            int index = 0;
 
-            while( index < listlen ){
+            while (index < listlen) {
                 this.fillBitBuffer();
-                int bits = ( 0 < codeLenTableBits
-                           ? this.bitBuffer >>> ( 32 - codeLenTableBits )
-                           : 0 );
-                int codelen = codeLenTable[ bits ];
-                int len = codeLenLen[ codelen ];
+                int bits = (0 < codeLenTableBits
+                        ? this.bitBuffer >>> (32 - codeLenTableBits)
+                        : 0);
+                int codelen = codeLenTable[bits];
+                int len = codeLenLen[codelen];
                 this.bitBuffer <<= len;
-                this.bitCount   -= len;
+                this.bitCount -= len;
 
-                if( codelen == 0 )      index++;
-                else if( codelen == 1 ) index += this.readBits( 4 ) + 3;        //throws BitDataBrokenException, EOFException, IOException
-                else if( codelen == 2 ) index += this.readBits( 9 ) + 20;       //throws BitDataBrokenException, EOFException, IOException
-                else                    codeLen[index++] = codelen - 2;
+                if (codelen == 0) index++;
+                else if (codelen == 1)
+                    index += this.readBits(4) + 3;        //throws BitDataBrokenException, EOFException, IOException
+                else if (codelen == 2)
+                    index += this.readBits(9) + 20;       //throws BitDataBrokenException, EOFException, IOException
+                else codeLen[index++] = codelen - 2;
             }
             return codeLen;
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * offLen �̃n�t�}���������̃��X�g��ǂ݂���
-     * 
+     *
      * @return �n�t�}���������̃��X�g�B
      *         �������̃��X�g�������ꍇ�� null
-     * 
+     *
      * @exception IOException  ���o�̓G���[�����������ꍇ
      * @exception EOFException EndOfStream�ɒB�����ꍇ
      * @exception BitDataBrokenException
@@ -945,20 +954,20 @@ public class PreLh5Decoder implements PreLzssDecoder{
      *                         �̃f�[�^�������Ȃ������ꍇ
      */
     private int[] readOffLenLen() throws IOException {
-        int listlen = this.readBits( Bits.len( Bits.len( this.DictionarySize ) ) );//throws BitDataBrokenException, EOFException, IOException
-        if( 0 < listlen ){
+        int listlen = this.readBits(Bits.len(Bits.len(this.DictionarySize)));//throws BitDataBrokenException, EOFException, IOException
+        if (0 < listlen) {
             int[] offLenLen = new int[listlen];
-            int   index = 0;
+            int index = 0;
 
-            while( index < listlen ){
-                int offlenlen = this.readBits( 3 );                             //throws BitDataBrokenException, EOFException, IOException
-                if( offlenlen == 0x07 ){
-                    while( this.readBoolean() ) offlenlen++;                    //throws EOFException, IOException
+            while (index < listlen) {
+                int offlenlen = this.readBits(3);                             //throws BitDataBrokenException, EOFException, IOException
+                if (offlenlen == 0x07) {
+                    while (this.readBoolean()) offlenlen++;                    //throws EOFException, IOException
                 }
                 offLenLen[index++] = offlenlen;
             }
             return offLenLen;
-        }else{
+        } else {
             return null;
         }
     }
@@ -973,28 +982,29 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  private int readBits( int count )
     //  private int cachedBits()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������ 1�r�b�g�̃f�[�^��
      * �^�U�l�Ƃ��ēǂݍ��ށB<br>
-     * 
+     *
      * @return �ǂݍ��܂ꂽ1�r�b�g�̃f�[�^�� 
      *         1�ł���� true�A0�ł���� false ��Ԃ��B<br>
-     * 
+     *
      * @exception EOFException ����EndOfStream�ɒB���Ă����ꍇ
      * @exception IOException  �ڑ����ꂽ���̓X�g���[����
      *                         ���o�̓G���[�����������ꍇ
      */
     private boolean readBoolean() throws IOException {
-        if( 0 < this.bitCount ){
-            boolean bool = ( this.bitBuffer < 0 );
+        if (0 < this.bitCount) {
+            boolean bool = (this.bitBuffer < 0);
             this.bitBuffer <<= 1;
-            this.bitCount   -= 1;
+            this.bitCount -= 1;
             return bool;
-        }else{
+        } else {
             this.fillBitBuffer();
-            boolean bool = ( this.bitBuffer < 0 );
+            boolean bool = (this.bitBuffer < 0);
             this.bitBuffer <<= 1;
-            this.bitCount   -= 1;
+            this.bitCount -= 1;
             return bool;
         }
     }
@@ -1012,66 +1022,66 @@ public class PreLh5Decoder implements PreLzssDecoder{
      * �f�[�^��ǂݍ��ޓ���𔺂�Ȃ����� �߂�l�� ���0�A
      * EndOfStream �ɒB���Ă��Ă� EOFException ��
      * �����Ȃ��_�ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param count  �ǂݍ��ރf�[�^�̃r�b�g��
-     * 
+     *
      * @return �ǂݍ��܂ꂽ�r�b�g�f�[�^�B<br>
-     * 
-     * @exception IOException 
+     *
+     * @exception IOException
      *               �ڑ����ꂽ���̓X�g���[����
      *               ���o�̓G���[�����������ꍇ
-     * @exception EOFException 
+     * @exception EOFException
      *               ����EndOfStream�ɒB���Ă����ꍇ
-     * @exception BitDataBrokenException 
+     * @exception BitDataBrokenException
      *               �ǂݍ��ݓr���� EndOfStream�ɒB��������
      *               �v�����ꂽ�r�b�g���̃f�[�^�̓ǂݍ���
      *               �Ɏ��s�����ꍇ�B<br>
      */
-    private int readBits( int count ) throws IOException {
-        if( 0 < count ){
-            if( count <= this.bitCount ){
-                int bits = this.bitBuffer >>> ( 32 - count );
+    private int readBits(int count) throws IOException {
+        if (0 < count) {
+            if (count <= this.bitCount) {
+                int bits = this.bitBuffer >>> (32 - count);
                 this.bitBuffer <<= count;
-                this.bitCount   -= count;
+                this.bitCount -= count;
                 return bits;
-            }else{
+            } else {
                 final int requested = count;
                 int bits = 0;
-                try{
+                try {
                     this.fillBitBuffer();                                       //throws LocalEOFException IOException
-                    while( this.bitCount < count ){
+                    while (this.bitCount < count) {
                         count -= this.bitCount;
-                        if( count < 32 ){
-                            bits |= ( this.bitBuffer >>> ( 32 - this.bitCount ) ) << count;
+                        if (count < 32) {
+                            bits |= (this.bitBuffer >>> (32 - this.bitCount)) << count;
                         }
                         this.bitBuffer = 0;
-                        this.bitCount  = 0;
+                        this.bitCount = 0;
                         this.fillBitBuffer();                                   //throws LocalEOFException IOException
                     }
-                    bits |= this.bitBuffer >>> ( 32 - count );
+                    bits |= this.bitBuffer >>> (32 - count);
                     this.bitBuffer <<= count;
-                    this.bitCount   -= count;
+                    this.bitCount -= count;
                     return bits;
-                }catch( LocalEOFException exception ){
-                    if( exception.thrownBy( this ) && count < requested ){
-                        throw new BitDataBrokenException( exception, bits >>> count, requested - count );
-                    }else{
+                } catch (LocalEOFException exception) {
+                    if (exception.thrownBy(this) && count < requested) {
+                        throw new BitDataBrokenException(exception, bits >>> count, requested - count);
+                    } else {
                         throw exception;
                     }
                 }
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
     /**
      * ���� BitInputStream ���ɒ~�����Ă���r�b�g���𓾂�B<br>
-     * 
+     *
      * @return ���� BitInputStream ���ɒ~�����Ă���r�b�g���B<br>
      */
-    private int cachedBits(){
-        return this.bitCount + ( ( this.cacheLimit - this.cachePosition ) << 3 );
+    private int cachedBits() {
+        return this.bitCount + ((this.cacheLimit - this.cachePosition) << 3);
     }
 
 
@@ -1083,80 +1093,81 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //  private void fillBitBuffer()
     //  private void fillCache()
     //------------------------------------------------------------------
+
     /**
      * bitBuffer �Ƀf�[�^�𖞂����B
      * EndOfStream �t�߂������� bitBuffer �ɂ�
      * 25bit �̃f�[�^���m�ۂ���邱�Ƃ�ۏႷ��B
-     * 
+     *
      * @exception IOException       ���o�̓G���[�����������ꍇ
      * @exception LocalEOFException bitBuffer ����̏�Ԃ� EndOfStream �ɒB�����ꍇ
      */
     private void fillBitBuffer() throws IOException {
-        if( 32 <= this.cachedBits() ){
-            if( this.bitCount <= 24 ){
-                if( this.bitCount <= 16 ){
-                    if( this.bitCount <= 8 ){
-                        if( this.bitCount <= 0 ){
+        if (32 <= this.cachedBits()) {
+            if (this.bitCount <= 24) {
+                if (this.bitCount <= 16) {
+                    if (this.bitCount <= 8) {
+                        if (this.bitCount <= 0) {
                             this.bitBuffer = this.cache[this.cachePosition++] << 24;
-                            this.bitCount  = 8;
+                            this.bitCount = 8;
                         }
-                        this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                            << ( 24 - this.bitCount );
-                        this.bitCount  += 8;
+                        this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                                << (24 - this.bitCount);
+                        this.bitCount += 8;
                     }
-                    this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                        << ( 24 - this.bitCount );
-                    this.bitCount  += 8;
+                    this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                            << (24 - this.bitCount);
+                    this.bitCount += 8;
                 }
-                this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                    << ( 24 - this.bitCount );
-                this.bitCount  += 8;
+                this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                        << (24 - this.bitCount);
+                this.bitCount += 8;
             }
-        }else if( this.bitCount < 25 ){
-            if( this.bitCount == 0 ){
+        } else if (this.bitCount < 25) {
+            if (this.bitCount == 0) {
                 this.bitBuffer = 0;
             }
 
-            int count = Math.min( ( 32 - this.bitCount ) >> 3, 
-                                  this.cacheLimit - this.cachePosition );
-            while( 0 < count-- ){
-                this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                    << ( 24 - this.bitCount );
-                this.bitCount  += 8;
+            int count = Math.min((32 - this.bitCount) >> 3,
+                    this.cacheLimit - this.cachePosition);
+            while (0 < count--) {
+                this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                        << (24 - this.bitCount);
+                this.bitCount += 8;
             }
             this.fillCache();                                                   //throws IOException
-            if( this.cachePosition < this.cacheLimit ){
-                count = Math.min( ( 32 - this.bitCount ) >> 3, 
-                                  this.cacheLimit - this.cachePosition );
-                while( 0 < count-- ){
-                    this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                        << ( 24 - this.bitCount );
-                    this.bitCount  += 8;
+            if (this.cachePosition < this.cacheLimit) {
+                count = Math.min((32 - this.bitCount) >> 3,
+                        this.cacheLimit - this.cachePosition);
+                while (0 < count--) {
+                    this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                            << (24 - this.bitCount);
+                    this.bitCount += 8;
                 }
-            }else if( this.bitCount <= 0 ){
-                throw new LocalEOFException( this );
+            } else if (this.bitCount <= 0) {
+                throw new LocalEOFException(this);
             }
         }
     }
 
     /**
      * cache ����ɂȂ������� cache �Ƀf�[�^��ǂݍ��ށB
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     private void fillCache() throws IOException {
         this.markPositionIsInCache = false;
-        this.cacheLimit            = 0;
-        this.cachePosition         = 0;
+        this.cacheLimit = 0;
+        this.cachePosition = 0;
 
         //cache �Ƀf�[�^��ǂݍ���
         int read = 0;
-        while( 0 <= read && this.cacheLimit < this.cache.length ){
-            read = this.in.read( this.cache,
-                                 this.cacheLimit, 
-                                 this.cache.length - this.cacheLimit );         //throws IOException
+        while (0 <= read && this.cacheLimit < this.cache.length) {
+            read = this.in.read(this.cache,
+                    this.cacheLimit,
+                    this.cache.length - this.cacheLimit);         //throws IOException
 
-            if( 0 < read ) this.cacheLimit += read;
+            if (0 < read) this.cacheLimit += read;
         }
     }
 
@@ -1166,6 +1177,7 @@ public class PreLh5Decoder implements PreLzssDecoder{
     //------------------------------------------------------------------
     //  private static class LocalEOFException
     //------------------------------------------------------------------
+
     /**
      * BitInputStream ���� EndOfStream �̌��o��
      * EOFException ���g�p����̂͏��X��肪����̂�
@@ -1189,12 +1201,13 @@ public class PreLh5Decoder implements PreLzssDecoder{
         //  public LocalEOFException()
         //  public LocalEOFException( String message )
         //------------------------------------------------------------------
+
         /**
          * �R���X�g���N�^�B
-         * 
+         *
          * @param object ���̗�O�𓊂����I�u�W�F�N�g
          */
-        public LocalEOFException( Object object ){
+        public LocalEOFException(Object object) {
             super();
             this.owner = object;
         }
@@ -1204,16 +1217,17 @@ public class PreLh5Decoder implements PreLzssDecoder{
         //------------------------------------------------------------------
         //  public boolean thrownBy( Object object )
         //------------------------------------------------------------------
+
         /**
          * ���̗�O�� object �ɂ���ē�����ꂽ���ǂ����𓾂�B<br>
-         * 
+         *
          * @param object �I�u�W�F�N�g
-         * 
+         *
          * @return ���̗�O�� object�ɂ����
          *         ������ꂽ��O�ł���� true<br>
          *         �Ⴆ�� false<br>
          */
-        public boolean thrownBy( Object object ){
+        public boolean thrownBy(Object object) {
             return this.owner == object;
         }
     }

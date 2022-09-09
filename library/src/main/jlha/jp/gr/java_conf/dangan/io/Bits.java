@@ -3,9 +3,8 @@
 
 /**
  * Bits.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
  */
 
 package jp.gr.java_conf.dangan.io;
@@ -25,11 +24,11 @@ package jp.gr.java_conf.dangan.io;
  * add to version control
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class Bits{
+public class Bits {
 
 
     //------------------------------------------------------------------
@@ -37,9 +36,11 @@ public class Bits{
     //------------------------------------------------------------------
     //  private Bits()
     //------------------------------------------------------------------
+
     /**
      */
-    private Bits(){     }
+    private Bits() {
+    }
 
 
     //------------------------------------------------------------------
@@ -49,11 +50,12 @@ public class Bits{
     //------------------------------------------------------------------
     //  public static int len( int val )
     //------------------------------------------------------------------
+
     /**
      */
-    public static int len( int val ){
+    public static int len(int val) {
         int len = 0;
-        while( 0 != val ){
+        while (0 != val) {
             val >>>= 1;
             len++;
         }

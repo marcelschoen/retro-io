@@ -54,7 +54,7 @@ final class FsInfoSector extends Sector {
      * {@code Fat32BootSector}.
      *
      * @param bs the boot sector that specifies where the FS info sector is
-     *      stored
+     *           stored
      * @return the FS info sector that was read
      * @throws IOException on read error
      * @see Fat32BootSector#getFsInfoSectorNr()
@@ -62,7 +62,7 @@ final class FsInfoSector extends Sector {
     public static FsInfoSector read(Fat32BootSector bs) throws IOException {
         final FsInfoSector result =
                 new FsInfoSector(bs.getDevice(), offset(bs));
-        
+
         result.read();
         result.verify();
         return result;
@@ -82,10 +82,10 @@ final class FsInfoSector extends Sector {
 
         if (offset == 0) throw new IOException(
                 "creating a FS info sector at offset 0 is strange");
-        
+
         final FsInfoSector result =
                 new FsInfoSector(bs.getDevice(), offset(bs));
-        
+
         result.init();
         result.write();
         return result;
@@ -95,19 +95,6 @@ final class FsInfoSector extends Sector {
         return bs.getFsInfoSectorNr() * bs.getBytesPerSector();
     }
 
-    /**
-     * Sets the number of free clusters on the file system stored at
-     * {@link #FREE_CLUSTERS_OFFSET}.
-     *
-     * @param value the new free cluster count
-     * @see Fat#getFreeClusterCount()
-     */
-    public void setFreeClusterCount(long value) {
-        if (getFreeClusterCount() == value) return;
-        
-        set32(FREE_CLUSTERS_OFFSET, value);
-    }
-    
     /**
      * Returns the number of free clusters on the file system as sepcified by
      * the 32-bit value at {@link #FREE_CLUSTERS_OFFSET}.
@@ -120,15 +107,16 @@ final class FsInfoSector extends Sector {
     }
 
     /**
-     * Sets the last allocated cluster that was used in the {@link Fat}.
+     * Sets the number of free clusters on the file system stored at
+     * {@link #FREE_CLUSTERS_OFFSET}.
      *
-     * @param value the FAT's last allocated cluster number
-     * @see Fat#getLastAllocatedCluster()
+     * @param value the new free cluster count
+     * @see Fat#getFreeClusterCount()
      */
-    public void setLastAllocatedCluster(long value) {
-        if (getLastAllocatedCluster() == value) return;
-        
-        super.set32(LAST_ALLOCATED_OFFSET, value);
+    public void setFreeClusterCount(long value) {
+        if (getFreeClusterCount() == value) return;
+
+        set32(FREE_CLUSTERS_OFFSET, value);
     }
 
     /**
@@ -142,13 +130,25 @@ final class FsInfoSector extends Sector {
         return super.get32(LAST_ALLOCATED_OFFSET);
     }
 
+    /**
+     * Sets the last allocated cluster that was used in the {@link Fat}.
+     *
+     * @param value the FAT's last allocated cluster number
+     * @see Fat#getLastAllocatedCluster()
+     */
+    public void setLastAllocatedCluster(long value) {
+        if (getLastAllocatedCluster() == value) return;
+
+        super.set32(LAST_ALLOCATED_OFFSET, value);
+    }
+
     private void init() {
         buffer.position(0x00);
         buffer.put((byte) 0x52);
         buffer.put((byte) 0x52);
         buffer.put((byte) 0x61);
         buffer.put((byte) 0x41);
-        
+
         /* 480 reserved bytes */
 
         buffer.position(0x1e4);
@@ -156,14 +156,14 @@ final class FsInfoSector extends Sector {
         buffer.put((byte) 0x72);
         buffer.put((byte) 0x41);
         buffer.put((byte) 0x61);
-        
+
         setFreeClusterCount(-1);
         setLastAllocatedCluster(Fat.FIRST_CLUSTER);
 
         buffer.position(SIGNATURE_OFFSET);
         buffer.put((byte) 0x55);
         buffer.put((byte) 0xaa);
-        
+
         markDirty();
     }
 
@@ -184,5 +184,5 @@ final class FsInfoSector extends Sector {
                 ", dirty=" + isDirty() + //NOI18N
                 "]"; //NOI18N
     }
-    
+
 }

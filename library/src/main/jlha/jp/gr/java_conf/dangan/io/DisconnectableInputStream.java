@@ -3,19 +3,19 @@
 
 /**
  * DisconnectableInputStream.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -45,7 +45,7 @@ import java.io.InputStream;
  * �Ƃ̐ڑ�����������ꍇ��
  * LimitedInputStream �����g�p����
  * �ڑ������ʒu���߂����o�b�t�@�����O��}�~����K�v������B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: DisconnectableInputStream.java,v $
@@ -57,12 +57,12 @@ import java.io.InputStream;
  *     �\�[�X����
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
 public class DisconnectableInputStream extends InputStream
-                                       implements Disconnectable {
+        implements Disconnectable {
 
     //------------------------------------------------------------------
     //  instance field
@@ -82,22 +82,24 @@ public class DisconnectableInputStream extends InputStream
     //  private DisconnectableInputStream()
     //  public DisconnectableInputStream( InputStream in )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private DisconnectableInputStream(){    }
+    private DisconnectableInputStream() {
+    }
 
     /**
      * in �Ƃ̐ڑ��������\�ȓ��̓X�g���[�����\�z����B
-     * 
+     *
      * @param in ���̓X�g���[��
      */
-    public DisconnectableInputStream( InputStream in ){
-        if( in != null ){
+    public DisconnectableInputStream(InputStream in) {
+        if (in != null) {
             this.in = in;
-        }else{
-            throw new NullPointerException( "in" );
+        } else {
+            throw new NullPointerException("in");
         }
     }
 
@@ -112,12 +114,13 @@ public class DisconnectableInputStream extends InputStream
     //  public int read( byte[] buffer, int index, int length )
     //  public long skip( long length )
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������ ����1�o�C�g�̃f�[�^�𓾂�B<br>
-     * 
+     *
      * @return �ǂݍ��܂ꂽ1�o�C�g�̃f�[�^�B<br>
      *         EndOfStream�ɒB�����ꍇ�� -1 ��Ԃ��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public int read() throws IOException {
@@ -128,16 +131,16 @@ public class DisconnectableInputStream extends InputStream
      * �ڑ����ꂽ���̓X�g���[������ �o�C�g�z�� buffer ��
      * �������悤�Ƀf�[�^��ǂݍ��ށB<br>
      * �f�[�^�͕K������ buffer �𖞂����Ƃ͌���Ȃ����Ƃɒ��ӁB<br>
-     * 
+     *
      * @param buffer �ǂݍ��܂ꂽ�f�[�^���i�[���邽�߂̃o�C�g�z��
-     * 
+     *
      * @return buffer �ɓǂݍ��񂾃f�[�^�ʂ��o�C�g���ŕԂ��B<br>
      *         ���� EndOfStream �ɒB���Ă����ꍇ�� -1 ��Ԃ��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public int read( byte[] buffer ) throws IOException {
-        return this.in.read( buffer, 0, buffer.length );                        //throws IOException
+    public int read(byte[] buffer) throws IOException {
+        return this.in.read(buffer, 0, buffer.length);                        //throws IOException
     }
 
     /**
@@ -146,20 +149,20 @@ public class DisconnectableInputStream extends InputStream
      * �ǂݍ��ށB<br>
      * �f�[�^�͕K������ length �o�C�g�ǂݍ��܂��Ƃ͌���
      * �Ȃ����Ƃɒ��ӁB<br>
-     * 
+     *
      * @param buffer �ǂݍ��܂ꂽ�f�[�^���i�[���邽�߂̃o�C�g�z��
      * @param index  buffer���̃f�[�^�ǂݍ��݊J�n�ʒu
      * @param length buffer�ɓǂݍ��ރf�[�^��
-     * 
+     *
      * @return buffer �ɓǂݍ��񂾃f�[�^�ʂ��o�C�g���ŕԂ��B<br>
      *         ���� EndOfStream �ɒB���Ă����ꍇ�� -1 ��Ԃ��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public int read( byte[] buffer, int index, int length ) throws IOException {
-        if( 0 < length ){
-            return this.in.read( buffer, index, length );                       //throws IOException
-        }else{
+    public int read(byte[] buffer, int index, int length) throws IOException {
+        if (0 < length) {
+            return this.in.read(buffer, index, length);                       //throws IOException
+        } else {
             return 0;
         }
     }
@@ -167,17 +170,17 @@ public class DisconnectableInputStream extends InputStream
     /**
      * �ڑ����ꂽ���̓X�g���[���̃f�[�^�� length �o�C�g
      * �ǂݔ�΂��B<br>
-     * 
+     *
      * @param length �ǂݔ�΂��o�C�g���B<br>
-     * 
+     *
      * @return ���ۂɓǂݔ�΂��ꂽ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public long skip( long length ) throws IOException {
-        if( 0 < length ){
-            return this.in.skip( length );                                      //throws IOException
-        }else{
+    public long skip(long length) throws IOException {
+        if (0 < length) {
+            return this.in.skip(length);                                      //throws IOException
+        } else {
             return 0;
         }
     }
@@ -192,24 +195,25 @@ public class DisconnectableInputStream extends InputStream
     //  public void reset()
     //  public boolean markSupprted()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
      * �߂��悤�ɂ���B<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
      *                  �\��������B<br>
      */
-    public void mark( int readLimit ){
-        this.in.mark( readLimit );
+    public void mark(int readLimit) {
+        this.in.mark(readLimit);
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void reset() throws IOException {
@@ -219,12 +223,12 @@ public class DisconnectableInputStream extends InputStream
     /**
      * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ��
      * �T�|�[�g���邩�𓾂�B<br>
-     * 
+     *
      * @return �X�g���[���� mark() �� reset() ��
      *         �T�|�[�g����ꍇ�� true�B<br>
      *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
      */
-    public boolean  markSupprted(){
+    public boolean markSupprted() {
         return this.in.markSupported();
     }
 
@@ -237,12 +241,13 @@ public class DisconnectableInputStream extends InputStream
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������u���b�N���Ȃ���
      * �ǂݍ��ނ��Ƃ̂ł���o�C�g���𓾂�B<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����o�C�g���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public int available() throws IOException {
@@ -253,7 +258,7 @@ public class DisconnectableInputStream extends InputStream
      * �ڑ����ꂽ���̓X�g���[���Ƃ̐ڑ�����������B<br>
      * ���̃��\�b�h�� disconnect() ���ĂԂ����ł���B<br>
      */
-    public void close(){
+    public void close() {
         this.disconnect();
     }
 
@@ -263,10 +268,11 @@ public class DisconnectableInputStream extends InputStream
     //------------------------------------------------------------------
     //  public void disconnect
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���Ƃ̐ڑ�����������B<br>
      */
-    public void disconnect(){
+    public void disconnect() {
         this.in = null;
     }
 

@@ -3,22 +3,22 @@
 
 /**
  * HashAndBinaryTreeSearch.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -57,7 +57,7 @@ import java.lang.reflect.InvocationTargetException;
  * LZSS�� ��v�ʒu���߂��ꏊ�ɕ΂鎖��
  * ���p����悤�� -lh5- �̂悤�Ȉ��k�@�ł́A
  * ���k���͂����炩�ቺ����B
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: HashAndBinaryTreeSearch.java,v $
@@ -71,11 +71,11 @@ import java.lang.reflect.InvocationTargetException;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public class HashAndBinaryTreeSearch implements LzssSearchMethod{
+public class HashAndBinaryTreeSearch implements LzssSearchMethod {
 
 
     //------------------------------------------------------------------
@@ -216,42 +216,44 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
     //                                  int Threshold, byte[] TextBuffer, 
     //                                  String HashMethodClassName )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s��
      */
-    private HashAndBinaryTreeSearch(){  }
+    private HashAndBinaryTreeSearch() {
+    }
 
     /**
      * �n�b�V���Ɠ񕪖؂��g�p���������@�\���\�z����B<br>
      * �n�b�V���֐��̓f�t�H���g�̂��̂��g�p����B
-     * 
+     *
      * @param DictionarySize      �����T�C�Y
      * @param MaxMatch            �Œ���v��
      * @param Threshold           ���k�A�񈳏k��臒l
      * @param TextBuffer          LZSS���k���{�����߂̃o�b�t�@
      */
-    public HashAndBinaryTreeSearch( int    DictionarySize,
-                                    int    MaxMatch,
-                                    int    Threshold,
-                                    byte[] TextBuffer ){
+    public HashAndBinaryTreeSearch(int DictionarySize,
+                                   int MaxMatch,
+                                   int Threshold,
+                                   byte[] TextBuffer) {
 
-        this( DictionarySize,
-              MaxMatch,
-              Threshold,
-              TextBuffer,
-              HashShort.class.getName() );
+        this(DictionarySize,
+                MaxMatch,
+                Threshold,
+                TextBuffer,
+                HashShort.class.getName());
     }
 
     /**
      * �n�b�V���Ɠ񕪖؂��g�p���� LzssSearchMethod ���\�z����B
-     * 
+     *
      * @param DictionarySize      �����T�C�Y
      * @param MaxMatch            �Œ���v��
      * @param Threshold           ���k�A�񈳏k��臒l
      * @param TextBuffer          LZSS���k���{�����߂̃o�b�t�@
      * @param HashMethodClassName Hash�֐���񋟂���N���X��
-     * 
+     *
      * @exception NoClassDefFoundError
      *              HashMethodClassName �ŗ^����ꂽ�N���X��
      *              ������Ȃ��ꍇ�B
@@ -263,44 +265,44 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
      *              �R���X�g���N�^ HashMethod( byte[] )
      *              �������Ȃ��ꍇ
      */
-    public HashAndBinaryTreeSearch( int    DictionarySize,
-                                    int    MaxMatch,
-                                    int    Threshold,
-                                    byte[] TextBuffer,
-                                    String HashMethodClassName ){
+    public HashAndBinaryTreeSearch(int DictionarySize,
+                                   int MaxMatch,
+                                   int Threshold,
+                                   byte[] TextBuffer,
+                                   String HashMethodClassName) {
 
 
-        this.DictionarySize  = DictionarySize;
-        this.MaxMatch        = MaxMatch;
-        this.Threshold       = Threshold;
-        this.TextBuffer      = TextBuffer;
+        this.DictionarySize = DictionarySize;
+        this.MaxMatch = MaxMatch;
+        this.Threshold = Threshold;
+        this.TextBuffer = TextBuffer;
         this.DictionaryLimit = this.DictionarySize;
 
-        try{
-            this.hashMethod = (HashMethod)Factory.createInstance( 
-                                                   HashMethodClassName, 
-                                                   new Object[]{ TextBuffer } );
-        }catch( ClassNotFoundException exception ){
-            throw new NoClassDefFoundError( exception.getMessage() );
-        }catch( InvocationTargetException exception ){
-            throw new Error( exception.getTargetException().getMessage() );
-        }catch( NoSuchMethodException exception ){
-            throw new NoSuchMethodError( exception.getMessage() );
-        }catch( InstantiationException exception ){
-            throw new InstantiationError( exception.getMessage() );
+        try {
+            this.hashMethod = (HashMethod) Factory.createInstance(
+                    HashMethodClassName,
+                    new Object[]{TextBuffer});
+        } catch (ClassNotFoundException exception) {
+            throw new NoClassDefFoundError(exception.getMessage());
+        } catch (InvocationTargetException exception) {
+            throw new Error(exception.getTargetException().getMessage());
+        } catch (NoSuchMethodException exception) {
+            throw new NoSuchMethodError(exception.getMessage());
+        } catch (InstantiationException exception) {
+            throw new InstantiationError(exception.getMessage());
         }
 
         //  �n�b�V���e�[�u���̏�����
-        this.hashTable = new int[ this.hashMethod.tableSize() ];
-        for( int i = 0 ; i < this.hashTable.length ; i++ ){
+        this.hashTable = new int[this.hashMethod.tableSize()];
+        for (int i = 0; i < this.hashTable.length; i++) {
             this.hashTable[i] = HashAndBinaryTreeSearch.UNUSED;
         }
 
         //  �񕪖؂̏�����
-        this.parent = new int[ DictionarySize ];
-        this.large  = new int[ DictionarySize ];
-        this.small  = new int[ DictionarySize ];
-        for( int i = 0 ; i < this.parent.length ; i++ ){
+        this.parent = new int[DictionarySize];
+        this.large = new int[DictionarySize];
+        this.small = new int[DictionarySize];
+        for (int i = 0; i < this.parent.length; i++) {
             this.parent[i] = HashAndBinaryTreeSearch.UNUSED;
         }
     }
@@ -315,58 +317,59 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
     //  public void slide( int slideWidth, int slideEnd )
     //  public int putRequires()
     //------------------------------------------------------------------
+
     /**
      * position ����n�܂�f�[�^�p�^����
      * �n�b�V���Ɠ񕪖؂��g�p���������@�\�ɓo�^����B<br>
-     * 
+     *
      * @param position TextBuffer���̃f�[�^�p�^���̊J�n�ʒu
      */
-    public void put( int position ){
+    public void put(int position) {
 
         //------------------------------------------------------------------
         //  �񕪖؂���ł��Â��f�[�^�p�^�����폜
-        this.deleteNode( position - this.DictionarySize );
+        this.deleteNode(position - this.DictionarySize);
 
         //------------------------------------------------------------------
         //  �񕪖؂��� position ��}������ʒu������
-        int hash       = this.hashMethod.hash( position );
-        int parentpos  = this.hashTable[ hash ];
-        int scanpos    = this.hashTable[ hash ];
+        int hash = this.hashMethod.hash(position);
+        int parentpos = this.hashTable[hash];
+        int scanpos = this.hashTable[hash];
 
-        byte[] buf     = this.TextBuffer;
-        int max        = position + this.MaxMatch;
-        int p          = 0;
-        int s          = 0;
-        while( scanpos != HashAndBinaryTreeSearch.UNUSED ){
+        byte[] buf = this.TextBuffer;
+        int max = position + this.MaxMatch;
+        int p = 0;
+        int s = 0;
+        while (scanpos != HashAndBinaryTreeSearch.UNUSED) {
 
             s = scanpos;
             p = position;
-            while( buf[ s ] == buf[ p ] ){
+            while (buf[s] == buf[p]) {
                 s++;
                 p++;
-                if( max <= p ){
+                if (max <= p) {
                     //���S��v�𔭌�
-                    this.replaceNode( scanpos, position );
+                    this.replaceNode(scanpos, position);
                     return;
                 }
             }
 
             parentpos = scanpos;
-            scanpos = ( buf[ s ] < buf[ p ] 
-                      ? this.large[ scanpos & ( this.DictionarySize - 1 ) ]
-                      : this.small[ scanpos & ( this.DictionarySize - 1 ) ] );
+            scanpos = (buf[s] < buf[p]
+                    ? this.large[scanpos & (this.DictionarySize - 1)]
+                    : this.small[scanpos & (this.DictionarySize - 1)]);
         }
 
         //------------------------------------------------------------------
         //  position ����n�܂�f�[�^�p�^���� �񕪖؂ɓo�^
-        if( this.hashTable[ hash ] != HashAndBinaryTreeSearch.UNUSED ){
-            this.addNode( parentpos, position, p - position );
-        }else{
-            this.hashTable[ hash ] = position;
-            int node = position & ( this.DictionarySize - 1 );
-            this.parent[ node ] = HashAndBinaryTreeSearch.ROOT_NODE;
-            this.small[ node ]  = HashAndBinaryTreeSearch.UNUSED;
-            this.large[ node ]  = HashAndBinaryTreeSearch.UNUSED;
+        if (this.hashTable[hash] != HashAndBinaryTreeSearch.UNUSED) {
+            this.addNode(parentpos, position, p - position);
+        } else {
+            this.hashTable[hash] = position;
+            int node = position & (this.DictionarySize - 1);
+            this.parent[node] = HashAndBinaryTreeSearch.ROOT_NODE;
+            this.small[node] = HashAndBinaryTreeSearch.UNUSED;
+            this.large[node] = HashAndBinaryTreeSearch.UNUSED;
         }
     }
 
@@ -376,88 +379,88 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
      * �Œ��̈�v�������̂��������A
      * ������ position ����n�܂�f�[�^�p�^���� 
      * �n�b�V���Ɠ񕪖؂��g�p���������@�\�ɓo�^����B<br>
-     * 
+     *
      * @param position TextBuffer���̃f�[�^�p�^���̊J�n�ʒu�B
-     * 
+     *
      * @return ��v�����������ꍇ��
      *         LzssOutputStream.createSearchReturn 
      *         �ɂ���Đ������ꂽ��v�ʒu�ƈ�v���̏������l�A
      *         ��v��������Ȃ������ꍇ��
      *         LzssOutputStream.NOMATCH�B
-     * 
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     *
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public int searchAndPut( int position ){
+    public int searchAndPut(int position) {
 
         //------------------------------------------------------------------
         //  �񕪖؂���ł��Â��f�[�^�p�^�����폜
-        this.deleteNode( position - this.DictionarySize );
+        this.deleteNode(position - this.DictionarySize);
 
         //------------------------------------------------------------------
         //  �񕪖؂���Œ���v������
-        int hash       = this.hashMethod.hash( position );
-        int matchlen   = -1;
-        int matchpos   = this.hashTable[ hash ];
-        int parentpos  = this.hashTable[ hash ];
-        int scanpos    = this.hashTable[ hash ];
+        int hash = this.hashMethod.hash(position);
+        int matchlen = -1;
+        int matchpos = this.hashTable[hash];
+        int parentpos = this.hashTable[hash];
+        int scanpos = this.hashTable[hash];
 
-        byte[] buf     = this.TextBuffer;
-        int max        = position + this.MaxMatch;
-        int p          = 0;
-        int s          = 0;
-        int len        = 0;
-        while( scanpos != HashAndBinaryTreeSearch.UNUSED ){
+        byte[] buf = this.TextBuffer;
+        int max = position + this.MaxMatch;
+        int p = 0;
+        int s = 0;
+        int len = 0;
+        while (scanpos != HashAndBinaryTreeSearch.UNUSED) {
             s = scanpos;
             p = position;
-            while( buf[ s ] == buf[ p ] ){
+            while (buf[s] == buf[p]) {
                 s++;
                 p++;
-                if( max <= p ){
+                if (max <= p) {
                     //���S��v�𔭌�
-                    this.replaceNode( matchpos, position );
-                    return LzssOutputStream.createSearchReturn( matchlen, matchpos );
+                    this.replaceNode(matchpos, position);
+                    return LzssOutputStream.createSearchReturn(matchlen, matchpos);
                 }
             }
 
             len = p - position;
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scanpos;
                 matchlen = len;
-            }else if( matchlen == len && matchpos < scanpos ){
+            } else if (matchlen == len && matchpos < scanpos) {
                 matchpos = scanpos;
             }
 
             parentpos = scanpos;
-            scanpos = ( buf[ s ] < buf[ p ]
-                      ? this.large[ scanpos & ( this.DictionarySize - 1 ) ]
-                      : this.small[ scanpos & ( this.DictionarySize - 1 ) ] );
+            scanpos = (buf[s] < buf[p]
+                    ? this.large[scanpos & (this.DictionarySize - 1)]
+                    : this.small[scanpos & (this.DictionarySize - 1)]);
         }
 
         //------------------------------------------------------------------
         //  position ����n�܂�f�[�^�p�^���� �񕪖؂ɓo�^
-        if( this.hashTable[ hash ] != HashAndBinaryTreeSearch.UNUSED ){
-            this.addNode( parentpos, position, len );
-        }else{
-            this.hashTable[ hash ] = position;
-            int node               = position & ( this.DictionarySize - 1 );
-            this.parent[ node ]    = HashAndBinaryTreeSearch.ROOT_NODE;
-            this.small[ node ]     = HashAndBinaryTreeSearch.UNUSED;
-            this.large[ node ]     = HashAndBinaryTreeSearch.UNUSED;
+        if (this.hashTable[hash] != HashAndBinaryTreeSearch.UNUSED) {
+            this.addNode(parentpos, position, len);
+        } else {
+            this.hashTable[hash] = position;
+            int node = position & (this.DictionarySize - 1);
+            this.parent[node] = HashAndBinaryTreeSearch.ROOT_NODE;
+            this.small[node] = HashAndBinaryTreeSearch.UNUSED;
+            this.large[node] = HashAndBinaryTreeSearch.UNUSED;
         }
 
         //------------------------------------------------------------------
         //  ���\�b�h�̐擪�ō폜���ꂽ
         //  �ł������f�[�^�p�^���Ɣ�r
-        scanpos  = position - this.DictionarySize;
-        if( this.DictionaryLimit <= scanpos ){
+        scanpos = position - this.DictionarySize;
+        if (this.DictionaryLimit <= scanpos) {
             len = 0;
-            while( this.TextBuffer[ scanpos  + len ]
-                == this.TextBuffer[ position + len ] ){
-                if( this.MaxMatch <= ++len ) break;
+            while (this.TextBuffer[scanpos + len]
+                    == this.TextBuffer[position + len]) {
+                if (this.MaxMatch <= ++len) break;
             }
 
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scanpos;
                 matchlen = len;
             }
@@ -465,9 +468,9 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
 
         //------------------------------------------------------------------
         //  �Œ���v���Ăяo�����ɕԂ��B
-        if( this.Threshold <= matchlen ){
-            return LzssOutputStream.createSearchReturn( matchlen, matchpos );
-        }else{
+        if (this.Threshold <= matchlen) {
+            return LzssOutputStream.createSearchReturn(matchlen, matchpos);
+        } else {
             return LzssOutputStream.NOMATCH;
         }
     }
@@ -477,45 +480,45 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
      * position ����n�܂�f�[�^�p�^���ƍŒ��̈�v�������̂𓾂�B<br>
      * TextBuffer.length &lt position + MaxMatch �ƂȂ�悤�� position �ł́A
      * �񕪖؂����S�ɑ������Ȃ����ߍŒ���v�𓾂���Ƃ͌���Ȃ��B<br>
-     * 
+     *
      * @param position   TextBuffer���̃f�[�^�p�^���̊J�n�ʒu�B
      * @param lastPutPos �Ō�ɓo�^�����f�[�^�p�^���̊J�n�ʒu�B
-     * 
+     *
      * @return ��v�����������ꍇ��
      *         LzssOutputStream.createSearchReturn 
      *         �ɂ���Đ������ꂽ��v�ʒu�ƈ�v���̏������l�A
      *         ��v��������Ȃ������ꍇ��
      *         LzssOutputStream.NOMATCH�B
-     * 
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     *
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public int search( int position, int lastPutPos ){
+    public int search(int position, int lastPutPos) {
 
         //------------------------------------------------------------------
         //  �񕪖؂ɓo�^����Ă��Ȃ��f�[�^�p�^����
         //  �P���Ȓ��������Ō�������B
-        int matchlen   = this.Threshold - 1;
-        int matchpos   = position;
-        int scanpos    = position - 1;
-        int scanlimit  = Math.max( this.DictionaryLimit, lastPutPos );
+        int matchlen = this.Threshold - 1;
+        int matchpos = position;
+        int scanpos = position - 1;
+        int scanlimit = Math.max(this.DictionaryLimit, lastPutPos);
 
-        byte[] buf     = this.TextBuffer;
-        int max        = Math.min( this.TextBuffer.length,
-                                   position + this.MaxMatch );
-        int s          = 0;
-        int p          = 0;
-        int len        = 0;
-        while( scanlimit < scanpos ){
+        byte[] buf = this.TextBuffer;
+        int max = Math.min(this.TextBuffer.length,
+                position + this.MaxMatch);
+        int s = 0;
+        int p = 0;
+        int len = 0;
+        while (scanlimit < scanpos) {
             s = scanpos;
             p = position;
-            while( buf[ s ] == buf[ p ] ){
+            while (buf[s] == buf[p]) {
                 s++;
                 p++;
-                if( max <= p ) break;
+                if (max <= p) break;
             }
 
-            if( matchlen < len ){
+            if (matchlen < len) {
                 matchpos = scanpos;
                 matchlen = len;
             }
@@ -524,34 +527,34 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
 
         //------------------------------------------------------------------
         //  �񕪖؂�T��
-        if( this.hashMethod.hashRequires() <= this.TextBuffer.length - position ){
-            int hash  = this.hashMethod.hash( position );
-            scanpos   = this.hashTable[ hash ];
-            scanlimit = Math.max( this.DictionaryLimit, 
-                                  position - this.DictionarySize );
-            while( scanpos != HashAndBinaryTreeSearch.UNUSED ){
+        if (this.hashMethod.hashRequires() <= this.TextBuffer.length - position) {
+            int hash = this.hashMethod.hash(position);
+            scanpos = this.hashTable[hash];
+            scanlimit = Math.max(this.DictionaryLimit,
+                    position - this.DictionarySize);
+            while (scanpos != HashAndBinaryTreeSearch.UNUSED) {
                 s = scanpos;
                 p = position;
-                while( buf[ s ] == buf[ p ] ){
+                while (buf[s] == buf[p]) {
                     s++;
                     p++;
-                    if( max <= p ) break;
+                    if (max <= p) break;
                 }
 
-                if( p < max ){
+                if (p < max) {
                     len = p - position;
-                    if( scanlimit <= scanpos ){
-                        if( matchlen < len ){
+                    if (scanlimit <= scanpos) {
+                        if (matchlen < len) {
                             matchpos = scanpos;
                             matchlen = len;
-                        }else if( matchlen == len && matchpos < scanpos ){
+                        } else if (matchlen == len && matchpos < scanpos) {
                             matchpos = scanpos;
                         }
                     }
-                    scanpos = ( buf[ s ] < buf[ p ]
-                              ? this.large[ scanpos & ( this.DictionarySize - 1 ) ]
-                              : this.small[ scanpos & ( this.DictionarySize - 1 ) ] );
-                }else{
+                    scanpos = (buf[s] < buf[p]
+                            ? this.large[scanpos & (this.DictionarySize - 1)]
+                            : this.small[scanpos & (this.DictionarySize - 1)]);
+                } else {
                     break;
                 }
             }
@@ -559,9 +562,9 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
 
         //------------------------------------------------------------------
         //  �Œ���v���Ăяo�����ɕԂ��B
-        if( this.Threshold <= matchlen ){
-            return LzssOutputStream.createSearchReturn( matchlen, matchpos );
-        }else{
+        if (this.Threshold <= matchlen) {
+            return LzssOutputStream.createSearchReturn(matchlen, matchpos);
+        } else {
             return LzssOutputStream.NOMATCH;
         }
     }
@@ -571,13 +574,13 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
      * ����ɉ����� �n�b�V���Ɠ񕪖؂��g�p���������@�\���\������f�[�^��
      * TextBuffer���̃f�[�^�Ɩ������Ȃ��悤�ɑO���ֈړ����鏈�����s���B 
      */
-    public void slide(){
-        this.DictionaryLimit = Math.max( 0, this.DictionaryLimit - this.DictionarySize );
+    public void slide() {
+        this.DictionaryLimit = Math.max(0, this.DictionaryLimit - this.DictionarySize);
 
-        this.slideTree( this.hashTable );
-        this.slideTree( this.parent );
-        this.slideTree( this.small );
-        this.slideTree( this.large );
+        this.slideTree(this.hashTable);
+        this.slideTree(this.parent);
+        this.slideTree(this.small);
+        this.slideTree(this.large);
     }
 
     /**
@@ -586,10 +589,10 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
      * �K�v�Ƃ���f�[�^�ʂ𓾂�B<br>
      * �񕪖؂͓o�^�̍ۂɃf�[�^�p�^�����\������ 
      * �S��(MaxMatch�o�C�g)�̃f�[�^��K�v�Ƃ���B
-     * 
+     *
      * @return �R���X�g���N�^�ŗ^���� MaxMatch
      */
-    public int putRequires(){
+    public int putRequires() {
         return this.MaxMatch;
     }
 
@@ -604,51 +607,52 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
     //  private void contractNode( int oldpos, int newpos )
     //  private void replaceNode( int oldpos, int newpos )
     //------------------------------------------------------------------
+
     /**
      * parentpos �̃f�[�^�p�^���̎q�Ƃ��� 
      * position ����n�܂�f�[�^�p�^����񕪖؂ɓo�^����B<br>
      * parentpos �� position �̃f�[�^�p�^���� len �o�C�g��v����B
      * position �̈ʒu�̃m�[�h�͂��炩���� deleteNode ����
      * UNUSED �̏�Ԃɂ��Ă������ƁB
-     * 
+     *
      * @param parentpos �e�̃f�[�^�p�^����TextBuffer���̊J�n�ʒu
      * @param position  �V�K�ǉ�����f�[�^�p�^����TextBuffer���̊J�n�ʒu
      * @param len       �e�̃f�[�^�p�^���ƐV�K�ǉ�����f�[�^�p�^���̈�v��
      */
-    private void addNode( int parentpos, int position, int len ){
-        int parentnode = parentpos & ( this.DictionarySize - 1 );
-        int node       = position  & ( this.DictionarySize - 1 );
+    private void addNode(int parentpos, int position, int len) {
+        int parentnode = parentpos & (this.DictionarySize - 1);
+        int node = position & (this.DictionarySize - 1);
 
-        if( this.TextBuffer[ parentpos + len ] < this.TextBuffer[ position  + len ] ){
-            this.large[ parentnode ] = position;
-        }else{
-            this.small[ parentnode ] = position;
+        if (this.TextBuffer[parentpos + len] < this.TextBuffer[position + len]) {
+            this.large[parentnode] = position;
+        } else {
+            this.small[parentnode] = position;
         }
-        this.parent[ node ] = parentpos;
-        this.small[ node ]  = HashAndBinaryTreeSearch.UNUSED;
-        this.large[ node ]  = HashAndBinaryTreeSearch.UNUSED;
+        this.parent[node] = parentpos;
+        this.small[node] = HashAndBinaryTreeSearch.UNUSED;
+        this.large[node] = HashAndBinaryTreeSearch.UNUSED;
     }
 
     /**
      * position ����n�܂�f�[�^�p�^����񕪖؂���폜����B<br>
-     * 
+     *
      * @param position �폜����f�[�^�p�^���̊J�n�ʒu
      */
-    private void deleteNode( int position ){
-        int node = position & ( this.DictionarySize - 1 );
+    private void deleteNode(int position) {
+        int node = position & (this.DictionarySize - 1);
 
-        if( this.parent[ node ] != HashAndBinaryTreeSearch.UNUSED ){
-            if( this.small[ node ] == HashAndBinaryTreeSearch.UNUSED
-             && this.large[ node ] == HashAndBinaryTreeSearch.UNUSED ){
-                this.contractNode( position, HashAndBinaryTreeSearch.UNUSED );
-            }else if( this.small[ node ] == HashAndBinaryTreeSearch.UNUSED ){
-                this.contractNode( position, this.large[ node ] );
-            }else if( this.large[ node ] == HashAndBinaryTreeSearch.UNUSED ){
-                this.contractNode( position, this.small[ node ] );
-            }else{
-                int replace = this.findNext( position );
-                this.deleteNode( replace );
-                this.replaceNode( position, replace );
+        if (this.parent[node] != HashAndBinaryTreeSearch.UNUSED) {
+            if (this.small[node] == HashAndBinaryTreeSearch.UNUSED
+                    && this.large[node] == HashAndBinaryTreeSearch.UNUSED) {
+                this.contractNode(position, HashAndBinaryTreeSearch.UNUSED);
+            } else if (this.small[node] == HashAndBinaryTreeSearch.UNUSED) {
+                this.contractNode(position, this.large[node]);
+            } else if (this.large[node] == HashAndBinaryTreeSearch.UNUSED) {
+                this.contractNode(position, this.small[node]);
+            } else {
+                int replace = this.findNext(position);
+                this.deleteNode(replace);
+                this.replaceNode(position, replace);
             }
         }
     }
@@ -656,31 +660,31 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
     /**
      * �q�� newpos ���������Ȃ� oldpos ��, newpos �Œu��������B
      * oldpos �͓񕪖؂���폜�����B
-     * 
+     *
      * @param oldpos �폜����f�[�^�p�^���̊J�n�ʒu
      * @param newpos oldpos�ɒu�������f�[�^�p�^���̊J�n�ʒu
      */
-    private void contractNode( int oldpos, int newpos ){
-        int oldnode    = oldpos    & ( this.DictionarySize - 1 );
-        int newnode    = newpos    & ( this.DictionarySize - 1 );
-        int parentpos  = this.parent[ oldnode ];
-        int parentnode = parentpos & ( this.DictionarySize - 1 );
+    private void contractNode(int oldpos, int newpos) {
+        int oldnode = oldpos & (this.DictionarySize - 1);
+        int newnode = newpos & (this.DictionarySize - 1);
+        int parentpos = this.parent[oldnode];
+        int parentnode = parentpos & (this.DictionarySize - 1);
 
-        if( parentpos != HashAndBinaryTreeSearch.ROOT_NODE ){
-            if( oldpos == this.small[ parentnode ] ){
-                this.small[ parentnode ] = newpos;
-            }else{
-                this.large[ parentnode ] = newpos;
+        if (parentpos != HashAndBinaryTreeSearch.ROOT_NODE) {
+            if (oldpos == this.small[parentnode]) {
+                this.small[parentnode] = newpos;
+            } else {
+                this.large[parentnode] = newpos;
             }
-        }else{
-            this.hashTable[ this.hashMethod.hash( oldpos ) ] = newpos;
+        } else {
+            this.hashTable[this.hashMethod.hash(oldpos)] = newpos;
         }
 
-        if( newpos != HashAndBinaryTreeSearch.UNUSED ){
-            this.parent[ newnode ] = parentpos;
+        if (newpos != HashAndBinaryTreeSearch.UNUSED) {
+            this.parent[newnode] = parentpos;
         }
 
-        this.parent[ oldnode ] = HashAndBinaryTreeSearch.UNUSED;
+        this.parent[oldnode] = HashAndBinaryTreeSearch.UNUSED;
     }
 
     /**
@@ -689,39 +693,39 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
      * ��������deleteNode(newpos) ����Ȃǂ��āA
      * �񕪖؂���O���K�v������B
      * oldpos �͓񕪖؂���폜�����B
-     * 
+     *
      * @param oldpos �폜����f�[�^�p�^���̊J�n�ʒu
      * @param newpos oldpos�ɒu�������f�[�^�p�^���̊J�n�ʒu
      */
-    private void replaceNode( int oldpos, int newpos ){
-        int oldnode    = oldpos    & ( this.DictionarySize - 1 );
-        int newnode    = newpos    & ( this.DictionarySize - 1 );
-        int parentpos  = this.parent[ oldnode ];
-        int parentnode = parentpos & ( this.DictionarySize - 1 );
+    private void replaceNode(int oldpos, int newpos) {
+        int oldnode = oldpos & (this.DictionarySize - 1);
+        int newnode = newpos & (this.DictionarySize - 1);
+        int parentpos = this.parent[oldnode];
+        int parentnode = parentpos & (this.DictionarySize - 1);
 
-        if( parentpos != HashAndBinaryTreeSearch.ROOT_NODE ){
-            if( oldpos == this.small[ parentnode ] ){
-                this.small[ parentnode ] = newpos;
-            }else{
-                this.large[ parentnode ] = newpos;
+        if (parentpos != HashAndBinaryTreeSearch.ROOT_NODE) {
+            if (oldpos == this.small[parentnode]) {
+                this.small[parentnode] = newpos;
+            } else {
+                this.large[parentnode] = newpos;
             }
-        }else{
-            this.hashTable[ this.hashMethod.hash( oldpos ) ] = newpos;
+        } else {
+            this.hashTable[this.hashMethod.hash(oldpos)] = newpos;
         }
 
-        this.parent[ newnode ] = parentpos;
-        this.small[ newnode ]  = this.small[ oldnode ];
-        this.large[ newnode ]  = this.large[ oldnode ];
-        if( this.small[ newnode ] != HashAndBinaryTreeSearch.UNUSED ){
-            this.parent[ this.small[ newnode ] & ( this.DictionarySize - 1 ) ] = newpos;
+        this.parent[newnode] = parentpos;
+        this.small[newnode] = this.small[oldnode];
+        this.large[newnode] = this.large[oldnode];
+        if (this.small[newnode] != HashAndBinaryTreeSearch.UNUSED) {
+            this.parent[this.small[newnode] & (this.DictionarySize - 1)] = newpos;
         }
-        if( this.large[ newnode ] != HashAndBinaryTreeSearch.UNUSED ){
-            this.parent[ this.large[ newnode ] & ( this.DictionarySize - 1 ) ] = newpos;
+        if (this.large[newnode] != HashAndBinaryTreeSearch.UNUSED) {
+            this.parent[this.large[newnode] & (this.DictionarySize - 1)] = newpos;
         }
 
-        this.parent[ oldnode ] = HashAndBinaryTreeSearch.UNUSED;
-        this.large[ oldnode ]  = HashAndBinaryTreeSearch.UNUSED;
-        this.small[ oldnode ]  = HashAndBinaryTreeSearch.UNUSED;
+        this.parent[oldnode] = HashAndBinaryTreeSearch.UNUSED;
+        this.large[oldnode] = HashAndBinaryTreeSearch.UNUSED;
+        this.small[oldnode] = HashAndBinaryTreeSearch.UNUSED;
     }
 
 
@@ -733,25 +737,26 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
     //  private int findNext( int position )
     //  private void slideTree( int[] src, int[] dst, int start, int end, int width )
     //------------------------------------------------------------------
+
     /**
      * deleteNode( position ) �����Ƃ��ɁA
      * small �� large �̗����̗t�����������ꍇ�A
      * position �̂���n�܂�f�[�^�p�^����
      * �u��������ׂ� �f�[�^�p�^���̊J�n�ʒu��T���o���B
-     * 
+     *
      * @param position �u����������f�[�^�p�^���̊J�n�ʒu
-     * 
+     *
      * @return position �̂���n�܂�f�[�^�p�^����
      *         �u��������ׂ� �f�[�^�p�^���̊J�n�ʒu
      */
-    private int findNext( int position ){
-        int node = position & ( this.DictionarySize - 1 );
+    private int findNext(int position) {
+        int node = position & (this.DictionarySize - 1);
 
-        position = this.small[ node ];
-        node =  position & ( this.DictionarySize - 1 );
-        while( HashAndBinaryTreeSearch.UNUSED != this.large[ node ] ){
-            position = this.large[ node ];
-            node     = position & ( this.DictionarySize - 1 );
+        position = this.small[node];
+        node = position & (this.DictionarySize - 1);
+        while (HashAndBinaryTreeSearch.UNUSED != this.large[node]) {
+            position = this.large[node];
+            node = position & (this.DictionarySize - 1);
         }
 
         return position;
@@ -760,14 +765,14 @@ public class HashAndBinaryTreeSearch implements LzssSearchMethod{
 
     /**
      * slide() ���ɁA�񕪖؂̊e�v�f���ړ������邽�߂Ɏg�p����B
-     * 
+     *
      * @param array ��������z��
      */
-    private void slideTree( int[] array ){
-        for( int i = 0 ; i < array.length ; i++ ){
-            array[ i ] = ( 0 <= array[i] 
-                         ? array[i] - this.DictionarySize 
-                         : array[i] );
+    private void slideTree(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = (0 <= array[i]
+                    ? array[i] - this.DictionarySize
+                    : array[i]);
         }
     }
 

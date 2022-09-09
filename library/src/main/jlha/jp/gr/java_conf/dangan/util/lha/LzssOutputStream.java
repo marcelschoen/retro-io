@@ -3,19 +3,19 @@
 
 /**
  * LzssOutputStream.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -45,7 +45,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * �f�[�^�� LZSS���k���Ȃ���
  * �w�肳�ꂽ PostLzssEncoder �ɏo�͂��鈳�k�p�o�̓X�g���[���B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: LzssOutputStream.java,v $
@@ -78,11 +78,11 @@ import java.lang.reflect.InvocationTargetException;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.2 $
  */
-public class LzssOutputStream extends OutputStream{
+public class LzssOutputStream extends OutputStream {
 
 
     //------------------------------------------------------------------
@@ -94,16 +94,15 @@ public class LzssOutputStream extends OutputStream{
     //  private static final int NOMATCH
     //------------------------------------------------------------------
     /**
-     * lastsearchret �ɓo�^����l�B
-     * searchAndPut�̏������K�v�ł��鎖�������B
-     */
-    private static final int NEEDSEARCH = 0;
-
-    /**
      * searchret �����̒l�������ꍇ�A
      * �����̌��ʁA臒l�ȏ�̈�v��������Ȃ��������������B
      */
     public static final int NOMATCH = -1;
+    /**
+     * lastsearchret �ɓo�^����l�B
+     * searchAndPut�̏������K�v�ł��鎖�������B
+     */
+    private static final int NEEDSEARCH = 0;
 
 
     //------------------------------------------------------------------
@@ -175,7 +174,7 @@ public class LzssOutputStream extends OutputStream{
     /**
      * TextBuffer���������݊����ʒu
      * LzssOutputStream.write() �ɂ���ď������܂ꂽ�ʒu
-     * 
+     *
      * �ȉ���3�҂̊֌W�� putPos <= searchedPos <= writtenPos �ƂȂ�B
      */
     private int writtenPos;
@@ -223,34 +222,36 @@ public class LzssOutputStream extends OutputStream{
     //  public LzssOutputStream( PostLzssEncoder encoder )
     //  public LzssOutputStream( PostLzssEncoder encoder, String SearchMethod )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private LzssOutputStream(){ }
-
-    /**
-     * write() �ɂ���ď������܂ꂽ�f�[�^��
-     * LZSS�ň��k���A���k�����f�[�^�� encoder�ɏo�͂���
-     * �o�̓X�g���[�����\�z����B
-     * 
-     * @param encoder LZSS���k�f�[�^�o�̓X�g���[��
-     */
-    public LzssOutputStream( PostLzssEncoder encoder ){
-        this( encoder, 
-              HashAndChainedListSearch.class.getName(),
-              new Object[0] );
+    private LzssOutputStream() {
     }
 
     /**
      * write() �ɂ���ď������܂ꂽ�f�[�^��
      * LZSS�ň��k���A���k�����f�[�^�� encoder�ɏo�͂���
      * �o�̓X�g���[�����\�z����B
-     * 
+     *
      * @param encoder LZSS���k�f�[�^�o�̓X�g���[��
-     * @param LzssSearchMethodClassName 
+     */
+    public LzssOutputStream(PostLzssEncoder encoder) {
+        this(encoder,
+                HashAndChainedListSearch.class.getName(),
+                new Object[0]);
+    }
+
+    /**
+     * write() �ɂ���ď������܂ꂽ�f�[�^��
+     * LZSS�ň��k���A���k�����f�[�^�� encoder�ɏo�͂���
+     * �o�̓X�g���[�����\�z����B
+     *
+     * @param encoder LZSS���k�f�[�^�o�̓X�g���[��
+     * @param LzssSearchMethodClassName
      *                LzssSearchMethod �̎����������p�b�P�[�W�����܂߂��N���X��
-     * 
+     *
      * @exception NoClassDefFoundError
      *              LzssSearchMethodClassName �ŗ^����ꂽ�N���X��
      *              ������Ȃ��ꍇ�B
@@ -262,22 +263,22 @@ public class LzssOutputStream extends OutputStream{
      *              �R���X�g���N�^ LzssSearchMethod( int, int, int, byte[], int )
      *              �������Ȃ��ꍇ
      */
-    public LzssOutputStream( PostLzssEncoder encoder, 
-                             String          LzssSearchMethodClassName ){
-        this( encoder, 
-              LzssSearchMethodClassName,
-              new Object[0] );
+    public LzssOutputStream(PostLzssEncoder encoder,
+                            String LzssSearchMethodClassName) {
+        this(encoder,
+                LzssSearchMethodClassName,
+                new Object[0]);
     }
 
     /**
      * write() �ɂ���ď������܂ꂽ�f�[�^��
      * LZSS�ň��k���A���k�����f�[�^�� encoder�ɏo�͂���
      * �o�̓X�g���[�����\�z����B
-     * 
+     *
      * @param encoder LZSS���k�f�[�^�o�̓X�g���[��
-     * @param LzssSearchMethodClassName 
+     * @param LzssSearchMethodClassName
      *                LzssSearchMethod �̎����������p�b�P�[�W�����܂߂��N���X��
-     * 
+     *
      * @exception NoClassDefFoundError
      *              LzssSearchMethodClassName �ŗ^����ꂽ�N���X��
      *              ������Ȃ��ꍇ�B
@@ -289,44 +290,44 @@ public class LzssOutputStream extends OutputStream{
      *              �R���X�g���N�^ LzssSearchMethod( int, int, int, byte[] )
      *              �������Ȃ��ꍇ
      */
-    public LzssOutputStream( PostLzssEncoder encoder, 
-                             String   LzssSearchMethodClassName,
-                             Object[] LzssSearchMethodExtraArguments ){
+    public LzssOutputStream(PostLzssEncoder encoder,
+                            String LzssSearchMethodClassName,
+                            Object[] LzssSearchMethodExtraArguments) {
 
-        this.DictionarySize  = encoder.getDictionarySize();
-        this.MaxMatch        = encoder.getMaxMatch();
-        this.Threshold       = encoder.getThreshold();
+        this.DictionarySize = encoder.getDictionarySize();
+        this.MaxMatch = encoder.getMaxMatch();
+        this.Threshold = encoder.getThreshold();
 
-        this.encoder         = encoder;
-        this.TextBuffer      = new byte[ this.DictionarySize * 2 
-                                       + this.MaxMatch ];
-        this.writtenPos      = this.DictionarySize;
-        this.putPos          = this.DictionarySize;
-        this.searchPos       = this.DictionarySize;
+        this.encoder = encoder;
+        this.TextBuffer = new byte[this.DictionarySize * 2
+                + this.MaxMatch];
+        this.writtenPos = this.DictionarySize;
+        this.putPos = this.DictionarySize;
+        this.searchPos = this.DictionarySize;
         this.DictionaryLimit = this.DictionarySize;
-        this.lastsearchret   = LzssOutputStream.NEEDSEARCH;
+        this.lastsearchret = LzssOutputStream.NEEDSEARCH;
 
-        Object[] arguments   = new Object[ LzssSearchMethodExtraArguments.length + 4 ];
-        arguments[0] = new Integer( this.DictionarySize );
-        arguments[1] = new Integer( this.MaxMatch );
-        arguments[2] = new Integer( this.Threshold );
+        Object[] arguments = new Object[LzssSearchMethodExtraArguments.length + 4];
+        arguments[0] = new Integer(this.DictionarySize);
+        arguments[1] = new Integer(this.MaxMatch);
+        arguments[2] = new Integer(this.Threshold);
         arguments[3] = this.TextBuffer;
-        for( int i = 0 ; i < LzssSearchMethodExtraArguments.length ; i++ ){
-            arguments[4+i] = LzssSearchMethodExtraArguments[i];
+        for (int i = 0; i < LzssSearchMethodExtraArguments.length; i++) {
+            arguments[4 + i] = LzssSearchMethodExtraArguments[i];
         }
 
-        try{
-            this.method = (LzssSearchMethod)Factory.createInstance( 
-                            LzssSearchMethodClassName, 
-                            arguments );                                        //throw ClasNotfoundException, InvocationTargetException, NoSuchMethodException, InstantiationException
-        }catch( ClassNotFoundException exception ){
-            throw new NoClassDefFoundError( exception.getMessage() );
-        }catch( InvocationTargetException exception ){
-            throw new Error( exception.getTargetException().getMessage() );
-        }catch( NoSuchMethodException exception ){
-            throw new NoSuchMethodError( exception.getMessage() );
-        }catch( InstantiationException exception ){
-            throw new InstantiationError( exception.getMessage() );
+        try {
+            this.method = (LzssSearchMethod) Factory.createInstance(
+                    LzssSearchMethodClassName,
+                    arguments);                                        //throw ClasNotfoundException, InvocationTargetException, NoSuchMethodException, InstantiationException
+        } catch (ClassNotFoundException exception) {
+            throw new NoClassDefFoundError(exception.getMessage());
+        } catch (InvocationTargetException exception) {
+            throw new Error(exception.getTargetException().getMessage());
+        } catch (NoSuchMethodException exception) {
+            throw new NoSuchMethodError(exception.getMessage());
+        } catch (InstantiationException exception) {
+            throw new InstantiationError(exception.getMessage());
         }
     }
 
@@ -340,73 +341,48 @@ public class LzssOutputStream extends OutputStream{
     //  public void write( byte[] buffer )
     //  public void write( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
-    /**
-     * ���k�@�\��1�o�C�g�̃f�[�^���o�͂���B<br>
-     * ���ۂ�PostLzssEncoder �Ƀf�[�^���n�����̂� 
-     * TextBuffer ���������ꂽ�Ƃ����A
-     * flush �Ŗ����I�ɏo�͂��w���������̂݁B<br>
-     * 
-     * @param data 1�o�C�g�̃f�[�^
-     * 
-     * @exception IOException ���o�̓G���[�����������ꍇ
-     */
-    public void write( int data ) throws IOException {
-        this.TextBuffer[ this.writtenPos++ ] = (byte)data;
 
-        if( this.TextBuffer.length <= this.writtenPos ){
-            this.encode( false );                                               //throws IOException
-            this.slide();                                                       
-        }
+    /**
+     * search �̖߂�l�𐶐�����B
+     * search �͈�v�ʒu��Ԃ����A��v���������ɕԂ����ق���
+     * ���ɕ֗��ł��邽�߁A��v�ʒu����v�����K�v�ȃr�b�g����
+     * ���Ȃ����Ƃ𗘗p���� int�^�ł���肷��B
+     * ���̂��߂̓��ꂵ��������񑩂���֐��B
+     * ���̊֐��Ő������ꂽ�l���� ��v�ʒu���v�������o���ۂɂ�
+     * getMatchLen�A getMatchPos ���g�p����B
+     *
+     * @param matchlen ��v��
+     * @param matchpos ��v�ʒu
+     *
+     * @return ��v���ƈ�v�ʒu�̏����܂�search�̖߂�l
+     */
+    public static final int createSearchReturn(int matchlen, int matchpos) {
+        return matchlen << 22 | matchpos;
     }
 
     /**
-     * ���k�@�\�� buffer ���̃f�[�^��S�ďo�͂���B<br>
-     * ���ۂ�PostLzssEncoder �Ƀf�[�^���n�����̂� 
-     * TextBuffer ���������ꂽ�Ƃ����A
-     * flush �Ŗ����I�ɏo�͂��w���������̂݁B<br>
-     * 
-     * @param buffer �f�[�^�̊i�[���ꂽ�o�b�t�@
-     * 
-     * @exception IOException ���o�̓G���[�����������ꍇ
+     * createSearchReturn �Ő������ꂽ search�̖߂�l����
+     * ��v�������o���B
+     *
+     * @param searchret search �̖߂�l
+     *
+     * @return ��v��
      */
-    public void write( byte[] buffer ) throws IOException {
-        this.write( buffer, 0, buffer.length );                                 //throws IOException
+    public static final int getMatchLen(int searchret) {
+        return searchret >> 22;
     }
 
     /**
-     * ���k�@�\�� buffer ���� index ���� length�o�C�g�̃f�[�^���o�͂���B<br>
-     * ���ۂ�PostLzssEncoder �Ƀf�[�^���n�����̂� 
-     * TextBuffer ���������ꂽ�Ƃ����A
-     * flush �Ŗ����I�ɏo�͂��w���������̂݁B<br>
-     * 
-     * @param buffer �f�[�^�̊i�[���ꂽ�o�b�t�@
-     * @param index  buffer���f�[�^�J�n�ʒu
-     * @param length buffer���f�[�^�̒���
-     * 
-     * @exception IOException ���o�̓G���[�����������ꍇ
+     * createSearchReturn �Ő������ꂽ search�̖߂�l����
+     * ��v�ʒu�����o���B
+     *
+     * @param searchret search �̖߂�l
+     *
+     * @return ��v�ʒu
      */
-    public void write( byte[] buffer, int index, int length ) throws IOException {
-        int pos = index;
-        int end = index + length;
-
-        while( pos < end ){
-            int space = TextBuffer.length - writtenPos;
-            if( end - pos < space ){
-                System.arraycopy( buffer, pos, 
-                                  this.TextBuffer, this.writtenPos, 
-                                  end - pos );
-                this.writtenPos += end - pos;
-                pos = end;
-            }else{
-                System.arraycopy( buffer, pos, 
-                                  this.TextBuffer, this.writtenPos,
-                                  space );
-                this.writtenPos += space;
-                pos += space;
-                this.encode( false );                                           //throws IOException
-                this.slide();
-            }
-        }
+    public static final int getMatchPos(int searchret) {
+        if (0 <= searchret) return searchret & 0x3FFFFF;
+        else return -1;
     }
 
 
@@ -418,6 +394,84 @@ public class LzssOutputStream extends OutputStream{
     //  public void flush()
     //  public void close()
     //------------------------------------------------------------------
+
+    /**
+     * ���k�@�\��1�o�C�g�̃f�[�^���o�͂���B<br>
+     * ���ۂ�PostLzssEncoder �Ƀf�[�^���n�����̂�
+     * TextBuffer ���������ꂽ�Ƃ����A
+     * flush �Ŗ����I�ɏo�͂��w���������̂݁B<br>
+     *
+     * @param data 1�o�C�g�̃f�[�^
+     *
+     * @exception IOException ���o�̓G���[�����������ꍇ
+     */
+    public void write(int data) throws IOException {
+        this.TextBuffer[this.writtenPos++] = (byte) data;
+
+        if (this.TextBuffer.length <= this.writtenPos) {
+            this.encode(false);                                               //throws IOException
+            this.slide();
+        }
+    }
+
+    /**
+     * ���k�@�\�� buffer ���̃f�[�^��S�ďo�͂���B<br>
+     * ���ۂ�PostLzssEncoder �Ƀf�[�^���n�����̂�
+     * TextBuffer ���������ꂽ�Ƃ����A
+     * flush �Ŗ����I�ɏo�͂��w���������̂݁B<br>
+     *
+     * @param buffer �f�[�^�̊i�[���ꂽ�o�b�t�@
+     *
+     * @exception IOException ���o�̓G���[�����������ꍇ
+     */
+    public void write(byte[] buffer) throws IOException {
+        this.write(buffer, 0, buffer.length);                                 //throws IOException
+    }
+
+
+    //------------------------------------------------------------------
+    //  local method
+    //------------------------------------------------------------------
+    //  private int encode()
+    //  private void slide( int position )
+    //------------------------------------------------------------------
+
+    /**
+     * ���k�@�\�� buffer ���� index ���� length�o�C�g�̃f�[�^���o�͂���B<br>
+     * ���ۂ�PostLzssEncoder �Ƀf�[�^���n�����̂�
+     * TextBuffer ���������ꂽ�Ƃ����A
+     * flush �Ŗ����I�ɏo�͂��w���������̂݁B<br>
+     *
+     * @param buffer �f�[�^�̊i�[���ꂽ�o�b�t�@
+     * @param index  buffer���f�[�^�J�n�ʒu
+     * @param length buffer���f�[�^�̒���
+     *
+     * @exception IOException ���o�̓G���[�����������ꍇ
+     */
+    public void write(byte[] buffer, int index, int length) throws IOException {
+        int pos = index;
+        int end = index + length;
+
+        while (pos < end) {
+            int space = TextBuffer.length - writtenPos;
+            if (end - pos < space) {
+                System.arraycopy(buffer, pos,
+                        this.TextBuffer, this.writtenPos,
+                        end - pos);
+                this.writtenPos += end - pos;
+                pos = end;
+            } else {
+                System.arraycopy(buffer, pos,
+                        this.TextBuffer, this.writtenPos,
+                        space);
+                this.writtenPos += space;
+                pos += space;
+                this.encode(false);                                           //throws IOException
+                this.slide();
+            }
+        }
+    }
+
     /**
      * ���k�@�\�ɏ������܂ꂽ�S�Ẵf�[�^��
      * �ڑ����ꂽ PostLzssEncoder �ɏo�͂��A
@@ -441,225 +495,20 @@ public class LzssOutputStream extends OutputStream{
      * </pre>
      * �܂��A���̃��\�b�h�� PostLzssEncoder.flush() ���Ăяo������
      * flush() ���Ȃ��ꍇ�Ɣ�ׂāA�o�̓f�[�^���ω�����\��������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PostLzssEncoder#flush()
      */
     public void flush() throws IOException {
-        this.encode( false );                                                   //throw IOException
-        if( this.DictionarySize * 2 <= this.putPos ){
+        this.encode(false);                                                   //throw IOException
+        if (this.DictionarySize * 2 <= this.putPos) {
             this.slide();
-            if( this.searchPos < this.writtenPos ){
-                this.encode( false );                                           //throw IOException
+            if (this.searchPos < this.writtenPos) {
+                this.encode(false);                                           //throw IOException
             }
         }
         this.encoder.flush();                                                   //throw IOException
-    }
-
-    /**
-     * ���̃N���X�ɒ�����ꂽ�S�Ẵf�[�^��ڑ����ꂽ 
-     * PostLzssEncoder �ɏo�͂� ���̏o�̓X�g���[���ƁA
-     * �ڑ����ꂽ�X�g���[������A
-     * �g�p���Ă������\�[�X���J������B
-     * 
-     * @exception IOException ���o�̓G���[�����������ꍇ
-     */
-    public void close() throws IOException {
-        while( this.DictionarySize <= this.writtenPos ){
-            this.encode( true );                                      //throw IOException
-            if( this.writtenPos <= this.searchPos ){
-                break;
-            }else{
-                this.slide();
-            }
-        }
-
-        this.encoder.close();                                                   //throw IOException
-        this.encoder = null;
-
-        this.TextBuffer = null;
-        this.method     = null;
-    }
-
-
-    //------------------------------------------------------------------
-    //  local method
-    //------------------------------------------------------------------
-    //  private int encode()
-    //  private void slide( int position )
-    //------------------------------------------------------------------
-    /**
-     * TextBuffer �ɒ�����ꂽ�f�[�^�����k���Ȃ���
-     * private�ϐ� this.encoder �ɏo�͂���B
-     * 
-     * @return TextBuffer ���̏o�͊��������f�[�^�̏I�[�ʒu + 1
-     * 
-     * @exception IOException ���o�̓G���[�����������ꍇ
-     */
-    private void encode( boolean last ) throws IOException {
-
-        int end = Math.min( this.TextBuffer.length  - this.MaxMatch,
-                            this.writtenPos - ( last ? 0 : this.method.putRequires() ) );
-        if( this.searchPos < end ){
-
-            //------------------------------------------------------------------
-            //  �O����
-            if( this.lastsearchret == LzssOutputStream.NEEDSEARCH ){
-
-                //------------------------------------------------------------------
-                //  �����@�\�ɖ��o�^�̃f�[�^�p�^����o�^
-                while( this.putPos < this.searchPos - 1 ){
-                    this.method.put( ++this.putPos );
-
-                    //���O�� flush() �� put() �ł��Ȃ�����
-                    //�f�[�^�p�^���� put() ���������̏ꍇ�� return
-                    if( this.DictionarySize * 2 <= this.putPos ){
-                        return;
-                    }
-                }
-
-                //  lastsearchret �� NEEDSEARCH �Ȃ̂� searchAndPut �Ō�������B
-                this.lastsearchret = this.method.searchAndPut( this.searchPos );
-            }
-
-            int searchret = this.lastsearchret;
-            int matchlen  = LzssOutputStream.getMatchLen( searchret );
-            int matchpos  = LzssOutputStream.getMatchPos( searchret );
-            if( this.writtenPos - this.searchPos < matchlen ){
-                matchlen = this.writtenPos - this.searchPos;
-            }
-
-            //------------------------------------------------------------------
-            //  ���C�����[�v
-            while( true ){
-                int lastmatchlen = matchlen;
-                int lastmatchoff = this.searchPos - matchpos - 1;
-
-                searchret = this.method.searchAndPut( ++this.searchPos );
-                matchlen  = LzssOutputStream.getMatchLen( searchret );
-                matchpos  = LzssOutputStream.getMatchPos( searchret );
-                if( this.writtenPos - this.searchPos < matchlen ){
-                    matchlen = this.writtenPos - this.searchPos;
-                }
-
-                if( lastmatchlen < matchlen || lastmatchlen < this.Threshold ){
-                    this.encoder.writeCode( 0xFF & this.TextBuffer[ this.searchPos - 1 ] ); //throws IOException
-                    if( end <= this.searchPos ){
-                        this.putPos        = this.searchPos;
-                        this.lastsearchret = searchret;
-                        break;
-                    }
-                }else{
-                    this.encoder.writeCode( 256 + lastmatchlen - this.Threshold );//throws IOException
-                    this.encoder.writeOffset( lastmatchoff );                   //throws IOException
-
-                    lastmatchlen--;
-                    if( this.searchPos + lastmatchlen < end ){
-                        while( 0 < --lastmatchlen ){
-                            this.method.put( ++this.searchPos );
-                        }
-
-                        searchret = this.method.searchAndPut( ++this.searchPos );
-                        matchlen  = LzssOutputStream.getMatchLen( searchret );
-                        matchpos  = LzssOutputStream.getMatchPos( searchret );
-                        if( this.writtenPos - this.searchPos < matchlen ){
-                            matchlen = this.writtenPos - this.searchPos;
-                        }
-                    }else if( end < this.searchPos + lastmatchlen ){
-                        this.putPos = this.searchPos;
-                        while( this.putPos < end ){
-                            this.method.put( ++this.putPos );
-                        }
-                        this.searchPos    += lastmatchlen;
-                        this.lastsearchret = LzssOutputStream.NEEDSEARCH;
-                        break;
-                    }else{
-                        this.putPos = this.searchPos;
-                        while( this.putPos < end - 1 ){
-                            this.method.put( ++this.putPos );
-                        }
-                        this.putPos++;
-                        this.searchPos    += lastmatchlen;
-                        this.lastsearchret = this.method.searchAndPut( this.searchPos );
-                        break;
-                    }
-                }// if( lastmatchlen < matchlen || lastmatchlen < this.Threshold )
-            }// while( true )
-        }// if( this.searchPos < end )
-
-        //------------------------------------------------------------------
-        //  flush() ��p
-        //  putPos �͂��̂܂܂� searchPos �̂ݐi�߂�B
-        end = Math.min( this.TextBuffer.length  - this.MaxMatch,
-                        this.writtenPos );
-        if( !last && this.searchPos < end ){
-            if( this.lastsearchret == LzssOutputStream.NEEDSEARCH ){
-                this.lastsearchret = this.method.search( this.searchPos, this.putPos );
-            }
-            int searchret = this.lastsearchret;
-            int matchlen  = LzssOutputStream.getMatchLen( searchret );
-            int matchpos  = LzssOutputStream.getMatchPos( searchret );
-            if( this.writtenPos - this.searchPos < matchlen ){
-                matchlen = this.writtenPos - this.searchPos;
-            }
-
-            while( this.searchPos < end ){
-                int lastmatchlen = matchlen;
-                int lastmatchoff = this.searchPos - matchpos - 1;
-
-                searchret = this.method.search( ++this.searchPos, this.putPos );
-                matchlen  = LzssOutputStream.getMatchLen( searchret );
-                matchpos  = LzssOutputStream.getMatchPos( searchret );
-                if( this.writtenPos - this.searchPos < matchlen ){
-                    matchlen = this.writtenPos - this.searchPos;
-                }
-
-                if( lastmatchlen < matchlen || lastmatchlen < this.Threshold ){
-                    this.encoder.writeCode( 0xFF & this.TextBuffer[this.searchPos - 1] ); //throws IOException
-                }else{
-                    this.encoder.writeCode( 256 + lastmatchlen - this.Threshold );  //throws IOException
-                    this.encoder.writeOffset( lastmatchoff );                       //throws IOException
-
-                    this.searchPos += lastmatchlen - 1;
-                    searchret = this.method.search( this.searchPos, this.putPos );
-                    matchlen  = LzssOutputStream.getMatchLen( searchret );
-                    matchpos  = LzssOutputStream.getMatchPos( searchret );
-                    if( this.writtenPos - this.searchPos < matchlen ){
-                        matchlen = this.writtenPos - this.searchPos;
-                    }
-                }
-            }
-            this.lastsearchret = LzssOutputStream.NEEDSEARCH;
-        }
-    }
-
-
-    /**
-     * TextBuffer����position�܂ł̃f�[�^��
-     * �O���ֈړ�����
-     * 
-     * @param position ���� TextBuffer����
-     *                 DictionarySize �̈ʒu�ɗ���ׂ�
-     *                 �v�f�����݂���index
-     */
-    private void slide(){
-        this.DictionaryLimit = Math.max( 0, this.DictionaryLimit - this.DictionarySize );
-
-        this.method.slide();
-
-        if( this.lastsearchret != LzssOutputStream.NEEDSEARCH ){
-            int matchlen = LzssOutputStream.getMatchLen( this.lastsearchret );
-            int matchpos = LzssOutputStream.getMatchPos( this.lastsearchret );
-            this.lastsearchret = LzssOutputStream.createSearchReturn( 
-                                    matchlen, matchpos - this.DictionarySize );
-        }
-
-        this.writtenPos -= this.DictionarySize;
-        this.searchPos  -= this.DictionarySize;
-        this.putPos     -= this.DictionarySize;
-        for( int i = this.DictionaryLimit ; i < this.writtenPos ; i++ )
-            this.TextBuffer[ i ] = this.TextBuffer[ i + this.DictionarySize ];
     }
 
 
@@ -670,47 +519,202 @@ public class LzssOutputStream extends OutputStream{
     //  private static final int getMatchLen( int searchret )
     //  private static final int getMatchPos( int searchret )
     //------------------------------------------------------------------
+
     /**
-     * search �̖߂�l�𐶐�����B
-     * search �͈�v�ʒu��Ԃ����A��v���������ɕԂ����ق���
-     * ���ɕ֗��ł��邽�߁A��v�ʒu����v�����K�v�ȃr�b�g����
-     * ���Ȃ����Ƃ𗘗p���� int�^�ł���肷��B
-     * ���̂��߂̓��ꂵ��������񑩂���֐��B
-     * ���̊֐��Ő������ꂽ�l���� ��v�ʒu���v�������o���ۂɂ�
-     * getMatchLen�A getMatchPos ���g�p����B
-     * 
-     * @param matchlen ��v��
-     * @param matchpos ��v�ʒu
-     * 
-     * @return ��v���ƈ�v�ʒu�̏����܂�search�̖߂�l
+     * ���̃N���X�ɒ�����ꂽ�S�Ẵf�[�^��ڑ����ꂽ
+     * PostLzssEncoder �ɏo�͂� ���̏o�̓X�g���[���ƁA
+     * �ڑ����ꂽ�X�g���[������A
+     * �g�p���Ă������\�[�X���J������B
+     *
+     * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public static final int createSearchReturn( int matchlen, int matchpos ){
-        return matchlen << 22 | matchpos;
+    public void close() throws IOException {
+        while (this.DictionarySize <= this.writtenPos) {
+            this.encode(true);                                      //throw IOException
+            if (this.writtenPos <= this.searchPos) {
+                break;
+            } else {
+                this.slide();
+            }
+        }
+
+        this.encoder.close();                                                   //throw IOException
+        this.encoder = null;
+
+        this.TextBuffer = null;
+        this.method = null;
     }
 
     /**
-     * createSearchReturn �Ő������ꂽ search�̖߂�l����
-     * ��v�������o���B
-     * 
-     * @param searchret search �̖߂�l
-     * 
-     * @return ��v��
+     * TextBuffer �ɒ�����ꂽ�f�[�^�����k���Ȃ���
+     * private�ϐ� this.encoder �ɏo�͂���B
+     *
+     * @return TextBuffer ���̏o�͊��������f�[�^�̏I�[�ʒu + 1
+     *
+     * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public static final int getMatchLen( int searchret ){
-        return searchret >> 22;
+    private void encode(boolean last) throws IOException {
+
+        int end = Math.min(this.TextBuffer.length - this.MaxMatch,
+                this.writtenPos - (last ? 0 : this.method.putRequires()));
+        if (this.searchPos < end) {
+
+            //------------------------------------------------------------------
+            //  �O����
+            if (this.lastsearchret == LzssOutputStream.NEEDSEARCH) {
+
+                //------------------------------------------------------------------
+                //  �����@�\�ɖ��o�^�̃f�[�^�p�^����o�^
+                while (this.putPos < this.searchPos - 1) {
+                    this.method.put(++this.putPos);
+
+                    //���O�� flush() �� put() �ł��Ȃ�����
+                    //�f�[�^�p�^���� put() ���������̏ꍇ�� return
+                    if (this.DictionarySize * 2 <= this.putPos) {
+                        return;
+                    }
+                }
+
+                //  lastsearchret �� NEEDSEARCH �Ȃ̂� searchAndPut �Ō�������B
+                this.lastsearchret = this.method.searchAndPut(this.searchPos);
+            }
+
+            int searchret = this.lastsearchret;
+            int matchlen = LzssOutputStream.getMatchLen(searchret);
+            int matchpos = LzssOutputStream.getMatchPos(searchret);
+            if (this.writtenPos - this.searchPos < matchlen) {
+                matchlen = this.writtenPos - this.searchPos;
+            }
+
+            //------------------------------------------------------------------
+            //  ���C�����[�v
+            while (true) {
+                int lastmatchlen = matchlen;
+                int lastmatchoff = this.searchPos - matchpos - 1;
+
+                searchret = this.method.searchAndPut(++this.searchPos);
+                matchlen = LzssOutputStream.getMatchLen(searchret);
+                matchpos = LzssOutputStream.getMatchPos(searchret);
+                if (this.writtenPos - this.searchPos < matchlen) {
+                    matchlen = this.writtenPos - this.searchPos;
+                }
+
+                if (lastmatchlen < matchlen || lastmatchlen < this.Threshold) {
+                    this.encoder.writeCode(0xFF & this.TextBuffer[this.searchPos - 1]); //throws IOException
+                    if (end <= this.searchPos) {
+                        this.putPos = this.searchPos;
+                        this.lastsearchret = searchret;
+                        break;
+                    }
+                } else {
+                    this.encoder.writeCode(256 + lastmatchlen - this.Threshold);//throws IOException
+                    this.encoder.writeOffset(lastmatchoff);                   //throws IOException
+
+                    lastmatchlen--;
+                    if (this.searchPos + lastmatchlen < end) {
+                        while (0 < --lastmatchlen) {
+                            this.method.put(++this.searchPos);
+                        }
+
+                        searchret = this.method.searchAndPut(++this.searchPos);
+                        matchlen = LzssOutputStream.getMatchLen(searchret);
+                        matchpos = LzssOutputStream.getMatchPos(searchret);
+                        if (this.writtenPos - this.searchPos < matchlen) {
+                            matchlen = this.writtenPos - this.searchPos;
+                        }
+                    } else if (end < this.searchPos + lastmatchlen) {
+                        this.putPos = this.searchPos;
+                        while (this.putPos < end) {
+                            this.method.put(++this.putPos);
+                        }
+                        this.searchPos += lastmatchlen;
+                        this.lastsearchret = LzssOutputStream.NEEDSEARCH;
+                        break;
+                    } else {
+                        this.putPos = this.searchPos;
+                        while (this.putPos < end - 1) {
+                            this.method.put(++this.putPos);
+                        }
+                        this.putPos++;
+                        this.searchPos += lastmatchlen;
+                        this.lastsearchret = this.method.searchAndPut(this.searchPos);
+                        break;
+                    }
+                }// if( lastmatchlen < matchlen || lastmatchlen < this.Threshold )
+            }// while( true )
+        }// if( this.searchPos < end )
+
+        //------------------------------------------------------------------
+        //  flush() ��p
+        //  putPos �͂��̂܂܂� searchPos �̂ݐi�߂�B
+        end = Math.min(this.TextBuffer.length - this.MaxMatch,
+                this.writtenPos);
+        if (!last && this.searchPos < end) {
+            if (this.lastsearchret == LzssOutputStream.NEEDSEARCH) {
+                this.lastsearchret = this.method.search(this.searchPos, this.putPos);
+            }
+            int searchret = this.lastsearchret;
+            int matchlen = LzssOutputStream.getMatchLen(searchret);
+            int matchpos = LzssOutputStream.getMatchPos(searchret);
+            if (this.writtenPos - this.searchPos < matchlen) {
+                matchlen = this.writtenPos - this.searchPos;
+            }
+
+            while (this.searchPos < end) {
+                int lastmatchlen = matchlen;
+                int lastmatchoff = this.searchPos - matchpos - 1;
+
+                searchret = this.method.search(++this.searchPos, this.putPos);
+                matchlen = LzssOutputStream.getMatchLen(searchret);
+                matchpos = LzssOutputStream.getMatchPos(searchret);
+                if (this.writtenPos - this.searchPos < matchlen) {
+                    matchlen = this.writtenPos - this.searchPos;
+                }
+
+                if (lastmatchlen < matchlen || lastmatchlen < this.Threshold) {
+                    this.encoder.writeCode(0xFF & this.TextBuffer[this.searchPos - 1]); //throws IOException
+                } else {
+                    this.encoder.writeCode(256 + lastmatchlen - this.Threshold);  //throws IOException
+                    this.encoder.writeOffset(lastmatchoff);                       //throws IOException
+
+                    this.searchPos += lastmatchlen - 1;
+                    searchret = this.method.search(this.searchPos, this.putPos);
+                    matchlen = LzssOutputStream.getMatchLen(searchret);
+                    matchpos = LzssOutputStream.getMatchPos(searchret);
+                    if (this.writtenPos - this.searchPos < matchlen) {
+                        matchlen = this.writtenPos - this.searchPos;
+                    }
+                }
+            }
+            this.lastsearchret = LzssOutputStream.NEEDSEARCH;
+        }
     }
 
     /**
-     * createSearchReturn �Ő������ꂽ search�̖߂�l����
-     * ��v�ʒu�����o���B
-     * 
-     * @param searchret search �̖߂�l
-     * 
-     * @return ��v�ʒu
+     * TextBuffer����position�܂ł̃f�[�^��
+     * �O���ֈړ�����
+     *
+     * @param position ���� TextBuffer����
+     *                 DictionarySize �̈ʒu�ɗ���ׂ�
+     *                 �v�f�����݂���index
      */
-    public static final int getMatchPos( int searchret ){
-        if( 0 <= searchret ) return searchret & 0x3FFFFF;
-        else                 return -1;
+    private void slide() {
+        this.DictionaryLimit = Math.max(0, this.DictionaryLimit - this.DictionarySize);
+
+        this.method.slide();
+
+        if (this.lastsearchret != LzssOutputStream.NEEDSEARCH) {
+            int matchlen = LzssOutputStream.getMatchLen(this.lastsearchret);
+            int matchpos = LzssOutputStream.getMatchPos(this.lastsearchret);
+            this.lastsearchret = LzssOutputStream.createSearchReturn(
+                    matchlen, matchpos - this.DictionarySize);
+        }
+
+        this.writtenPos -= this.DictionarySize;
+        this.searchPos -= this.DictionarySize;
+        this.putPos -= this.DictionarySize;
+        for (int i = this.DictionaryLimit; i < this.writtenPos; i++)
+            this.TextBuffer[i] = this.TextBuffer[i + this.DictionarySize];
     }
 
 }

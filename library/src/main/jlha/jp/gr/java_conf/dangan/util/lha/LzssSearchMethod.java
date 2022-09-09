@@ -3,9 +3,8 @@
 
 /**
  * LzssSearchMethod.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
  */
 
 package jp.gr.java_conf.dangan.util.lha;
@@ -23,7 +22,7 @@ package jp.gr.java_conf.dangan.util.lha;
  *                   int    MaxMatch,
  *                   int    Threshold,
  *                   byte[] TextBuffer )
- * 
+ *
  * <pre>
  * LzssSearchMethod( int    DictionarySize,
  *                   int    MaxMatch,
@@ -33,7 +32,7 @@ package jp.gr.java_conf.dangan.util.lha;
  *                   Object ExtraArgument2 )
  * </pre>
  * <br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: LzssSearchMethod.java,v $
@@ -46,11 +45,11 @@ package jp.gr.java_conf.dangan.util.lha;
  * [maintenance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public interface LzssSearchMethod{
+public interface LzssSearchMethod {
 
     //------------------------------------------------------------------
     //  original method
@@ -61,23 +60,24 @@ public interface LzssSearchMethod{
     //  public abstract void slide()
     //  public abstract int putRequires()
     //------------------------------------------------------------------
+
     /**
      */
-    public abstract void put( int position );
+    public abstract void put(int position);
 
     /**
      *
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public abstract int searchAndPut( int position );
+    public abstract int searchAndPut(int position);
 
     /**
      *
-     * @see LzssOutputStream#createSearchReturn(int,int)
+     * @see LzssOutputStream#createSearchReturn(int, int)
      * @see LzssOutputStream#NOMATCH
      */
-    public abstract int search( int position, int lastPutPos );
+    public abstract int search(int position, int lastPutPos);
 
     /**
      */

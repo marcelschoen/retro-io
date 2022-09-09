@@ -3,19 +3,19 @@
 
 /**
  * BitInputStream.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -41,7 +41,7 @@ import java.io.InputStream;
 
 /**
  * �r�b�g���͂̂��߂̃��[�e�B���e�B�N���X�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: BitInputStream.java,v $
@@ -86,11 +86,11 @@ import java.io.InputStream;
  *
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.5 $
  */
-public class BitInputStream extends InputStream{
+public class BitInputStream extends InputStream {
 
     //------------------------------------------------------------------
     //  class field
@@ -135,12 +135,12 @@ public class BitInputStream extends InputStream{
     /**
      * cache ���̗L���o�C�g��
      */
-    private int    cacheLimit;
+    private int cacheLimit;
 
     /**
      * cache ���̌��ݏ����ʒu
      */
-    private int    cachePosition;
+    private int cachePosition;
 
 
     //------------------------------------------------------------------
@@ -155,12 +155,12 @@ public class BitInputStream extends InputStream{
      * �r�b�g�o�b�t�@�B
      * �r�b�g�f�[�^�͍ŏ�ʃr�b�g���� bitCount �����i�[����Ă���B
      */
-    private int    bitBuffer;
+    private int bitBuffer;
 
     /**
      * bitBuffer �� �L���r�b�g��
      */
-    private int    bitCount;
+    private int bitCount;
 
 
     //------------------------------------------------------------------
@@ -187,16 +187,16 @@ public class BitInputStream extends InputStream{
     private byte[] markCache;
 
     /** cacheLimit �̃o�b�N�A�b�v�p */
-    private int    markCacheLimit;
+    private int markCacheLimit;
 
     /** cachePosition �̃o�b�N�A�b�v�p */
-    private int    markCachePosition;
+    private int markCachePosition;
 
     /** bitBuffer �̃o�b�N�A�b�v�p */
-    private int    markBitBuffer;
+    private int markBitBuffer;
 
     /** bitCount �̃o�b�N�A�b�v�p */
-    private int    markBitCount;
+    private int markBitCount;
 
 
     //------------------------------------------------------------------
@@ -206,48 +206,50 @@ public class BitInputStream extends InputStream{
     //  public BitInputStream( InputStream in )
     //  public BitInputStream( InputStream in, int CacheSize )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private BitInputStream(){ }
-
-    /**
-     * ���̓X�g���[�� in ����̃f�[�^���r�b�g�P�ʂ�
-     * �ǂݍ��߂�悤�ȃX�g���[�����\�z����B<br>
-     * 
-     * @param in ���̓X�g���[��
-     */
-    public BitInputStream( InputStream in ){
-        this( in, BitInputStream.DefaultCacheSize );
+    private BitInputStream() {
     }
 
     /**
      * ���̓X�g���[�� in ����̃f�[�^���r�b�g�P�ʂ�
      * �ǂݍ��߂�悤�ȃX�g���[�����\�z����B<br>
-     * 
+     *
+     * @param in ���̓X�g���[��
+     */
+    public BitInputStream(InputStream in) {
+        this(in, BitInputStream.DefaultCacheSize);
+    }
+
+    /**
+     * ���̓X�g���[�� in ����̃f�[�^���r�b�g�P�ʂ�
+     * �ǂݍ��߂�悤�ȃX�g���[�����\�z����B<br>
+     *
      * @param in        ���̓X�g���[��
      * @param CacheSize �o�b�t�@�T�C�Y
      */
-    public BitInputStream( InputStream in, int CacheSize ){
-        if( in != null && 4 <= CacheSize ){
-            this.in                    = in;
-            this.cache                 = new byte[ CacheSize ];
-            this.cacheLimit            = 0;
-            this.cachePosition         = 0;
-            this.bitBuffer             = 0;
-            this.bitCount              = 0;
+    public BitInputStream(InputStream in, int CacheSize) {
+        if (in != null && 4 <= CacheSize) {
+            this.in = in;
+            this.cache = new byte[CacheSize];
+            this.cacheLimit = 0;
+            this.cachePosition = 0;
+            this.bitBuffer = 0;
+            this.bitCount = 0;
 
             this.markPositionIsInCache = false;
-            this.markCache             = null;
-            this.markCacheLimit        = 0;
-            this.markCachePosition     = 0;
-            this.markBitBuffer         = 0;
-            this.markBitCount          = 0;
-        }else if( in == null ){
-            throw new NullPointerException( "in" );
-        }else{
-            throw new IllegalArgumentException( "CacheSize must be 4 or more." );
+            this.markCache = null;
+            this.markCacheLimit = 0;
+            this.markCachePosition = 0;
+            this.markBitBuffer = 0;
+            this.markBitCount = 0;
+        } else if (in == null) {
+            throw new NullPointerException("in");
+        } else {
+            throw new IllegalArgumentException("CacheSize must be 4 or more.");
         }
     }
 
@@ -262,26 +264,27 @@ public class BitInputStream extends InputStream{
     //  public int read( byte[] buffer, int index, int length )
     //  public long skip( long length )
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ�X�g���[������ 8�r�b�g�̃f�[�^��ǂݍ��ށB<br>
-     * 
+     *
      * @return �ǂݏo���ꂽ 8�r�b�g�̃f�[�^�B<br>
      *         ���� EndOfStream �ɒB���Ă���ꍇ�� -1
-     * 
+     *
      * @exception IOException
      *               �ڑ����ꂽ���̓X�g���[����
      *               ���o�̓G���[�����������ꍇ
-     * @exception BitDataBrokenException 
+     * @exception BitDataBrokenException
      *               EndOfStream�ɒB��������
      *               �v�����ꂽ�r�b�g���̃f�[�^��
      *               �ǂݍ��݂Ɏ��s�����ꍇ�B<br>
      */
     public int read() throws IOException {
-        try{
-            return this.readBits( 8 );                                          //throws LocalEOFException BitDataBrokenException IOException
-        }catch( LocalEOFException exception ){
-            if( exception.thrownBy( this ) ) return -1;
-            else                             throw exception;
+        try {
+            return this.readBits(8);                                          //throws LocalEOFException BitDataBrokenException IOException
+        } catch (LocalEOFException exception) {
+            if (exception.thrownBy(this)) return -1;
+            else throw exception;
         }
     }
 
@@ -289,22 +292,22 @@ public class BitInputStream extends InputStream{
      * �ڑ����ꂽ���̓X�g���[������ �o�C�g�z�� buffer ��
      * �������悤�Ƀf�[�^��ǂݍ��ށB<br>
      * �f�[�^�͕K������ buffer �𖞂����Ƃ͌���Ȃ����Ƃɒ��ӁB<br>
-     * 
+     *
      * @param buffer �ǂݍ��܂ꂽ�f�[�^���i�[���邽�߂̃o�C�g�z��
-     * 
+     *
      * @return buffer �ɓǂݍ��񂾃f�[�^�ʂ��o�C�g���ŕԂ��B<br>
      *         ���� EndOfStream �ɒB���Ă����ꍇ�� -1 ��Ԃ��B<br>
-     * 
+     *
      * @exception IOException
      *               �ڑ����ꂽ���̓X�g���[����
      *               ���o�̓G���[�����������ꍇ
-     * @exception BitDataBrokenException 
+     * @exception BitDataBrokenException
      *               EndOfStream�ɒB��������
      *               �v�����ꂽ�r�b�g���̃f�[�^��
      *               �ǂݍ��݂Ɏ��s�����ꍇ�B<br>
      */
-    public int read( byte[] buffer ) throws IOException {
-        return this.read( buffer, 0, buffer.length );                           //throws BitDataBrokenException IOException
+    public int read(byte[] buffer) throws IOException {
+        return this.read(buffer, 0, buffer.length);                           //throws BitDataBrokenException IOException
     }
 
     /**
@@ -315,47 +318,47 @@ public class BitInputStream extends InputStream{
      * EndOfStream �ɓ��B����܂Ńu���b�N����B<br>
      * �f�[�^�͕K������ length �o�C�g�ǂݍ��܂��Ƃ͌���
      * �Ȃ����Ƃɒ��ӁB<br>
-     * 
+     *
      * @param buffer �ǂݍ��܂ꂽ�f�[�^���i�[���邽�߂̃o�C�g�z��
      * @param index  buffer���̃f�[�^�ǂݍ��݊J�n�ʒu
      * @param length buffer�ɓǂݍ��ރf�[�^��
-     * 
+     *
      * @return buffer �ɓǂݍ��񂾃f�[�^�ʂ��o�C�g���ŕԂ��B<br>
      *         ���� EndOfStream �ɒB���Ă����ꍇ�� -1 ��Ԃ��B<br>
-     * 
+     *
      * @exception IOException
      *               �ڑ����ꂽ���̓X�g���[����
      *               ���o�̓G���[�����������ꍇ
-     * @exception BitDataBrokenException 
+     * @exception BitDataBrokenException
      *               EndOfStream�ɒB��������
      *               �v�����ꂽ�r�b�g���̃f�[�^��
      *               �ǂݍ��݂Ɏ��s�����ꍇ�B<br>
      */
-    public int read( byte[] buffer, int index, int length ) throws IOException {
+    public int read(byte[] buffer, int index, int length) throws IOException {
         final int requested = length;
-        try{
-            while( 0 < length ){
-                buffer[index++] = (byte)this.readBits( 8 );                     //throws LocalEOFException BitDataBrokenException IOException
+        try {
+            while (0 < length) {
+                buffer[index++] = (byte) this.readBits(8);                     //throws LocalEOFException BitDataBrokenException IOException
                 length--;
             }
             return requested;
-        }catch( LocalEOFException exception ){
-            if( exception.thrownBy( this ) ){
-                if( requested != length ) return requested - length;
-                else                      return -1;
-            }else{
+        } catch (LocalEOFException exception) {
+            if (exception.thrownBy(this)) {
+                if (requested != length) return requested - length;
+                else return -1;
+            } else {
                 throw exception;
             }
-        }catch( BitDataBrokenException exception ){
-            if( exception.getCause() instanceof LocalEOFException 
-             && ((LocalEOFException)exception.getCause()).thrownBy( this ) ){
+        } catch (BitDataBrokenException exception) {
+            if (exception.getCause() instanceof LocalEOFException
+                    && ((LocalEOFException) exception.getCause()).thrownBy(this)) {
                 this.bitBuffer >>>= exception.getBitCount();
-                this.bitCount  +=   exception.getBitCount();
+                this.bitCount += exception.getBitCount();
                 this.bitBuffer |= exception.getBitData() <<
-                                    ( 32 - exception.getBitCount() );
+                        (32 - exception.getBitCount());
 
                 return requested - length;
-            }else{
+            } else {
                 throw exception;
             }
         }
@@ -368,34 +371,34 @@ public class BitInputStream extends InputStream{
      * EndOfStream �ɓ��B����܂Ńu���b�N����B<br>
      * �f�[�^�͕K������ length �o�C�g�ǂݔ�΂����Ƃ͌���
      * �Ȃ����Ƃɒ��ӁB<br>
-     * 
+     *
      * @param length �ǂݔ�΂��o�C�g���B<br>
-     * 
+     *
      * @return ���ۂɓǂݔ�΂��ꂽ�o�C�g���B<br>
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
-    public long skip( long length ) throws IOException {
-        length = ( 0 < length ? length : 0 );
+    public long skip(long length) throws IOException {
+        length = (0 < length ? length : 0);
         final long requested = length;
-        try{
-            while( 0 < length ){
-                this.readBits( 8 );
+        try {
+            while (0 < length) {
+                this.readBits(8);
                 length--;
             }
             return requested;
-        }catch( LocalEOFException exception ){
+        } catch (LocalEOFException exception) {
             return requested - length;
-        }catch( BitDataBrokenException exception ){
-            if( exception.getCause() instanceof LocalEOFException 
-             && ((LocalEOFException)exception.getCause()).thrownBy( this ) ){
+        } catch (BitDataBrokenException exception) {
+            if (exception.getCause() instanceof LocalEOFException
+                    && ((LocalEOFException) exception.getCause()).thrownBy(this)) {
                 this.bitBuffer >>>= exception.getBitCount();
-                this.bitCount  +=   exception.getBitCount();
-                this.bitBuffer |=   exception.getBitData() <<
-                                      ( 32 - exception.getBitCount() );
+                this.bitCount += exception.getBitCount();
+                this.bitBuffer |= exception.getBitData() <<
+                        (32 - exception.getBitCount());
                 return requested - length;
-            }else{
+            } else {
                 throw exception;
             }
         }
@@ -411,43 +414,44 @@ public class BitInputStream extends InputStream{
     //  public void reset()
     //  public boolean markSupported()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[���̌��݈ʒu�Ƀ}�[�N��ݒ肵�A
      * reset() ���\�b�h�Ń}�[�N�������_�� �ǂݍ��݈ʒu��
      * �߂��悤�ɂ���B<br>
-     * 
+     *
      * @param readLimit �}�[�N�ʒu�ɖ߂����E�̃o�C�g���B
      *                  ���̃o�C�g���𒴂��ăf�[�^��ǂ�
      *                  ���񂾏ꍇ reset()�ł��Ȃ��Ȃ��
      *                  �\��������B<br>
      */
-    public void mark( int readLimit ){
+    public void mark(int readLimit) {
         readLimit -= this.cacheLimit - this.cachePosition;
         readLimit -= this.bitCount / 8;
         readLimit += 4;
-        readLimit  = ( ( readLimit / this.cache.length ) * this.cache.length
-                     + ( readLimit % this.cache.length == 0 ? 0 : this.cache.length ) );
+        readLimit = ((readLimit / this.cache.length) * this.cache.length
+                + (readLimit % this.cache.length == 0 ? 0 : this.cache.length));
 
-        this.in.mark( readLimit );
+        this.in.mark(readLimit);
 
-        if( this.markCache == null ){
-            this.markCache = (byte[])this.cache.clone();
-        }else{
-            System.arraycopy( this.cache, 0, 
-                              this.markCache, 0, 
-                              this.cacheLimit );
+        if (this.markCache == null) {
+            this.markCache = (byte[]) this.cache.clone();
+        } else {
+            System.arraycopy(this.cache, 0,
+                    this.markCache, 0,
+                    this.cacheLimit);
         }
-        this.markCacheLimit        = this.cacheLimit;
-        this.markCachePosition     = this.cachePosition;
-        this.markBitBuffer         = this.bitBuffer;
-        this.markBitCount          = this.bitCount;
+        this.markCacheLimit = this.cacheLimit;
+        this.markCachePosition = this.cachePosition;
+        this.markBitBuffer = this.bitBuffer;
+        this.markBitCount = this.bitCount;
         this.markPositionIsInCache = true;
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���̓ǂݍ��݈ʒu���Ō��
      * mark() ���\�b�h���Ăяo���ꂽ�Ƃ��̈ʒu�ɐݒ肷��B<br>
-     * 
+     *
      * @exception IOException <br>
      *              (1) BitInputStream �� mark ���Ȃ���Ă��Ȃ��ꍇ�B<br>
      *              (2) �ڑ����ꂽ���̓X�g���[���� markSupported()��
@@ -457,38 +461,38 @@ public class BitInputStream extends InputStream{
      *              �̉��ꂩ�B
      */
     public void reset() throws IOException {
-        if( this.markPositionIsInCache ){
+        if (this.markPositionIsInCache) {
             this.cachePosition = this.markCachePosition;
-            this.bitBuffer     = this.markBitBuffer;
-            this.bitCount      = this.markBitCount;
-        }else if( !this.in.markSupported() ){
-            throw new IOException( "not support mark()/reset()." );
-        }else if( this.markCache == null ){ //���̏������͖����Ƀ}�[�N����Ă��Ȃ����Ƃ������B�R���X�g���N�^�� markCache �� null �ɐݒ肳���̂𗘗p����B 
-            throw new IOException( "not marked." );
-        }else{
+            this.bitBuffer = this.markBitBuffer;
+            this.bitCount = this.markBitCount;
+        } else if (!this.in.markSupported()) {
+            throw new IOException("not support mark()/reset().");
+        } else if (this.markCache == null) { //���̏������͖����Ƀ}�[�N����Ă��Ȃ����Ƃ������B�R���X�g���N�^�� markCache �� null �ɐݒ肳���̂𗘗p����B
+            throw new IOException("not marked.");
+        } else {
             //in �� reset() �ł��Ȃ��ꍇ��
             //�ŏ��̍s�� this.in.reset() ��
             //IOException �𓊂��邱�Ƃ����҂��Ă���B
             this.in.reset();                                                    //throws IOException
-            System.arraycopy( this.markCache, 0, 
-                              this.cache, 0, 
-                              this.markCacheLimit );
-            this.cacheLimit    = this.markCacheLimit;
+            System.arraycopy(this.markCache, 0,
+                    this.cache, 0,
+                    this.markCacheLimit);
+            this.cacheLimit = this.markCacheLimit;
             this.cachePosition = this.markCachePosition;
-            this.bitBuffer     = this.markBitBuffer;
-            this.bitCount      = this.markBitCount;
+            this.bitBuffer = this.markBitBuffer;
+            this.bitCount = this.markBitCount;
         }
     }
 
     /**
      * �ڑ����ꂽ���̓X�g���[���� mark() �� reset() ��
      * �T�|�[�g���邩�𓾂�B<br>
-     * 
+     *
      * @return �X�g���[���� mark() �� reset() ��
      *         �T�|�[�g����ꍇ�� true�B<br>
      *         �T�|�[�g���Ȃ��ꍇ�� false�B<br>
      */
-    public boolean markSupported(){
+    public boolean markSupported() {
         return this.in.markSupported();
     }
 
@@ -501,12 +505,13 @@ public class BitInputStream extends InputStream{
     //  public int available()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������u���b�N���Ȃ���
      * �ǂݍ��ނ��Ƃ̂ł���o�C�g���𓾂�B<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����o�C�g���B<br>
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
@@ -517,25 +522,25 @@ public class BitInputStream extends InputStream{
     /**
      * ���̓��̓X�g���[������A
      * �g�p���Ă������\�[�X���J������B<br>
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
         this.in.close();                                                        //throws IOException
-        this.in                    = null;
+        this.in = null;
 
-        this.cache                 = null;
-        this.cacheLimit            = 0;
-        this.cachePosition         = 0;
-        this.bitBuffer             = 0;
-        this.bitCount              = 0;
+        this.cache = null;
+        this.cacheLimit = 0;
+        this.cachePosition = 0;
+        this.bitBuffer = 0;
+        this.bitCount = 0;
 
-        this.markCache             = null;
-        this.markCacheLimit        = 0;
-        this.markCachePosition     = 0;
-        this.markBitBuffer         = 0;
-        this.markBitCount          = 0;
+        this.markCache = null;
+        this.markCacheLimit = 0;
+        this.markCachePosition = 0;
+        this.markBitBuffer = 0;
+        this.markBitCount = 0;
         this.markPositionIsInCache = false;
     }
 
@@ -550,33 +555,34 @@ public class BitInputStream extends InputStream{
     //  public int readBits( int count )
     //  public int skipBits( int count )
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������ 1�r�b�g�̃f�[�^��
      * �ǂݍ��ށB<br>
-     * 
+     *
      * @return �ǂݍ��܂ꂽ1�r�b�g�̃f�[�^�B<br>
      *         ����EndOfStream�ɒB���Ă���ꍇ�� -1�B<br>
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
     public int readBit() throws IOException {
-        if( 0 < this.bitCount ){
+        if (0 < this.bitCount) {
             int bit = this.bitBuffer >>> 31;
             this.bitBuffer <<= 1;
-            this.bitCount   -= 1;
+            this.bitCount -= 1;
             return bit;
-        }else{
-            try{
+        } else {
+            try {
                 this.fillBitBuffer();
                 int bit = this.bitBuffer >>> 31;
                 this.bitBuffer <<= 1;
-                this.bitCount   -= 1;
+                this.bitCount -= 1;
                 return bit;
-            }catch( LocalEOFException exception ){
-                if( exception.thrownBy( this ) ){
+            } catch (LocalEOFException exception) {
+                if (exception.thrownBy(this)) {
                     return -1;
-                }else{
+                } else {
                     throw exception;
                 }
             }
@@ -586,25 +592,25 @@ public class BitInputStream extends InputStream{
     /**
      * �ڑ����ꂽ���̓X�g���[������ 1�r�b�g�̃f�[�^��
      * �^�U�l�Ƃ��ēǂݍ��ށB<br>
-     * 
+     *
      * @return �ǂݍ��܂ꂽ1�r�b�g�̃f�[�^�� 
      *         1�ł���� true�A0�ł���� false ��Ԃ��B<br>
-     * 
+     *
      * @exception EOFException ����EndOfStream�ɒB���Ă����ꍇ
      * @exception IOException  �ڑ����ꂽ���̓X�g���[����
      *                         ���o�̓G���[�����������ꍇ
      */
     public boolean readBoolean() throws IOException {
-        if( 0 < this.bitCount ){
-            boolean bool = ( this.bitBuffer < 0 );
+        if (0 < this.bitCount) {
+            boolean bool = (this.bitBuffer < 0);
             this.bitBuffer <<= 1;
-            this.bitCount   -= 1;
+            this.bitCount -= 1;
             return bool;
-        }else{
+        } else {
             this.fillBitBuffer();
-            boolean bool = ( this.bitBuffer < 0 );
+            boolean bool = (this.bitBuffer < 0);
             this.bitBuffer <<= 1;
-            this.bitCount   -= 1;
+            this.bitCount -= 1;
             return bool;
         }
     }
@@ -622,55 +628,55 @@ public class BitInputStream extends InputStream{
      * �f�[�^��ǂݍ��ޓ���𔺂�Ȃ����� �߂�l�� ���0�A
      * EndOfStream �ɒB���Ă��Ă� EOFException ��
      * �����Ȃ��_�ɒ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param count  �ǂݍ��ރf�[�^�̃r�b�g��
-     * 
+     *
      * @return �ǂݍ��܂ꂽ�r�b�g�f�[�^�B<br>
-     * 
-     * @exception IOException 
+     *
+     * @exception IOException
      *               �ڑ����ꂽ���̓X�g���[����
      *               ���o�̓G���[�����������ꍇ
-     * @exception EOFException 
+     * @exception EOFException
      *               ����EndOfStream�ɒB���Ă����ꍇ
-     * @exception BitDataBrokenException 
+     * @exception BitDataBrokenException
      *               �ǂݍ��ݓr���� EndOfStream�ɒB��������
      *               �v�����ꂽ�r�b�g���̃f�[�^�̓ǂݍ���
      *               �Ɏ��s�����ꍇ�B<br>
      */
-    public int readBits( int count ) throws IOException {
-        if( 0 < count ){
-            if( count <= this.bitCount ){
-                int bits = this.bitBuffer >>> ( 32 - count );
+    public int readBits(int count) throws IOException {
+        if (0 < count) {
+            if (count <= this.bitCount) {
+                int bits = this.bitBuffer >>> (32 - count);
                 this.bitBuffer <<= count;
-                this.bitCount   -= count;
+                this.bitCount -= count;
                 return bits;
-            }else{
+            } else {
                 final int requested = count;
                 int bits = 0;
-                try{
+                try {
                     this.fillBitBuffer();                                       //throws LocalEOFException IOException
-                    while( this.bitCount < count ){
+                    while (this.bitCount < count) {
                         count -= this.bitCount;
-                        if( count < 32 ){
-                            bits |= ( this.bitBuffer >>> ( 32 - this.bitCount ) ) << count;
+                        if (count < 32) {
+                            bits |= (this.bitBuffer >>> (32 - this.bitCount)) << count;
                         }
                         this.bitBuffer = 0;
-                        this.bitCount  = 0;
+                        this.bitCount = 0;
                         this.fillBitBuffer();                                   //throws LocalEOFException IOException
                     }
-                    bits |= this.bitBuffer >>> ( 32 - count );
+                    bits |= this.bitBuffer >>> (32 - count);
                     this.bitBuffer <<= count;
-                    this.bitCount   -= count;
+                    this.bitCount -= count;
                     return bits;
-                }catch( LocalEOFException exception ){
-                    if( exception.thrownBy( this ) && count < requested ){
-                        throw new BitDataBrokenException( exception, bits >>> count, requested - count );
-                    }else{
+                } catch (LocalEOFException exception) {
+                    if (exception.thrownBy(this) && count < requested) {
+                        throw new BitDataBrokenException(exception, bits >>> count, requested - count);
+                    } else {
                         throw exception;
                     }
                 }
             }
-        }else{
+        } else {
             return 0;
         }
     }
@@ -678,43 +684,43 @@ public class BitInputStream extends InputStream{
     /**
      * �ڑ����ꂽ�X�g���[������ count �r�b�g�̃f�[�^��
      * �ǂݔ�΂��B<br>
-     * 
+     *
      * @param count �ǂݔ�΂��Ăق����r�b�g��
-     * 
+     *
      * @return ���ۂɓǂݔ�т����r�b�g��
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
-    public int skipBits( int count ) throws IOException {
-        count = Math.max( count, 0 );
+    public int skipBits(int count) throws IOException {
+        count = Math.max(count, 0);
 
-        if( count < this.bitCount ){
+        if (count < this.bitCount) {
             this.bitBuffer <<= count;
-            this.bitCount  -=  count;
+            this.bitCount -= count;
             return count;
-        }else{
+        } else {
             final int requested = count;
             count -= this.bitCount;
-            this.bitCount  = 0;
+            this.bitCount = 0;
             this.bitBuffer = 0;
-            try{
-                while( ( this.cacheLimit - this.cachePosition ) * 8 <= count ){
-                    count -= ( this.cacheLimit - this.cachePosition ) * 8;
+            try {
+                while ((this.cacheLimit - this.cachePosition) * 8 <= count) {
+                    count -= (this.cacheLimit - this.cachePosition) * 8;
                     this.cachePosition = this.cacheLimit;
                     this.fillCache();
-                    if( this.cacheLimit == this.cachePosition ){
-                        throw new LocalEOFException( this );
+                    if (this.cacheLimit == this.cachePosition) {
+                        throw new LocalEOFException(this);
                     }
                 }
-                this.cachePosition += ( count >> 3 );
+                this.cachePosition += (count >> 3);
                 count = count & 0x07;
-                if( 0 < count ){
-                    this.bitCount  = 8 - count;
-                    this.bitBuffer = this.cache[ this.cachePosition++ ] << ( 24 + count );
+                if (0 < count) {
+                    this.bitCount = 8 - count;
+                    this.bitBuffer = this.cache[this.cachePosition++] << (24 + count);
                     count = 0;
                 }
-            }catch( LocalEOFException exception ){
+            } catch (LocalEOFException exception) {
             }
             return requested - count;
         }
@@ -730,26 +736,27 @@ public class BitInputStream extends InputStream{
     //  public boolean peekBoolean()
     //  public int peekBits( int count )
     //------------------------------------------------------------------
+
     /**
      * �ǂݍ��݈ʒu��ς����� 1�r�b�g�̃f�[�^���ǂ݂���B<br>
-     * 
+     *
      * @return �ǂݍ��܂ꂽ1�r�b�g�̃f�[�^�B<br>
      *         ����EndOfStream�ɒB���Ă���ꍇ�� -1�B<br>
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
     public int peekBit() throws IOException {
-        if( 0 < this.bitCount ){
+        if (0 < this.bitCount) {
             return this.bitBuffer >>> 31;
-        }else{
-            try{
+        } else {
+            try {
                 this.fillBitBuffer();                                           //throws LocalEOFException IOException
                 return this.bitBuffer >>> 31;
-            }catch( LocalEOFException exception ){
-                if( exception.thrownBy( this ) ){
+            } catch (LocalEOFException exception) {
+                if (exception.thrownBy(this)) {
                     return -1;
-                }else{
+                } else {
                     throw exception;
                 }
             }
@@ -760,20 +767,20 @@ public class BitInputStream extends InputStream{
     /**
      * �ǂݍ��݈ʒu��ς����� 1�r�b�g�̃f�[�^��
      * �^�U�l�Ƃ��Đ�ǂ݂���B<br>
-     * 
+     *
      * @return �ǂݍ��܂ꂽ1�r�b�g�̃f�[�^�� 
      *         1�ł���� true�A0�ł���� false ��Ԃ��B<br>
-     * 
+     *
      * @exception EOFException ����EndOfStream�ɒB���Ă����ꍇ
      * @exception IOException  �ڑ����ꂽ���̓X�g���[����
      *                         ���o�̓G���[�����������ꍇ
      */
     public boolean peekBoolean() throws IOException {
-        if( 0 < this.bitCount ){
-            return ( this.bitBuffer < 0 );
-        }else{
+        if (0 < this.bitCount) {
+            return (this.bitBuffer < 0);
+        } else {
             this.fillBitBuffer();                                               //throws LocalEOFException IOException
-            return ( this.bitBuffer < 0 );
+            return (this.bitBuffer < 0);
         }
     }
 
@@ -786,11 +793,11 @@ public class BitInputStream extends InputStream{
      * ���� 32�r�b�g�ȏ�̐�ǂ݋@�\���K�{�ƂȂ�ꍇ��
      * ���̓s�x mark()�AreadBits()�Areset() ���J��Ԃ����A
      * ���̃N���X���g�p���邱�Ƃ���߂邱�ƁB<br>
-     * 
+     *
      * @param count �ǂݍ��ރr�b�g��
-     * 
+     *
      * @return ��ǂ݂��� count �r�b�g�̃r�b�g�f�[�^
-     * 
+     *
      * @exception EOFException
      *                    ����EndOfStream�ɒB���Ă����ꍇ
      * @exception IOException
@@ -799,55 +806,56 @@ public class BitInputStream extends InputStream{
      * @exception NotEnoughBitsException
      *                    count ����ǂ݉\�Ȕ͈͊O�̏ꍇ
      */
-    public int peekBits( int count ) throws IOException {
-        if( 0 < count ){
-            if( count <= this.bitCount ){
-                return this.bitBuffer >>> ( 32 - count );
-            }else{
+    public int peekBits(int count) throws IOException {
+        if (0 < count) {
+            if (count <= this.bitCount) {
+                return this.bitBuffer >>> (32 - count);
+            } else {
                 this.fillBitBuffer();                                           //throws LocalEOFException, IOException
-                if( count <= this.bitCount ){
-                    return this.bitBuffer >>> ( 32 - count );
-                }else if( count <= this.cachedBits() ){
-                    if( count <= 32 ){
+                if (count <= this.bitCount) {
+                    return this.bitBuffer >>> (32 - count);
+                } else if (count <= this.cachedBits()) {
+                    if (count <= 32) {
                         int bits = this.bitBuffer;
-                        bits |= ( this.cache[ this.cachePosition ] & 0xFF ) 
-                                                  >> ( this.bitCount - 24 );
-                        return bits >>> ( 32 - count );
-                    }else if( count - 32 < this.bitCount ){
-                        int bits  = this.bitBuffer << ( count - 32 );;
-                        int bcnt = this.bitCount - ( count - 32 );
-                        int pos   = this.cachePosition;
-                        while( bcnt < 25 ){
-                            bits  |= ( this.cache[ pos++ ] & 0xFF ) << ( 24 - bcnt );
-                            bcnt += 8; 
+                        bits |= (this.cache[this.cachePosition] & 0xFF)
+                                >> (this.bitCount - 24);
+                        return bits >>> (32 - count);
+                    } else if (count - 32 < this.bitCount) {
+                        int bits = this.bitBuffer << (count - 32);
+                        ;
+                        int bcnt = this.bitCount - (count - 32);
+                        int pos = this.cachePosition;
+                        while (bcnt < 25) {
+                            bits |= (this.cache[pos++] & 0xFF) << (24 - bcnt);
+                            bcnt += 8;
                         }
-                        if( bcnt < 32 ){
-                            bits  |= ( this.cache[ pos ] & 0xFF ) >> ( bcnt - 24 );
+                        if (bcnt < 32) {
+                            bits |= (this.cache[pos] & 0xFF) >> (bcnt - 24);
                         }
                         return bits;
-                    }else{
-                        count  -= this.bitCount;
-                        count  -= 32;
-                        int pos = this.cachePosition + ( count >> 3 );
-                        count  &= 0x07;
-                        if( 0 < count ){
-                            return   (   this.cache[ pos ]              << ( 24 + count ) )
-                                   | ( ( this.cache[ pos + 1 ] & 0xFF ) << ( 16 + count ) )
-                                   | ( ( this.cache[ pos + 2 ] & 0xFF ) << (  8 + count ) )
-                                   | ( ( this.cache[ pos + 3 ] & 0xFF ) << count )
-                                   | ( ( this.cache[ pos + 4 ] & 0xFF ) >> (  8 - count ) );
-                        }else{
-                            return   (   this.cache[ pos ]              << 24 )
-                                   | ( ( this.cache[ pos + 1 ] & 0xFF ) << 16 )
-                                   | ( ( this.cache[ pos + 2 ] & 0xFF ) <<  8 )
-                                   |   ( this.cache[ pos + 3 ] & 0xFF );
+                    } else {
+                        count -= this.bitCount;
+                        count -= 32;
+                        int pos = this.cachePosition + (count >> 3);
+                        count &= 0x07;
+                        if (0 < count) {
+                            return (this.cache[pos] << (24 + count))
+                                    | ((this.cache[pos + 1] & 0xFF) << (16 + count))
+                                    | ((this.cache[pos + 2] & 0xFF) << (8 + count))
+                                    | ((this.cache[pos + 3] & 0xFF) << count)
+                                    | ((this.cache[pos + 4] & 0xFF) >> (8 - count));
+                        } else {
+                            return (this.cache[pos] << 24)
+                                    | ((this.cache[pos + 1] & 0xFF) << 16)
+                                    | ((this.cache[pos + 2] & 0xFF) << 8)
+                                    | (this.cache[pos + 3] & 0xFF);
                         }
                     }
-                }else{
-                    throw new NotEnoughBitsException( this.cachedBits() );
+                } else {
+                    throw new NotEnoughBitsException(this.cachedBits());
                 }
             }
-        }else{
+        } else {
             return 0;
         }
     }
@@ -861,30 +869,31 @@ public class BitInputStream extends InputStream{
     //  public int availableBits()
     //  private int cachedBits()
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ���̓X�g���[������u���b�N���Ȃ���
      * �ǂݍ��ނ��Ƃ̂ł���r�b�g���𓾂�B<br>
-     * 
+     *
      * @return �u���b�N���Ȃ��œǂݏo����r�b�g���B<br>
-     * 
+     *
      * @exception IOException �ڑ����ꂽ���̓X�g���[����
      *                        ���o�̓G���[�����������ꍇ
      */
     public int availableBits() throws IOException {
-        int avail = ( this.cacheLimit - this.cachePosition )
-                  + this.in.available() / this.cache.length * this.cache.length;//throws IOException
+        int avail = (this.cacheLimit - this.cachePosition)
+                + this.in.available() / this.cache.length * this.cache.length;//throws IOException
         avail += this.bitCount - 32;
 
-        return Math.max( avail, 0 );
+        return Math.max(avail, 0);
     }
 
     /**
      * ���� BitInputStream ���ɒ~�����Ă���r�b�g���𓾂�B<br>
-     * 
+     *
      * @return ���� BitInputStream ���ɒ~�����Ă���r�b�g���B<br>
      */
-    private int cachedBits(){
-        return this.bitCount + ( ( this.cacheLimit - this.cachePosition ) << 3 );
+    private int cachedBits() {
+        return this.bitCount + ((this.cacheLimit - this.cachePosition) << 3);
     }
 
 
@@ -896,80 +905,81 @@ public class BitInputStream extends InputStream{
     //  private void fillBitBuffer()
     //  private void fillCache()
     //------------------------------------------------------------------
+
     /**
      * bitBuffer �Ƀf�[�^�𖞂����B
      * EndOfStream �t�߂������� bitBuffer �ɂ�
      * 25bit �̃f�[�^���m�ۂ���邱�Ƃ�ۏႷ��B
-     * 
+     *
      * @exception IOException       ���o�̓G���[�����������ꍇ
      * @exception LocalEOFException bitBuffer ����̏�Ԃ� EndOfStream �ɒB�����ꍇ
      */
     private void fillBitBuffer() throws IOException {
-        if( 32 <= this.cachedBits() ){
-            if( this.bitCount <= 24 ){
-                if( this.bitCount <= 16 ){
-                    if( this.bitCount <= 8 ){
-                        if( this.bitCount <= 0 ){
+        if (32 <= this.cachedBits()) {
+            if (this.bitCount <= 24) {
+                if (this.bitCount <= 16) {
+                    if (this.bitCount <= 8) {
+                        if (this.bitCount <= 0) {
                             this.bitBuffer = this.cache[this.cachePosition++] << 24;
-                            this.bitCount  = 8;
+                            this.bitCount = 8;
                         }
-                        this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                            << ( 24 - this.bitCount );
-                        this.bitCount  += 8;
+                        this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                                << (24 - this.bitCount);
+                        this.bitCount += 8;
                     }
-                    this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                        << ( 24 - this.bitCount );
-                    this.bitCount  += 8;
+                    this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                            << (24 - this.bitCount);
+                    this.bitCount += 8;
                 }
-                this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                    << ( 24 - this.bitCount );
-                this.bitCount  += 8;
+                this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                        << (24 - this.bitCount);
+                this.bitCount += 8;
             }
-        }else if( this.bitCount < 25 ){
-            if( this.bitCount == 0 ){
+        } else if (this.bitCount < 25) {
+            if (this.bitCount == 0) {
                 this.bitBuffer = 0;
             }
 
-            int count = Math.min( ( 32 - this.bitCount ) >> 3, 
-                                  this.cacheLimit - this.cachePosition );
-            while( 0 < count-- ){
-                this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                    << ( 24 - this.bitCount );
-                this.bitCount  += 8;
+            int count = Math.min((32 - this.bitCount) >> 3,
+                    this.cacheLimit - this.cachePosition);
+            while (0 < count--) {
+                this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                        << (24 - this.bitCount);
+                this.bitCount += 8;
             }
             this.fillCache();                                                   //throws IOException
-            if( this.cachePosition < this.cacheLimit ){
-                count = Math.min( ( 32 - this.bitCount ) >> 3, 
-                                  this.cacheLimit - this.cachePosition );
-                while( 0 < count-- ){
-                    this.bitBuffer |= ( this.cache[this.cachePosition++] & 0xFF )
-                                                        << ( 24 - this.bitCount );
-                    this.bitCount  += 8;
+            if (this.cachePosition < this.cacheLimit) {
+                count = Math.min((32 - this.bitCount) >> 3,
+                        this.cacheLimit - this.cachePosition);
+                while (0 < count--) {
+                    this.bitBuffer |= (this.cache[this.cachePosition++] & 0xFF)
+                            << (24 - this.bitCount);
+                    this.bitCount += 8;
                 }
-            }else if( this.bitCount <= 0 ){
-                throw new LocalEOFException( this );
+            } else if (this.bitCount <= 0) {
+                throw new LocalEOFException(this);
             }
         }
     }
 
     /**
      * cache ����ɂȂ������� cache �Ƀf�[�^��ǂݍ��ށB
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     private void fillCache() throws IOException {
         this.markPositionIsInCache = false;
-        this.cacheLimit            = 0;
-        this.cachePosition         = 0;
+        this.cacheLimit = 0;
+        this.cachePosition = 0;
 
         //cache �Ƀf�[�^��ǂݍ���
         int read = 0;
-        while( 0 <= read && this.cacheLimit < this.cache.length ){
-            read = this.in.read( this.cache,
-                                 this.cacheLimit, 
-                                 this.cache.length - this.cacheLimit );         //throws IOException
+        while (0 <= read && this.cacheLimit < this.cache.length) {
+            read = this.in.read(this.cache,
+                    this.cacheLimit,
+                    this.cache.length - this.cacheLimit);         //throws IOException
 
-            if( 0 < read ) this.cacheLimit += read;
+            if (0 < read) this.cacheLimit += read;
         }
     }
 
@@ -979,6 +989,7 @@ public class BitInputStream extends InputStream{
     //------------------------------------------------------------------
     //  private static class LocalEOFException
     //------------------------------------------------------------------
+
     /**
      * BitInputStream ���� EndOfStream �̌��o��
      * EOFException ���g�p����̂͏��X��肪����̂�
@@ -1002,12 +1013,13 @@ public class BitInputStream extends InputStream{
         //------------------------------------------------------------------
         //  public LocalEOFException( Object object )
         //------------------------------------------------------------------
+
         /**
          * �R���X�g���N�^�B
-         * 
+         *
          * @param object ���̗�O�𓊂����I�u�W�F�N�g
          */
-        public LocalEOFException( Object object ){
+        public LocalEOFException(Object object) {
             super();
             this.owner = object;
         }
@@ -1017,16 +1029,17 @@ public class BitInputStream extends InputStream{
         //------------------------------------------------------------------
         //  public boolean thrownBy( Object object )
         //------------------------------------------------------------------
+
         /**
          * ���̗�O�� object �ɂ���ē�����ꂽ���ǂ����𓾂�B<br>
-         * 
+         *
          * @param object �I�u�W�F�N�g
-         * 
+         *
          * @return ���̗�O�� object�ɂ����
          *         ������ꂽ��O�ł���� true<br>
          *         �Ⴆ�� false<br>
          */
-        public boolean thrownBy( Object object ){
+        public boolean thrownBy(Object object) {
             return this.owner == object;
         }
     }

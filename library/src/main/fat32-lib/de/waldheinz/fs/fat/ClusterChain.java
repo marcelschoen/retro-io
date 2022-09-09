@@ -24,6 +24,7 @@ import de.waldheinz.fs.BlockDevice;
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystemException;
 
 /**
  * A chain of clusters as stored in a {@link Fat}.
@@ -31,47 +32,47 @@ import java.nio.ByteBuffer;
  * @author Matthias Treydte &lt;waldheinz at gmail.com&gt;
  */
 final class ClusterChain extends AbstractFsObject {
-    
+
     private final Fat fat;
     private final BlockDevice device;
     private final int clusterSize;
     private final long dataOffset;
-    
+
     private long startCluster;
-    
+
     /**
      * Creates a new {@code ClusterChain} that contains no clusters.
      *
-     * @param fat the {@code Fat} that holds the new chain
+     * @param fat      the {@code Fat} that holds the new chain
      * @param readOnly if the chain should be created read-only
      */
     public ClusterChain(Fat fat, boolean readOnly) {
         this(fat, 0, readOnly);
     }
-    
+
     public ClusterChain(Fat fat, long startCluster, boolean readOnly) {
         super(readOnly);
-        
+
         this.fat = fat;
-        
+
         if (startCluster != 0) {
             this.fat.testCluster(startCluster);
-            
+
             if (this.fat.isFreeCluster(startCluster))
                 throw new IllegalArgumentException(
-                    "cluster " + startCluster + " is free");
+                        "cluster " + startCluster + " is free");
         }
-        
+
         this.device = fat.getDevice();
         this.dataOffset = fat.getBootSector().getFilesOffset();
         this.startCluster = startCluster;
         this.clusterSize = fat.getBootSector().getBytesPerCluster();
     }
-    
+
     public int getClusterSize() {
         return clusterSize;
     }
-    
+
     public Fat getFat() {
         return fat;
     }
@@ -84,16 +85,16 @@ final class ClusterChain extends AbstractFsObject {
      * Returns the first cluster of this chain.
      *
      * @return the chain's first cluster, which may be 0 if this chain does
-     *      not contain any clusters
+     * not contain any clusters
      */
     public long getStartCluster() {
         return startCluster;
     }
-    
+
     /**
      * Calculates the device offset (0-based) for the given cluster and offset
      * within the cluster.
-     * 
+     *
      * @param cluster
      * @param clusterOffset
      * @return long
@@ -111,20 +112,20 @@ final class ClusterChain extends AbstractFsObject {
      */
     public long getLengthOnDisk() {
         if (getStartCluster() == 0) return 0;
-        
+
         return getChainLength() * clusterSize;
     }
-    
+
     /**
      * Sets the length of this {@code ClusterChain} in bytes. Because a
      * {@code ClusterChain} can only contain full clusters, the new size
      * will always be a multiple of the cluster size.
      *
      * @param size the desired number of bytes the can be stored in
-     *      this {@code ClusterChain}
+     *             this {@code ClusterChain}
      * @return the true number of bytes this {@code ClusterChain} can contain
      * @throws IOException on error setting the new size
-     * @see #setChainLength(int) 
+     * @see #setChainLength(int)
      */
     public long setSize(long size) throws IOException {
         final long nrClusters = ((size + clusterSize - 1) / clusterSize);
@@ -132,7 +133,7 @@ final class ClusterChain extends AbstractFsObject {
             throw new IOException("too many clusters");
 
         setChainLength((int) nrClusters);
-        
+
         return clusterSize * nrClusters;
     }
 
@@ -143,7 +144,7 @@ final class ClusterChain extends AbstractFsObject {
      */
     public int getChainLength() {
         if (getStartCluster() == 0) return 0;
-        
+
         final long[] chain = getFat().getChain(getStartCluster());
         return chain.length;
     }
@@ -152,14 +153,14 @@ final class ClusterChain extends AbstractFsObject {
      * Sets the length of this cluster chain in clusters.
      *
      * @param nrClusters the new number of clusters this chain should contain,
-     *      must be {@code >= 0}
+     *                   must be {@code >= 0}
      * @throws IOException on error updating the chain length
-     * @see #setSize(long) 
+     * @see #setSize(long)
      */
     public void setChainLength(int nrClusters) throws IOException {
         if (nrClusters < 0) throw new IllegalArgumentException(
                 "negative cluster count"); //NOI18N
-                
+
         if ((this.startCluster == 0) && (nrClusters == 0)) {
             /* nothing to do */
         } else if ((this.startCluster == 0) && (nrClusters > 0)) {
@@ -167,12 +168,12 @@ final class ClusterChain extends AbstractFsObject {
             this.startCluster = chain[0];
         } else {
             final long[] chain = fat.getChain(startCluster);
-            
+
             if (nrClusters != chain.length) {
                 if (nrClusters > chain.length) {
                     /* grow the chain */
                     int count = nrClusters - chain.length;
-                    
+
                     while (count > 0) {
                         fat.allocAppend(getStartCluster());
                         count--;
@@ -185,17 +186,17 @@ final class ClusterChain extends AbstractFsObject {
                             fat.setFree(chain[i]);
                         }
                     } else {
-                        for (int i=0; i < chain.length; i++) {
+                        for (int i = 0; i < chain.length; i++) {
                             fat.setFree(chain[i]);
                         }
-                        
+
                         this.startCluster = 0;
                     }
                 }
             }
         }
     }
-    
+
     public void readData(long offset, ByteBuffer dest)
             throws IOException {
 
@@ -204,12 +205,12 @@ final class ClusterChain extends AbstractFsObject {
         if ((startCluster == 0 && len > 0)) {
             throw new EOFException("cannot read from empty cluster chain");
         }
-        
+
         final long[] chain = getFat().getChain(startCluster);
         final BlockDevice dev = getDevice();
 
         int chainIdx = (int) (offset / clusterSize);
-        
+
         if (offset % clusterSize != 0) {
             int clusOfs = (int) (offset % clusterSize);
             int size = Math.min(len,
@@ -217,7 +218,7 @@ final class ClusterChain extends AbstractFsObject {
             dest.limit(dest.position() + size);
 
             dev.read(getDevOffset(chain[chainIdx], clusOfs), dest);
-            
+
             len -= size;
             chainIdx++;
         }
@@ -232,7 +233,7 @@ final class ClusterChain extends AbstractFsObject {
             chainIdx++;
         }
     }
-    
+
     /**
      * Writes data to this cluster chain, possibly growing the chain so it
      * can store the additional data. When this method returns without throwing
@@ -245,7 +246,7 @@ final class ClusterChain extends AbstractFsObject {
      * @throws IOException on write error
      */
     public void writeData(long offset, ByteBuffer srcBuf) throws IOException {
-        
+
         int len = srcBuf.remaining();
 
         if (len == 0) return;
@@ -254,23 +255,23 @@ final class ClusterChain extends AbstractFsObject {
         if (getLengthOnDisk() < minSize) {
             setSize(minSize);
         }
-        
+
         final long[] chain = fat.getChain(getStartCluster());
 
         int chainIdx = (int) (offset / clusterSize);
-        
+
         if (offset % clusterSize != 0) {
             int clusOfs = (int) (offset % clusterSize);
             int size = Math.min(len,
                     (int) (clusterSize - (offset % clusterSize)));
             srcBuf.limit(srcBuf.position() + size);
-            
+
             device.write(getDevOffset(chain[chainIdx], clusOfs), srcBuf);
-            
+
             len -= size;
             chainIdx++;
         }
-        
+
         while (len > 0) {
             int size = Math.min(clusterSize, len);
             srcBuf.limit(srcBuf.position() + size);
@@ -280,7 +281,7 @@ final class ClusterChain extends AbstractFsObject {
             len -= size;
             chainIdx++;
         }
-        
+
     }
 
     @Override
@@ -288,19 +289,19 @@ final class ClusterChain extends AbstractFsObject {
         if (obj == null) {
             return false;
         }
-        
-        if (!(obj instanceof ClusterChain)){
+
+        if (!(obj instanceof ClusterChain)) {
             return false;
         }
-        
+
         final ClusterChain other = (ClusterChain) obj;
-        
+
         if ((this.fat != other.fat) &&
-            (this.fat == null || !this.fat.equals(other.fat))) {
+                (this.fat == null || !this.fat.equals(other.fat))) {
 
             return false;
         }
-        
+
         return (this.startCluster == other.startCluster);
     }
 
@@ -313,5 +314,5 @@ final class ClusterChain extends AbstractFsObject {
                 (int) (this.startCluster ^ (this.startCluster >>> 32));
         return hash;
     }
-    
+
 }

@@ -3,19 +3,19 @@
 
 /**
  * BitOutputStream.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -42,7 +42,7 @@ import java.io.OutputStream;
 /**
  * �ڑ����ꂽ�o�̓X�g���[���Ƀr�b�g�f�[�^���o�͂��邽�߂�
  * �o�̓X�g���[���N���X�B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: BitOutputStream.java,v $
@@ -60,11 +60,11 @@ import java.io.OutputStream;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.1 $
  */
-public class BitOutputStream extends OutputStream{
+public class BitOutputStream extends OutputStream {
 
 
     //------------------------------------------------------------------
@@ -109,7 +109,7 @@ public class BitOutputStream extends OutputStream{
     /**
      * cacheBuffer ���̌��ݏ����ʒu
      */
-    private int    cachePosition;
+    private int cachePosition;
 
 
     //------------------------------------------------------------------
@@ -138,48 +138,50 @@ public class BitOutputStream extends OutputStream{
     //  public BitOutputStream( OutputStream out )
     //  public BitOutputStream( OutputStream out, int CacheSize )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^�B
      * �g�p�s�B
      */
-    private BitOutputStream(){  }
+    private BitOutputStream() {
+    }
 
     /**
      * �o�̓X�g���[�� out �� �f�[�^���r�b�g�P�ʂ�
      * �������߂�悤�ȃX�g���[�����\�z����B<br>
      * �L���b�V���T�C�Y�ɂ̓f�t�H���g�l���g�p�����B
-     * 
+     *
      * @param out �o�̓X�g���[��
      */
-    public BitOutputStream( OutputStream out ){
-        this( out, BitOutputStream.DefaultCacheSize );
+    public BitOutputStream(OutputStream out) {
+        this(out, BitOutputStream.DefaultCacheSize);
 
     }
 
     /**
      * �o�̓X�g���[�� out �� �f�[�^���r�b�g�P�ʂ�
      * �������߂�悤�ȃX�g���[�����\�z����B<br>
-     * 
+     *
      * @param out       �o�̓X�g���[��
      * @param CacheSize �L���b�V���T�C�Y
-     * 
+     *
      * @exception IllegalArgumentException
      *                   CacheSize �� 4�����̏ꍇ�A�܂���
      *                   CacheSize �� 4�̔{���Ŗ����ꍇ�B
      */
-    public BitOutputStream( OutputStream out, int CacheSize ){
-        if( out != null && 4 <= CacheSize && 0 == ( CacheSize & 0x03 ) ){
-            this.out            = out;
-            this.cache          = new byte[ CacheSize ];
-            this.cachePosition  = 0;
-            this.bitBuffer      = 0;
-            this.bitCount       = 0;
-        }else if( out == null ){
-            throw new NullPointerException( "out" );
-        }else if( CacheSize < 4 ){
-            throw new IllegalArgumentException( "CacheSize must be 4 or more." );
-        }else{
-            throw new IllegalArgumentException( "CacheSize must be multiple of 4." );
+    public BitOutputStream(OutputStream out, int CacheSize) {
+        if (out != null && 4 <= CacheSize && 0 == (CacheSize & 0x03)) {
+            this.out = out;
+            this.cache = new byte[CacheSize];
+            this.cachePosition = 0;
+            this.bitBuffer = 0;
+            this.bitCount = 0;
+        } else if (out == null) {
+            throw new NullPointerException("out");
+        } else if (CacheSize < 4) {
+            throw new IllegalArgumentException("CacheSize must be 4 or more.");
+        } else {
+            throw new IllegalArgumentException("CacheSize must be multiple of 4.");
         }
     }
 
@@ -193,49 +195,50 @@ public class BitOutputStream extends OutputStream{
     //  public void write( byte[] buffer )
     //  public void write( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ�o�̓X�g���[���� 8�r�b�g�̃f�[�^���o�͂���B<br>
-     * 
+     *
      * @param data 8�r�b�g�̃f�[�^�B<br>
      *             ���24�r�b�g�͖��������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void write( int data ) throws IOException {
-        this.writeBits( 8, data );
+    public void write(int data) throws IOException {
+        this.writeBits(8, data);
     }
 
     /**
      * �ڑ����ꂽ�o�̓X�g���[����buffer�̓��e��A������
      * 8�r�b�g�̃f�[�^�Ƃ��ďo�͂���B<br>
-     * 
+     *
      * @param buffer �o�͂��ׂ��f�[�^���i�[�����o�C�g�z��<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void write( byte[] buffer ) throws IOException {
-        this.write( buffer, 0, buffer.length );                                 //throws IOException
+    public void write(byte[] buffer) throws IOException {
+        this.write(buffer, 0, buffer.length);                                 //throws IOException
     }
 
     /**
      * �ڑ����ꂽ�o�̓X�g���[����buffer��index����
      * length�o�C�g�̓��e��A������ 8�r�b�g�̃f�[�^
      * �Ƃ��ďo�͂���B<br>
-     * 
+     *
      * @param buffer �o�͂��ׂ��f�[�^���i�[�����o�C�g�z��
      * @param index  buffer���̃f�[�^�J�n�ʒu
      * @param length �o�͂���f�[�^��(�o�C�g��)
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void write( byte[] buffer, int index, int length )
-                                                           throws IOException {
-        if( this.bitCount % 8 == 0 ){
+    public void write(byte[] buffer, int index, int length)
+            throws IOException {
+        if (this.bitCount % 8 == 0) {
             this.flush();                                                       //throws IOException
-            this.out.write( buffer, index, length );                            //throws IOException
-        }else{
-            while( 0 < length-- )
-                this.writeBits( 8, buffer[index++] );                           //throws IOException
+            this.out.write(buffer, index, length);                            //throws IOException
+        } else {
+            while (0 < length--)
+                this.writeBits(8, buffer[index++]);                           //throws IOException
         }
     }
 
@@ -248,21 +251,22 @@ public class BitOutputStream extends OutputStream{
     //  public void flush()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * ���̃r�b�g�o�̓X�g���[���Ƀo�b�t�@�����O����Ă���
      * 8�r�b�g�P�ʂ̃f�[�^��S�ďo�͐�ɏo�͂���B
      * 8�r�b�g�ɖ����Ȃ��f�[�^�͏o�͂���Ȃ����Ƃɒ��ӁB<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void flush() throws IOException {
-        while( 8 <= this.bitCount ){
-            this.cache[ this.cachePosition++ ] = (byte)( this.bitBuffer >> 24 );
+        while (8 <= this.bitCount) {
+            this.cache[this.cachePosition++] = (byte) (this.bitBuffer >> 24);
             this.bitBuffer <<= 8;
-            this.bitCount  -= 8;
+            this.bitCount -= 8;
         }
 
-        this.out.write( this.cache, 0, this.cachePosition );                    //throws IOException
+        this.out.write(this.cache, 0, this.cachePosition);                    //throws IOException
         this.cachePosition = 0;
         this.out.flush();                                                       //throws IOException
     }
@@ -270,26 +274,26 @@ public class BitOutputStream extends OutputStream{
     /**
      * ���̏o�̓X�g���[���ƁA�ڑ����ꂽ�o�̓X�g���[������A
      * �g�p���Ă������\�[�X���J������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
-        while( 0 < this.bitCount ){
-            this.cache[ this.cachePosition++ ] = (byte)( this.bitBuffer >> 24 );
+        while (0 < this.bitCount) {
+            this.cache[this.cachePosition++] = (byte) (this.bitBuffer >> 24);
             this.bitBuffer <<= 8;
-            this.bitCount  -= 8;
+            this.bitCount -= 8;
         }
 
-        this.out.write( this.cache, 0, this.cachePosition );                    //throws IOException
+        this.out.write(this.cache, 0, this.cachePosition);                    //throws IOException
         this.cachePosition = 0;
         this.out.flush();                                                       //throws IOException
         this.out.close();                                                       //throws IOException
 
-        this.out            = null;
-        this.cache          = null;
-        this.cachePosition  = 0;
-        this.bitCount       = 128;
-        this.bitBuffer      = 0;
+        this.out = null;
+        this.cache = null;
+        this.cachePosition = 0;
+        this.bitCount = 128;
+        this.bitBuffer = 0;
     }
 
 
@@ -302,19 +306,20 @@ public class BitOutputStream extends OutputStream{
     //  public void writeBoolean( boolean bool )
     //  public void writeBits( int count, int data )
     //------------------------------------------------------------------
+
     /**
      * �ڑ����ꂽ�o�̓X�g���[����1�r�b�g�̃f�[�^���o�͂���B<br>
-     * 
+     *
      * @param data 1�r�b�g�̃f�[�^�B<br>
      *             ���31�r�b�g�͖��������B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void writeBit( int data ) throws IOException {
-        this.bitBuffer |= ( data & 0x00000001 ) << 31 - this.bitCount;
+    public void writeBit(int data) throws IOException {
+        this.bitBuffer |= (data & 0x00000001) << 31 - this.bitCount;
         this.bitCount++;
 
-        if( 32 <= this.bitCount ) this.writeOutBitBuffer();                        //throws IOException
+        if (32 <= this.bitCount) this.writeOutBitBuffer();                        //throws IOException
     }
 
     /**
@@ -323,39 +328,39 @@ public class BitOutputStream extends OutputStream{
      * true �� 1�Afalse �� 0�Ƃ��ďo�͂���B<br>
      * java.io.DataOutput �� writeBoolean() �Ƃ�
      * �݊����������̂Œ��ӂ��邱�ƁB<br>
-     * 
+     *
      * @param bool �^�U�l
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void writeBoolean( boolean bool ) throws IOException {
-        if( bool )  this.bitBuffer |= 1 << 31 - this.bitCount;
+    public void writeBoolean(boolean bool) throws IOException {
+        if (bool) this.bitBuffer |= 1 << 31 - this.bitCount;
 
         this.bitCount++;
 
-        if( 32 <= this.bitCount ) this.writeOutBitBuffer();                     //throws IOException
+        if (32 <= this.bitCount) this.writeOutBitBuffer();                     //throws IOException
     }
 
     /**
      * �ڑ����ꂽ�o�̓X�g���[���Ƀr�b�g�f�[�^���o�͂���B<br>
-     * 
+     *
      * @param count data �̗L���r�b�g��
      * @param data  �r�b�g�f�[�^
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
-    public void writeBits( int count, int data ) throws IOException {
-        while( 0 < count ){
+    public void writeBits(int count, int data) throws IOException {
+        while (0 < count) {
             int available = 32 - this.bitCount;
-            if( count < available ){
-                this.bitBuffer   |= ( data & ( 0xFFFFFFFF >>> 32 - count ) )
-                                                          << available - count;
-                this.bitCount    += count;
-                count            = 0;
-            }else{
-                count          -= available;
+            if (count < available) {
+                this.bitBuffer |= (data & (0xFFFFFFFF >>> 32 - count))
+                        << available - count;
+                this.bitCount += count;
+                count = 0;
+            } else {
+                count -= available;
                 this.bitBuffer |= data >> count
-                                & ( 0xFFFFFFFF >>> 32 - available );
+                        & (0xFFFFFFFF >>> 32 - available);
                 this.writeOutBitBuffer();
             }
         }
@@ -366,24 +371,25 @@ public class BitOutputStream extends OutputStream{
     //------------------------------------------------------------------
     //  private void writeOutBitBuffer()
     //------------------------------------------------------------------
+
     /**
      * �r�b�g�o�b�t�@�ɒ~����ꂽ�f�[�^��S�ăL���b�V����
      * �o�͂��A�L���b�V�����������ꍇ�̓L���b�V���̃f�[�^��
      * �ڑ����ꂽ�o�̓X�g���[���ɏo�͂���B<br>
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     private void writeOutBitBuffer() throws IOException {
-        this.cache[ this.cachePosition++ ] = (byte)( this.bitBuffer >> 24 );
-        this.cache[ this.cachePosition++ ] = (byte)( this.bitBuffer >> 16 );
-        this.cache[ this.cachePosition++ ] = (byte)( this.bitBuffer >>  8 );
-        this.cache[ this.cachePosition++ ] = (byte)this.bitBuffer;
+        this.cache[this.cachePosition++] = (byte) (this.bitBuffer >> 24);
+        this.cache[this.cachePosition++] = (byte) (this.bitBuffer >> 16);
+        this.cache[this.cachePosition++] = (byte) (this.bitBuffer >> 8);
+        this.cache[this.cachePosition++] = (byte) this.bitBuffer;
 
         this.bitBuffer = 0;
-        this.bitCount  = 0;
+        this.bitCount = 0;
 
-        if( this.cache.length <= this.cachePosition ){
-            this.out.write( this.cache );
+        if (this.cache.length <= this.cachePosition) {
+            this.out.write(this.cache);
             this.cachePosition = 0;
         }
     }

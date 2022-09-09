@@ -3,9 +3,8 @@
 
 /**
  * Disconnectable.java
- * 
+ * <p>
  * Copyright (C) 2001-2002  Michel Ishizuka  All rights reserved.
- *
  */
 
 package jp.gr.java_conf.dangan.io;
@@ -13,6 +12,7 @@ package jp.gr.java_conf.dangan.io;
 //import classes and interfaces
 
 //import exceptions
+
 import java.io.IOException;
 
 /**
@@ -25,17 +25,18 @@ import java.io.IOException;
  * [maintenance]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public interface Disconnectable{
+public interface Disconnectable {
 
     //------------------------------------------------------------------
     //  original method
     //------------------------------------------------------------------
     //  public abstract void disconnect()
     //------------------------------------------------------------------
+
     /**
      */
     public abstract void disconnect() throws IOException;

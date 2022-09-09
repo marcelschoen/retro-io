@@ -3,19 +3,19 @@
 
 /**
  * LhaImmediateOutputStream.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
+ * <p>
  * �ȉ��̏����ɓ��ӂ���Ȃ�΃\�[�X�ƃo�C�i���`���̍Ĕz�z�Ǝg�p��
  * �ύX�̗L���ɂ�����炸������B
- * 
+ * <p>
  * �P�D�\�[�X�R�[�h�̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐�������ێ����Ȃ��Ă͂Ȃ�Ȃ��B
+ * <p>
  * �Q�D�o�C�i���`���̍Ĕz�z�ɂ����Ē��쌠�\���� ���̏����̃��X�g
- *     ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
- *     �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
- * 
+ * ����щ��L�̐��������g�p�������������� ���̑��̔z�z������
+ * �܂ގ����ɋL�q���Ȃ���΂Ȃ�Ȃ��B
+ * <p>
  * ���̃\�t�g�E�F�A�͐Β˔���ڂɂ���Ė��ۏ؂Œ񋟂���A����̖�
  * �I��B���ł���Ƃ����ۏ؁A���i���l���L��Ƃ����ۏ؂ɂƂǂ܂炸�A
  * �����Ȃ閾���I����шÎ��I�ȕۏ؂����Ȃ��B
@@ -48,7 +48,7 @@ import java.util.Properties;
  * <pre>
  * LhaCompressFiles( String arcfile, File[] files ){
  *   LhaImmediateOutputStream lio = new LhaImmediateOutputStream( arcfile );
- * 
+ *
  *   for( int i = 0 ; i &lt files.length ; i++ ){
  *     RandomAccessFile raf = new RandomAccessFile( files[i] );
  *     LhaHeader header = new LhaHeader( files[i].getName() );
@@ -56,7 +56,7 @@ import java.util.Properties;
  *     header.setOriginalSize( files.length() );
  *     byte[] buffer  = new byte[8192];
  *     int    length;
- * 
+ *
  *     while( 0 &lt= ( length = raf.read( buffer ) ) ){
  *         lio.write( buffer, 0, length );
  *     }
@@ -80,7 +80,7 @@ import java.util.Properties;
  * �܂��AJDK 1.1 �ȑO�ł� RandomAccessFile �� setLength �������Ȃ����߁A
  * ���Ƀf�[�^�̌��ɑ��̃f�[�^������ꍇ�ł��t�@�C���T�C�Y��؂�l�߂邱�Ƃ��o���Ȃ��B<br>
  * ���̖��_�͏�ɃT�C�Y0�̐V�����t�@�C�����J�����ɂ���ĉ�����鎖���ł���B<br>
- * 
+ *
  * <pre>
  * -- revision history --
  * $Log: LhaImmediateOutputStream.java,v $
@@ -103,11 +103,11 @@ import java.util.Properties;
  *     ���C�Z���X���̏C��
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.2 $
  */
-public class LhaImmediateOutputStream extends OutputStream{
+public class LhaImmediateOutputStream extends OutputStream {
 
 
     //------------------------------------------------------------------
@@ -185,114 +185,116 @@ public class LhaImmediateOutputStream extends OutputStream{
     //  public LhaImmediateOutputStream( RandomAccessFile archive, Properties property )
     //  private void constructerHelper( RandomAccesFile archive, Properties property )
     //------------------------------------------------------------------
+
     /**
      * �f�t�H���g�R���X�g���N�^
      * �g�p�s��
      */
-    private LhaImmediateOutputStream(){ }
-
-    /**
-     * filename �̃t�@�C���� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
-     * �e���k�`���ɑΉ�����������̐������������v���p�e�B�ɂ�
-     * LhaProperty.getProperties() �œ���ꂽ�v���p�e�B���g�p�����B<br>
-     * 
-     * @param filename ���k�f�[�^���������ރt�@�C���̖��O
-     * 
-     * @exception FileNotFoundException
-     *               filename �ŗ^����ꂽ�t�@�C����������Ȃ��ꍇ�B
-     * @exception SecurityException
-     *               �Z�L�����e�B�}�l�[�W�����t�@�C���ւ̃A�N�Z�X�������Ȃ��ꍇ�B
-     * 
-     * @see LhaProperty#getProperties()
-     */
-    public LhaImmediateOutputStream( String filename ) 
-                                                throws FileNotFoundException {
-
-        if( filename != null ){
-            RandomAccessFile file = new RandomAccessFile( filename, "rw" );     //throws FileNotFoundException, SecurityException
-            Properties property   = LhaProperty.getProperties();
-        
-            this.constructerHelper( file, property );
-        }else{
-            throw new NullPointerException( "filename" );
-        }
-    }
-
-    /**
-     * filename �̃t�@�C���� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
-     * 
-     * @param filename ���k�f�[�^���������ރt�@�C���̖��O
-     * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
-     * 
-     * @exception FileNotFoundException
-     *               filename �ŗ^����ꂽ�t�@�C����������Ȃ��ꍇ�B
-     * @exception SecurityException
-     *               �Z�L�����e�B�}�l�[�W�����t�@�C���ւ̃A�N�Z�X�������Ȃ��ꍇ�B
-     * 
-     * @see LhaProperty
-     */
-    public LhaImmediateOutputStream( String filename, Properties property )
-                                                  throws FileNotFoundException {
-
-        if( filename != null ){
-            RandomAccessFile file = new RandomAccessFile( filename, "rw" );     //throws FileNotFoundException, SecurityException
-            this.constructerHelper( file, property );
-        }else{
-            throw new NullPointerException( "filename" );
-        }
+    private LhaImmediateOutputStream() {
     }
 
     /**
      * filename �̃t�@�C���� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
      * �e���k�`���ɑΉ�����������̐������������v���p�e�B�ɂ�
      * LhaProperty.getProperties() �œ���ꂽ�v���p�e�B���g�p�����B<br>
-     * 
+     *
      * @param filename ���k�f�[�^���������ރt�@�C���̖��O
-     * 
+     *
      * @exception FileNotFoundException
      *               filename �ŗ^����ꂽ�t�@�C����������Ȃ��ꍇ�B
      * @exception SecurityException
      *               �Z�L�����e�B�}�l�[�W�����t�@�C���ւ̃A�N�Z�X�������Ȃ��ꍇ�B
-     * @exception IOException
-     *               JDK1.2 �ŃR���p�C�����邽�߂����ɑ��݂���B
-     * 
+     *
      * @see LhaProperty#getProperties()
      */
-    public LhaImmediateOutputStream( File filename ) throws IOException {
+    public LhaImmediateOutputStream(String filename)
+            throws FileNotFoundException {
 
-        if( filename != null ){
-            RandomAccessFile file = new RandomAccessFile( filename, "rw" );     //throws FileNotFoundException, SecurityException, IOException(jdk1.2)
-            Properties property   = LhaProperty.getProperties();
-        
-            this.constructerHelper( file, property );
-        }else{
-            throw new NullPointerException( "filename" );
+        if (filename != null) {
+            RandomAccessFile file = new RandomAccessFile(filename, "rw");     //throws FileNotFoundException, SecurityException
+            Properties property = LhaProperty.getProperties();
+
+            this.constructerHelper(file, property);
+        } else {
+            throw new NullPointerException("filename");
         }
     }
 
     /**
      * filename �̃t�@�C���� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
-     * 
+     *
      * @param filename ���k�f�[�^���������ރt�@�C���̖��O
      * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
-     * 
+     *
+     * @exception FileNotFoundException
+     *               filename �ŗ^����ꂽ�t�@�C����������Ȃ��ꍇ�B
+     * @exception SecurityException
+     *               �Z�L�����e�B�}�l�[�W�����t�@�C���ւ̃A�N�Z�X�������Ȃ��ꍇ�B
+     *
+     * @see LhaProperty
+     */
+    public LhaImmediateOutputStream(String filename, Properties property)
+            throws FileNotFoundException {
+
+        if (filename != null) {
+            RandomAccessFile file = new RandomAccessFile(filename, "rw");     //throws FileNotFoundException, SecurityException
+            this.constructerHelper(file, property);
+        } else {
+            throw new NullPointerException("filename");
+        }
+    }
+
+    /**
+     * filename �̃t�@�C���� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
+     * �e���k�`���ɑΉ�����������̐������������v���p�e�B�ɂ�
+     * LhaProperty.getProperties() �œ���ꂽ�v���p�e�B���g�p�����B<br>
+     *
+     * @param filename ���k�f�[�^���������ރt�@�C���̖��O
+     *
      * @exception FileNotFoundException
      *               filename �ŗ^����ꂽ�t�@�C����������Ȃ��ꍇ�B
      * @exception SecurityException
      *               �Z�L�����e�B�}�l�[�W�����t�@�C���ւ̃A�N�Z�X�������Ȃ��ꍇ�B
      * @exception IOException
      *               JDK1.2 �ŃR���p�C�����邽�߂����ɑ��݂���B
-     * 
+     *
+     * @see LhaProperty#getProperties()
+     */
+    public LhaImmediateOutputStream(File filename) throws IOException {
+
+        if (filename != null) {
+            RandomAccessFile file = new RandomAccessFile(filename, "rw");     //throws FileNotFoundException, SecurityException, IOException(jdk1.2)
+            Properties property = LhaProperty.getProperties();
+
+            this.constructerHelper(file, property);
+        } else {
+            throw new NullPointerException("filename");
+        }
+    }
+
+    /**
+     * filename �̃t�@�C���� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
+     *
+     * @param filename ���k�f�[�^���������ރt�@�C���̖��O
+     * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
+     *
+     * @exception FileNotFoundException
+     *               filename �ŗ^����ꂽ�t�@�C����������Ȃ��ꍇ�B
+     * @exception SecurityException
+     *               �Z�L�����e�B�}�l�[�W�����t�@�C���ւ̃A�N�Z�X�������Ȃ��ꍇ�B
+     * @exception IOException
+     *               JDK1.2 �ŃR���p�C�����邽�߂����ɑ��݂���B
+     *
      * @see LhaProperty
      */
-    public LhaImmediateOutputStream( File filename, Properties property )
-                                                  throws IOException {
+    public LhaImmediateOutputStream(File filename, Properties property)
+            throws IOException {
 
-        if( filename != null ){
-            RandomAccessFile file = new RandomAccessFile( filename, "rw" );     //throws FileNotFoundException, SecurityException, IOException(jdk1.2)
-            this.constructerHelper( file, property );
-        }else{
-            throw new NullPointerException( "filename" );
+        if (filename != null) {
+            RandomAccessFile file = new RandomAccessFile(filename, "rw");     //throws FileNotFoundException, SecurityException, IOException(jdk1.2)
+            this.constructerHelper(file, property);
+        } else {
+            throw new NullPointerException("filename");
         }
     }
 
@@ -300,7 +302,7 @@ public class LhaImmediateOutputStream extends OutputStream{
      * file�� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
      * �e���k�`���ɑΉ�����������̐������������v���p�e�B�ɂ�
      * LhaProperty.getProperties() �œ���ꂽ�v���p�e�B���g�p�����B<br>
-     * 
+     *
      * @param file RandomAccessFile �̃C���X�^���X�B<br>
      *             <ul>
      *                <li>���� close() ����Ă��Ȃ����B
@@ -308,16 +310,16 @@ public class LhaImmediateOutputStream extends OutputStream{
      *                    �ǂ݂��݂Ə������݂��o����悤�ɐ������ꂽ�C���X�^���X�ł��邱�ƁB
      *              </ul>
      *              �̏����𖞂������́B
-     * 
+     *
      * @see LhaProperty#getProperties()
      */
-    public LhaImmediateOutputStream( RandomAccessFile file ){
+    public LhaImmediateOutputStream(RandomAccessFile file) {
 
-        if( file != null ){
-            Properties property   = LhaProperty.getProperties();
-            this.constructerHelper( file, property );
-        }else{
-            throw new NullPointerException( "out" );
+        if (file != null) {
+            Properties property = LhaProperty.getProperties();
+            this.constructerHelper(file, property);
+        } else {
+            throw new NullPointerException("out");
         }
     }
 
@@ -325,7 +327,7 @@ public class LhaImmediateOutputStream extends OutputStream{
      * file�� ���k�f�[�^���o�͂���OutputStream���\�z����B<br>
      * �e���k�`���ɑΉ�����������̐������������v���p�e�B�ɂ�
      * LhaProperty.getProperties() �œ���ꂽ�v���p�e�B���g�p�����B<br>
-     * 
+     *
      * @param file     RandomAccessFile �̃C���X�^���X�B<br>
      *                 <ul>
      *                   <li>���� close() ����Ă��Ȃ����B
@@ -334,28 +336,28 @@ public class LhaImmediateOutputStream extends OutputStream{
      *                 </ul>
      *                 �̏����𖞂������́B
      * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
-     * 
+     *
      * @see LhaProperty
      */
-    public LhaImmediateOutputStream( RandomAccessFile file, 
-                                     Properties       property ){
+    public LhaImmediateOutputStream(RandomAccessFile file,
+                                    Properties property) {
 
-        if( file != null
-         && property != null ){
+        if (file != null
+                && property != null) {
 
-            this.constructerHelper( file, property );                           //throws UnsupportedEncodingException
+            this.constructerHelper(file, property);                           //throws UnsupportedEncodingException
 
-        }else if( file == null ){
-            throw new NullPointerException( "null" );
-        }else{
-            throw new NullPointerException( "property" );
+        } else if (file == null) {
+            throw new NullPointerException("null");
+        } else {
+            throw new NullPointerException("property");
         }
 
     }
 
     /**
      * �R���X�g���N�^�̏�����������S�����郁�\�b�h�B
-     * 
+     *
      * @param file     RandomAccessFile �̃C���X�^���X�B<br>
      *                 <ul>
      *                   <li>���� close() ����Ă��Ȃ����B
@@ -365,16 +367,16 @@ public class LhaImmediateOutputStream extends OutputStream{
      *                 �̏����𖞂������́B
      * @param property �e���k�`���ɑΉ�����������̐����������܂܂��v���p�e�B
      */
-    private void constructerHelper( RandomAccessFile file, 
-                                    Properties       property ){
+    private void constructerHelper(RandomAccessFile file,
+                                   Properties property) {
 
-        this.archive   = file;
+        this.archive = file;
 
-        this.out       = null;
-        this.header    = null;
+        this.out = null;
+        this.header = null;
         this.headerpos = -1;
-        this.crc       = new CRC16();
-        this.property  = property;
+        this.crc = new CRC16();
+        this.property = property;
     }
 
 
@@ -387,55 +389,56 @@ public class LhaImmediateOutputStream extends OutputStream{
     //  public void write( byte[] buffer )
     //  public void write( byte[] buffer, int index, int length )
     //------------------------------------------------------------------
+
     /**
      * ���݂̃G���g����1�o�C�g�̃f�[�^���������ށB
-     * 
+     *
      * @param data �������ރf�[�^
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ�B
      */
-    public void write( int data ) throws IOException {
-        if( this.out != null ){
-            if( this.header != null ){
-                crc.update( data );
+    public void write(int data) throws IOException {
+        if (this.out != null) {
+            if (this.header != null) {
+                crc.update(data);
             }
 
-            this.out.write( data );
-        }else{
-            throw new IOException( "no entry" );
+            this.out.write(data);
+        } else {
+            throw new IOException("no entry");
         }
     }
 
     /**
      * ���݂̃G���g���� buffer�̓��e��S�ď����o���B
-     * 
+     *
      * @param buffer �����o���f�[�^�̓������o�C�g�z��
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ�B
      */
-    public void write( byte[] buffer ) throws IOException {
-        this.write( buffer, 0, buffer.length );
+    public void write(byte[] buffer) throws IOException {
+        this.write(buffer, 0, buffer.length);
     }
 
     /**
      * ���݂̃G���g���� buffer�� index����
      * length�o�C�g�̃f�[�^�������o���B
-     * 
+     *
      * @param buffer �����o���f�[�^�̓������o�C�g�z��
      * @param index  buffer���̏����o���ׂ��f�[�^�̊J�n�ʒu
      * @param length �f�[�^�̃o�C�g��
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ�B
      */
-    public void write( byte[] buffer, int index, int length ) throws IOException {
-        if( this.out != null ){
-            if( this.header != null ){
-                crc.update( buffer, index, length );
+    public void write(byte[] buffer, int index, int length) throws IOException {
+        if (this.out != null) {
+            if (this.header != null) {
+                crc.update(buffer, index, length);
             }
 
-            this.out.write( buffer, index, length );
-        }else{
-            throw new IOException( "no entry" );
+            this.out.write(buffer, index, length);
+        } else {
+            throw new IOException("no entry");
         }
     }
 
@@ -448,46 +451,47 @@ public class LhaImmediateOutputStream extends OutputStream{
     //  public void flush()
     //  public void close()
     //------------------------------------------------------------------
+
     /**
      * ���ݏ������ݒ��̃G���g���̃f�[�^�������I�ɏo�͐�ɏ����o���B
      * ����� PostLzssEncoder, LzssOutputStream �̋K��ǂ���
      * flush() ���Ȃ������ꍇ�Ƃ͕ʂ̃f�[�^���o�͂���B
      * (���̏ꍇ�� �P�Ɉ��k�����ቺ���邾���ł���B)
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
-     * 
+     *
      * @see PostLzssEncoder#flush()
      * @see LzssOutputStream#flush()
      */
     public void flush() throws IOException {
-        if( this.out != null ){
+        if (this.out != null) {
             this.out.flush();                                                   //throws IOException
-        }else{
-            throw new IOException( "no entry" );
+        } else {
+            throw new IOException("no entry");
         }
     }
 
     /**
      * �o�͐�ɑS�Ẵf�[�^���o�͂��A�X�g���[�������B<br>
      * �܂��A�g�p���Ă����S�Ẵ��\�[�X���������B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public void close() throws IOException {
-        if( this.out != null ){
+        if (this.out != null) {
             this.closeEntry();                                                  //throws IOException
         }
 
         //�^�[�~�l�[�^���o��
-        this.archive.write( 0 );                                                //throws IOException
-        try{
-            this.archive.setLength( this.archive.getFilePointer() );            //After Java1.2 throws IOException
-        }catch( NoSuchMethodError error ){
+        this.archive.write(0);                                                //throws IOException
+        try {
+            this.archive.setLength(this.archive.getFilePointer());            //After Java1.2 throws IOException
+        } catch (NoSuchMethodError error) {
         }
         this.archive.close();                                                   //throws IOException
         this.archive = null;
 
-        this.crc      = null;
+        this.crc = null;
         this.property = null;
         this.encoding = null;
     }
@@ -503,6 +507,7 @@ public class LhaImmediateOutputStream extends OutputStream{
     //  public void putNextEntryNotYetCompressed( LhaHeader header )
     //  public void closeEntry()
     //------------------------------------------------------------------
+
     /**
      * �V�����G���g�����������ނ悤�ɃX�g���[����ݒ肷��B<br>
      * ���̃��\�b�h�� ���Ɉ��k�ς݂̃G���g���̏ꍇ��
@@ -516,30 +521,30 @@ public class LhaImmediateOutputStream extends OutputStream{
      * </ul>
      * �̂ǂꂩ��ł� LhaHeader.UNKNOWN �ł���Ζ����Ɉ��k����Ă��Ȃ��Ƃ���B<br>
      * header �ɂ͐��m�� OriginalSize ���w�肳��Ă���K�v������B<br>
-     * 
+     *
      * @param header �������ރG���g���ɂ��Ă̏�������
      *               LhaHeader�̃C���X�^���X�B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      * @exception IllegalArgumentException
      *                        header.getOriginalSize() �� LhaHeader.UNKNOWN ��Ԃ��ꍇ
      */
-    public void putNextEntry( LhaHeader header ) throws IOException {
-        if( header.getCompressedSize() == LhaHeader.UNKNOWN
-         || header.getCRC()            == LhaHeader.UNKNOWN ){
-            this.putNextEntryNotYetCompressed( header );                        //throws IOException
-        }else{
-            this.putNextEntryAlreadyCompressed( header );                       //throws IOException
+    public void putNextEntry(LhaHeader header) throws IOException {
+        if (header.getCompressedSize() == LhaHeader.UNKNOWN
+                || header.getCRC() == LhaHeader.UNKNOWN) {
+            this.putNextEntryNotYetCompressed(header);                        //throws IOException
+        } else {
+            this.putNextEntryAlreadyCompressed(header);                       //throws IOException
         }
     }
 
     /**
      * ���Ɉ��k�ς݂̃G���g�����������ނ悤�ɃX�g���[����ݒ肷��B<br>
      * ���k�ς݃f�[�^�����������́A�Ăяo�������ۏ؂��鎖�B
-     * 
+     *
      * @param header �������ރG���g���ɂ��Ă̏�������
      *               LhaHeader�̃C���X�^���X�B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      * @exception IllegalArgumentException
      *               <ol>
@@ -551,35 +556,35 @@ public class LhaImmediateOutputStream extends OutputStream{
      * @exception IllegalStateException
      *               �ȑO�̃G���g���������� closeEntry() ����Ă��Ȃ��ꍇ
      */
-    public void putNextEntryAlreadyCompressed( LhaHeader header )
-                                                            throws IOException {
+    public void putNextEntryAlreadyCompressed(LhaHeader header)
+            throws IOException {
 
-        if( this.out == null ){
+        if (this.out == null) {
 
-            if( header.getOriginalSize()   != LhaHeader.UNKNOWN
-             && header.getCompressedSize() != LhaHeader.UNKNOWN
-             && header.getCRC()            != LhaHeader.UNKNOWN ){
+            if (header.getOriginalSize() != LhaHeader.UNKNOWN
+                    && header.getCompressedSize() != LhaHeader.UNKNOWN
+                    && header.getCRC() != LhaHeader.UNKNOWN) {
 
                 this.headerpos = this.archive.getFilePointer();
 
-                this.encoding = this.property.getProperty( "lha.encoding" );
-                if( this.encoding == null ){
-                    this.encoding = LhaProperty.getProperty( "lha.encoding" );
+                this.encoding = this.property.getProperty("lha.encoding");
+                if (this.encoding == null) {
+                    this.encoding = LhaProperty.getProperty("lha.encoding");
                 }
 
-                this.archive.write( header.getBytes( encoding ) );                  //throws IOException
-                this.out = new RandomAccessFileOutputStream( this.archive, header.getCompressedSize() );
+                this.archive.write(header.getBytes(encoding));                  //throws IOException
+                this.out = new RandomAccessFileOutputStream(this.archive, header.getCompressedSize());
 
-            }else if( header.getOriginalSize() == LhaHeader.UNKNOWN ){
-                throw new IllegalArgumentException( "OriginalSize must not \"LhaHeader.UNKNOWN\"." );
-            }else if( header.getCompressedSize() == LhaHeader.UNKNOWN ){
-                throw new IllegalArgumentException( "CompressedSize must not \"LhaHeader.UNKNOWN\"." );
-            }else{
-                throw new IllegalArgumentException( "CRC must not \"LhaHeader.UNKNOWN\"." );
+            } else if (header.getOriginalSize() == LhaHeader.UNKNOWN) {
+                throw new IllegalArgumentException("OriginalSize must not \"LhaHeader.UNKNOWN\".");
+            } else if (header.getCompressedSize() == LhaHeader.UNKNOWN) {
+                throw new IllegalArgumentException("CompressedSize must not \"LhaHeader.UNKNOWN\".");
+            } else {
+                throw new IllegalArgumentException("CRC must not \"LhaHeader.UNKNOWN\".");
             }
 
-        }else{
-            throw new IllegalStateException( "entry is not closed." );
+        } else {
+            throw new IllegalStateException("entry is not closed.");
         }
     }
 
@@ -589,10 +594,10 @@ public class LhaImmediateOutputStream extends OutputStream{
      * �������B���̃��\�b�h�ɓn����� header �ɂ�
      * LhaHeader.setOriginalSize() ��p���� ���m�ȃI���W�i���T�C�Y
      * ���w�肳��Ă���K�v������B
-     * 
+     *
      * @param header �������ރG���g���ɂ��Ă̏�������
      *               LhaHeader�̃C���X�^���X�B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      * @exception IllegalArgumentException
      *                        header.getOriginalSize() ��
@@ -601,36 +606,36 @@ public class LhaImmediateOutputStream extends OutputStream{
      *                        �ȑO�̃G���g����������
      *                        closeEntry() ����Ă��Ȃ��ꍇ
      */
-    public void putNextEntryNotYetCompressed( LhaHeader header ) 
-                                                        throws IOException {
+    public void putNextEntryNotYetCompressed(LhaHeader header)
+            throws IOException {
 
-        if( out == null ){
+        if (out == null) {
 
-            if( header.getOriginalSize() != LhaHeader.UNKNOWN ){
+            if (header.getOriginalSize() != LhaHeader.UNKNOWN) {
 
                 this.crc.reset();
                 this.headerpos = this.archive.getFilePointer();
-                this.header    = (LhaHeader)header.clone();
-                this.header.setCompressedSize( 0 );
-                this.header.setCRC( 0 );
+                this.header = (LhaHeader) header.clone();
+                this.header.setCompressedSize(0);
+                this.header.setCRC(0);
 
-                this.encoding = this.property.getProperty( "lha.encoding" );
-                if( this.encoding == null ){
-                    this.encoding = LhaProperty.getProperty( "lha.encoding" );
+                this.encoding = this.property.getProperty("lha.encoding");
+                if (this.encoding == null) {
+                    this.encoding = LhaProperty.getProperty("lha.encoding");
                 }
 
-                this.archive.write( this.header.getBytes( encoding ) );
-                this.out = new RandomAccessFileOutputStream( this.archive, header.getOriginalSize() );
-                this.out = CompressMethod.connectEncoder( this.out, 
-                                                          header.getCompressMethod(), 
-                                                          this.property  );
+                this.archive.write(this.header.getBytes(encoding));
+                this.out = new RandomAccessFileOutputStream(this.archive, header.getOriginalSize());
+                this.out = CompressMethod.connectEncoder(this.out,
+                        header.getCompressMethod(),
+                        this.property);
 
-            }else{
-                throw new IllegalArgumentException( "OriginalSize must not \"LhaHeader.UNKNOWN\"." );
+            } else {
+                throw new IllegalArgumentException("OriginalSize must not \"LhaHeader.UNKNOWN\".");
             }
 
-        }else{
-            throw new IllegalStateException( "entry is not closed." );
+        } else {
+            throw new IllegalStateException("entry is not closed.");
         }
     }
 
@@ -643,50 +648,50 @@ public class LhaImmediateOutputStream extends OutputStream{
      * RandomAccessFile �� setLength() ������ jdk1.1 �ȑO�ł� 
      * �G���g���𖳈��k(�������͑��̈��k�@)�ōďo�͂��Ȃ��ꍇ�A
      * ���Ƀf�[�^�̏I�[�ȍ~�Ɉ��k�Ɏ��s�����s���S�ȃf�[�^���c�����܂܂ɂȂ�B<br>
-     * 
+     *
      * @return �G���g�����o�͂��ꂽ�ꍇ�� true�A
      *         ���k�O�������k��̕����T�C�Y���傫���Ȃ������߁A
      *         �G���g�����폜���ꂽ�ꍇ�� false�B
      *         �܂��A���ݏ������̃G���g�������������ꍇ�� true ��Ԃ��B
-     * 
+     *
      * @exception IOException ���o�̓G���[�����������ꍇ
      */
     public boolean closeEntry() throws IOException {
-        if( this.out != null ){
+        if (this.out != null) {
 
             this.out.close();
-            if( this.header != null ){
+            if (this.header != null) {
 
                 long pos = this.archive.getFilePointer();
-                long size = ( pos - this.headerpos
-                                  - this.header.getBytes( this.encoding ).length );
+                long size = (pos - this.headerpos
+                        - this.header.getBytes(this.encoding).length);
 
-                this.header.setCompressedSize( size );
-                if( this.header.getCRC() != LhaHeader.NO_CRC ){
-                    this.header.setCRC( (int)this.crc.getValue() );
+                this.header.setCompressedSize(size);
+                if (this.header.getCRC() != LhaHeader.NO_CRC) {
+                    this.header.setCRC((int) this.crc.getValue());
                 }
 
-                this.archive.seek( this.headerpos );
-                if( this.header.getCompressMethod().equals( CompressMethod.LH0 )
-                 || this.header.getCompressMethod().equals( CompressMethod.LHD )
-                 || this.header.getCompressMethod().equals( CompressMethod.LZ4 )
-                 || this.header.getCompressedSize() < this.header.getOriginalSize() ){
+                this.archive.seek(this.headerpos);
+                if (this.header.getCompressMethod().equals(CompressMethod.LH0)
+                        || this.header.getCompressMethod().equals(CompressMethod.LHD)
+                        || this.header.getCompressMethod().equals(CompressMethod.LZ4)
+                        || this.header.getCompressedSize() < this.header.getOriginalSize()) {
 
-                    this.archive.write( this.header.getBytes( this.encoding ) );
-                    this.archive.seek( pos );
+                    this.archive.write(this.header.getBytes(this.encoding));
+                    this.archive.seek(pos);
                     this.header = null;
-                    this.out    = null;
+                    this.out = null;
                     return true;
-                }else{
+                } else {
                     this.header = null;
-                    this.out    = null;
+                    this.out = null;
                     return false;
                 }
-            }else{
-                this.out    = null;
+            } else {
+                this.out = null;
                 return true;
             }
-        }else{
+        } else {
             return true;
         }
     }
@@ -697,6 +702,7 @@ public class LhaImmediateOutputStream extends OutputStream{
     //------------------------------------------------------------------
     //  private static class RandomAccessFileOutputStream
     //------------------------------------------------------------------
+
     /**
      * RandomAccessFile��OutputStream�̃C���^�t�F�C�X�ɍ��킹�邽�߂̃��b�p�N���X
      */
@@ -738,19 +744,20 @@ public class LhaImmediateOutputStream extends OutputStream{
         //  public RandomAccessFileOutputStream( RandomAccessFile archive,
         //                                       long length )
         //------------------------------------------------------------------
+
         /**
          * RandomAccessFile �����b�v���� OutputStream ���\�z����B
-         * 
+         *
          * @param archive �o�͐��RandomAccessFile
          * @param length  �o�͌��E��
-         * 
+         *
          * @exception IOException ���o�̓G���[�G���[�����������ꍇ
          */
-        public RandomAccessFileOutputStream( RandomAccessFile archive,
-                                             long length ) throws IOException {
+        public RandomAccessFileOutputStream(RandomAccessFile archive,
+                                            long length) throws IOException {
             this.archive = archive;
-            this.pos     = this.archive.getFilePointer();                       //throws IOException
-            this.limit   = this.pos + length;
+            this.pos = this.archive.getFilePointer();                       //throws IOException
+            this.limit = this.pos + length;
         }
 
         //------------------------------------------------------------------
@@ -762,19 +769,20 @@ public class LhaImmediateOutputStream extends OutputStream{
         //  public void write( byte[] buffer )
         //  public void write( byte[] buffer, int index, int length )
         //------------------------------------------------------------------
+
         /**
          * �ڑ����ꂽRandomAccessFile��1�o�C�g�������ށB<br>
          * �R���X�g���N�^�ɓn���ꂽ���E�𒴂��ď����������Ƃ����ꍇ��
          * �����s��Ȃ��B
-         * 
+         *
          * @param data ��������1byte�̃f�[�^
-         * 
+         *
          * @exception IOException  ���o�̓G���[�����������ꍇ
          */
-        public void write( int data ) throws IOException {
-            if( this.pos < this.limit ){
+        public void write(int data) throws IOException {
+            if (this.pos < this.limit) {
                 this.pos++;
-                this.archive.write( data );                                     //throws IOException
+                this.archive.write(data);                                     //throws IOException
             }
         }
 
@@ -782,33 +790,33 @@ public class LhaImmediateOutputStream extends OutputStream{
          * �ڑ����ꂽRandomAccessFile��buffer�̓��e��S�ď������ށB
          * �R���X�g���N�^�ɓn���ꂽ���E�𒴂��ď����������Ƃ����ꍇ��
          * �����s��Ȃ��B
-         * 
+         *
          * @param buffer �������ރf�[�^�̓������o�C�g�z��
-         * 
+         *
          * @exception IOException  ���o�̓G���[�����������ꍇ
          */
-        public void write( byte[] buffer ) throws IOException {
-            this.write( buffer, 0, buffer.length );                             //throws IOException
+        public void write(byte[] buffer) throws IOException {
+            this.write(buffer, 0, buffer.length);                             //throws IOException
         }
 
         /**
          * �ڑ����ꂽRandomAccessFile��buffer�̓��e��index���� length�o�C�g�������ށB
          * �R���X�g���N�^�ɓn���ꂽ���E�𒴂��ď����������Ƃ����ꍇ��
          * �����s��Ȃ��B
-         * 
+         *
          * @param buffer �������ރf�[�^�̓������o�C�g�z��
          * @param index  buffer���̏������ރf�[�^�̊J�n�ʒu
          * @param length �������ރf�[�^��
-         * 
+         *
          * @exception IOException  ���o�̓G���[�����������ꍇ
          */
-        public void write( byte[] buffer, int index, int length )
-                                                        throws IOException {
+        public void write(byte[] buffer, int index, int length)
+                throws IOException {
 
-            if( this.limit < this.pos + length ){
-                length = (int)Math.max( this.limit - this.pos, 0 );
+            if (this.limit < this.pos + length) {
+                length = (int) Math.max(this.limit - this.pos, 0);
             }
-            this.archive.write( buffer, index, length );                        //throws IOException
+            this.archive.write(buffer, index, length);                        //throws IOException
             this.pos += length;
         }
 
@@ -817,10 +825,11 @@ public class LhaImmediateOutputStream extends OutputStream{
         //------------------------------------------------------------------
         //  public void close()
         //------------------------------------------------------------------
+
         /**
          * ���̃X�g���[������� �g�p���Ă������\�[�X���J������B<br>
          */
-        public void close(){
+        public void close() {
             this.archive = null;
         }
 

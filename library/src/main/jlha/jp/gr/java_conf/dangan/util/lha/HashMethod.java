@@ -3,9 +3,8 @@
 
 /**
  * HashMethod.java
- * 
+ * <p>
  * Copyright (C) 2002  Michel Ishizuka  All rights reserved.
- * 
  */
 
 package jp.gr.java_conf.dangan.util.lha;
@@ -18,7 +17,7 @@ package jp.gr.java_conf.dangan.util.lha;
 /**
  * <pre>
  * HashMethod( byte[] TextBuffer )
- * 
+ *
  * <pre>
  * HashMethod( byte[] TextBuffer,
  *             Object ExtraData1,
@@ -33,11 +32,11 @@ package jp.gr.java_conf.dangan.util.lha;
  * [change]
  *
  * </pre>
- * 
- * @author  $Author: dangan $
+ *
+ * @author $Author: dangan $
  * @version $Revision: 1.0 $
  */
-public interface HashMethod{
+public interface HashMethod {
 
 
     //------------------------------------------------------------------
@@ -47,10 +46,11 @@ public interface HashMethod{
     //  public abstract int hashRequires()
     //  public abstract int tableSize()
     //------------------------------------------------------------------
+
     /**
      *
      */
-    public abstract int hash( int position );
+    public abstract int hash(int position);
 
     /**
      */
