@@ -85,7 +85,7 @@ public class FloppyImageUploadResource {
 
                         System.out.println("Done");
 
-                        URI uri = URI.create("/files/browse?path=" + uuid + "&image=" + fileName);
+                        URI uri = URI.create("/files/browse?path=" + uuid + "/" + unpackDir.getName() + "&image=" + fileName);
                         return Response.status(302).location(uri).build();
 
                     }

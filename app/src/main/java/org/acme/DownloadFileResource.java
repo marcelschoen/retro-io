@@ -9,9 +9,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 @Path("/download")
 public class DownloadFileResource {
@@ -49,13 +47,45 @@ public class DownloadFileResource {
     }
 
     @GET
-    @Path("/virtualFile")
+    @Path("/file")
     @Produces("application/octet-stream")
     /**
      * Allows to have a file extracted from the uploaded floppy image and download
      * it directly.
      */
-    public Response getVirtualFile(@QueryParam("relativePath") String relativePath) {
+    public Response getVirtualFile(@QueryParam("path") String path,
+                                   @QueryParam("relativePath") String relativePath) {
+        try {
+            File pathDir = new File(uploadDirectory, path);
+            File file = new File(pathDir, relativePath);
+            if(file.exists() && file.isFile()) {
+                StreamingOutput zipOutput = new StreamingOutput() {
+                    @Override
+                    public void write(OutputStream outputStream) throws IOException, WebApplicationException {
+                        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+                        byte[] buffer = new byte[4096];
+                        int read = -1;
+                        while((read = in.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, read);
+                        }
+                        in.close();
+                    }
+                };
+                String fileName = relativePath;
+                if(fileName.contains("/")) {
+                    fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+                }
+                return Response.ok(zipOutput)
+                        .type( "application/octet-stream" )
+                        .header( "Content-Disposition", "attachment; filename=\"" + fileName + "\"" )
+                        .build();
+            } else {
+                System.err.println("*** FILE NOT FOUND: " + file.getAbsolutePath());
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            return Response.status(500).entity("Unknown error: " + e).build();
+        }
         return null;
     }
 }

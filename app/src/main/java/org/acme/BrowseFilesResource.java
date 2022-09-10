@@ -29,7 +29,7 @@ public class BrowseFilesResource {
         String body = "<html><body>";
         body += createHeaderDiv(path, imageName);
         body += "<h3>Contents</h3>";
-        body += new FolderNode(pathDir).getFolderDivTag();
+        body += new FolderNode(path, pathDir, true).getFolderDivTag();
         body += "</body></html>";
         return Response.status(200).entity(body).build();
     }
