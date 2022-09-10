@@ -7,11 +7,11 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.retro-io.tools</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>floppy-tool</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Retro Floppy Image Handling Library</name>
