@@ -55,15 +55,6 @@ public class FloppyImageUploadResource {
 
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
         boolean isAjax = uploadForm.containsKey("ajax");
-        for(String key : uploadForm.keySet()) {
-            System.out.println(">> KEY: " + key);
-            for(InputPart value : uploadForm.get(key)) {
-                System.out.println("-----> PART: ");
-                for(String header : value.getHeaders().keySet()) {
-                    System.out.println("------> header: " + header + ": " + value.getHeaders().get(key));
-                }
-            }
-        }
         List<InputPart> inputParts = uploadForm.get("files[]");
 
         for (InputPart inputPart : inputParts) {
@@ -77,7 +68,6 @@ public class FloppyImageUploadResource {
         if(fileName != null && fileName.contains(".")) {
             File finalImageFile = new File(finalDir, fileName);
             ImageType imageType = ImageType.getTypeFromFile(finalImageFile);
-            System.out.println("Image type: " + imageType.name());
             if(imageType == ImageType.unknown) {
                 if(!isAjax) {
                     return Response.status(500).entity("Invalid/unsupported file format").build();
@@ -87,9 +77,7 @@ public class FloppyImageUploadResource {
             }
 
             try {
-                System.out.println("********** FILENAME: " + fileName);
                 for (InputPart inputPart : inputParts) {
-                    System.out.println("> process part...");
                     MultivaluedMap<String, String> header = inputPart.getHeaders();
 
                     // convert the uploaded file to inputstream
@@ -98,7 +86,6 @@ public class FloppyImageUploadResource {
                     writeFile(bytes, finalImageFile);
                 }
 
-
                 File unpackDir = new File(finalDir, fileName + "-unpacked");
                 unpackDir.mkdirs();
 
@@ -106,12 +93,7 @@ public class FloppyImageUploadResource {
                 VirtualDisk virtualDisk = imageHandler.loadImage(finalImageFile);
                 virtualDisk.exportToDirectory(unpackDir);
 
-                System.out.println("Done");
-
                 URI uri = URI.create("/files/browse?path=" + uuid + "/" + unpackDir.getName() + "&image=" + fileName);
-
-                System.out.println("------------- IS AJAX CLIENT: " + isAjax);
-
                 if(!isAjax) {
                     return Response.status(302).location(uri).build();
                 } else {
@@ -123,10 +105,8 @@ public class FloppyImageUploadResource {
                 return Response.status(500).entity("Unknown error: " + e).build();
             }
 
-        } else {
-            System.err.println("------> Unable to find filename");
         }
-System.err.println("------> FAILURE");
+
         return Response.status(500).entity("Upload failed.").build();
     }
 

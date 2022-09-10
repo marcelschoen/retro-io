@@ -34,8 +34,8 @@ public class FolderNode {
     }
 
     public String getFolderDivTag() {
-        String divTag = "<div>\n";
-        divTag += "<br /><b><img src=\"" + ICONS_PATH + "folder.png\">" + this.title + "/</b>\n";
+        String divTag = "<div style=\"padding-top: 20px; padding-bottom=20px;\">\n";
+        divTag += "<span style=\"font-weight: bold;\"><img style=\"margin-right: 3px;\" src=\"" + ICONS_PATH + "folder.png\">" + this.title + "/</span>\n";
         divTag += "<div style=\"margin-left: 20px\">\n";
         File[] files = this.folder.listFiles();
         divTag += "<table>\n";
