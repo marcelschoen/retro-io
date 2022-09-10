@@ -24,25 +24,33 @@ public class BrowseFilesResource {
     @Produces("text/html")
     public Response browse(@QueryParam("path") String path, @QueryParam("image") String imageName) {
         File pathDir = new File(uploadDirectory, path);
-        File imageFile = new File(pathDir, imageName);
 
-        String body = "<html><body>";
+        String body = "<!DOCTYPE html>\n<html lang=\"en\"><head>\n";
+        body += "  <meta charset=\"UTF-8\">\n";
+        body += "  <link rel=\"stylesheet\" href=\"/retroio.css\">\n";
+        body += "  <title>RetroIO Floppy Image Browser</title>\n";
+        body += "</head><body>\n";
         body += createHeaderDiv(path, imageName);
-        body += "<h3>Contents</h3>";
-        body += new FolderNode(path, pathDir, true).getFolderDivTag();
-        body += "</body></html>";
+        body += "<h3>Contents</h3>\n";
+
+        body += "<div style=\"font-size: -1; font-size: 0.9rem; margin-left: 20px;\">";
+        String uuidPathOnly = path.substring(0, path.indexOf("/"));
+
+        body += new FolderNode(uuidPathOnly, pathDir, true).getFolderDivTag();
+        body += "</div>";
+        body += "</body></html>\n";
         return Response.status(200).entity(body).build();
     }
 
     private String createHeaderDiv(String path, String filename) {
-        String headerDiv = "<div>";
+        String headerDiv = "<div>\n";
 
-        headerDiv += "<h3>Image: " + filename + "</h3>";
+        headerDiv += "<h3>Image: " + filename + "</h3>\n";
 
-        headerDiv += "<ul>";
-        headerDiv += "<li>Download <a download href=\"/download/zip?path=" + path + "&image=" + filename + "\">as ZIP</a></li>";
-        headerDiv += "</ul>";
+        headerDiv += "<ul>\n";
+        headerDiv += "<li>Download <a download href=\"/download/zip?path=" + path + "&image=" + filename + "\">as ZIP</a></li>\n";
+        headerDiv += "</ul>\n";
 
-        return headerDiv + "</div>";
+        return headerDiv + "</div>\n";
     }
 }

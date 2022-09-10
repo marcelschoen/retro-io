@@ -11,6 +11,7 @@ public class FolderNode {
     private String title = null;
     private String relativePath = "";
     private String basePath = "";
+    private String ICONS_PATH = "/icons/";
 
     public FolderNode(String basePath, File folder, boolean isRoot) {
         this(basePath, folder, "");
@@ -33,24 +34,60 @@ public class FolderNode {
     }
 
     public String getFolderDivTag() {
-        String divTag = "<div>";
-        divTag += "<br /><b>" + (this.title.isEmpty() ? "" : "/") + this.title + "/</b>";
-        divTag += "<div style=\"margin-left: 20px\">";
+        String divTag = "<div>\n";
+        divTag += "<br /><b><img src=\"" + ICONS_PATH + "folder.png\">" + this.title + "/</b>\n";
+        divTag += "<div style=\"margin-left: 20px\">\n";
         File[] files = this.folder.listFiles();
-        divTag += "<table>";
+        divTag += "<table>\n";
+        String tightStyle = "margin: 0px; inset: 0px; padding: 0px; border: none;";
         for (File entry : files) {
             if (entry.isFile()) {
-                divTag += "<tr>";
-                divTag += "<td>+</td>";
-                divTag += "<td><a href=\"/download/file?path=" + this.basePath + "&relativePath=" + this.relativePath + "/" + entry.getName() + "\">" + entry.getName() + "</a></td>";
-                divTag += "<td>size: " + entry.length() + "</td>";
-                divTag += "</tr>";
+                divTag += "<tr style=\"" + tightStyle + "\">\n";
+                divTag += "<td style=\"" + tightStyle + "\"><img src=\"" + getIconUri(entry) + "\"></td>";
+                divTag += "<td style=\"" + tightStyle + "\"><a href=\"/download/file?path=" + this.basePath + "&relativePath=" + this.relativePath + "/" + entry.getName() + "\">" + entry.getName() + "</a></td>";
+                divTag += "<td style=\"" + tightStyle + "\">size: " + entry.length() + "</td>";
+                divTag += "</tr>\n";
             }
         }
-        divTag += "</table>";
+        divTag += "</table>\n";
         for (FolderNode child : childNodes) {
             divTag += child.getFolderDivTag();
         }
-        return divTag + "</div></div>";
+        return divTag + "</div>\n</div>\n";
+    }
+
+    private String getIconUri(File file) {
+        String name = file.getName().toLowerCase();
+        String suffix = name.contains(".") ? name.substring(name.lastIndexOf(".") + 1) : "";
+        switch (suffix) {
+            case "prg":
+            case "app":
+            case "tos":
+                return ICONS_PATH + "application-x-executable.png";
+            case "zip":
+            case "bz":
+            case "lzb":
+            case "lzh":
+                return ICONS_PATH + "package-x-generic.png";
+            case "mod":
+            case "wav":
+                return ICONS_PATH + "audio-x-generic.png";
+            case "pi1":
+            case "pi2":
+            case "pi3":
+            case "neo":
+            case "gif":
+            case "jpg":
+            case "jpeg":
+            case "png":
+            case "iff":
+            case "tiff":
+                return ICONS_PATH + "image-x-generic.png";
+            case "avi":
+            case "mp4":
+                return ICONS_PATH + "applications-multimedia-4.png";
+            default:
+        }
+        return ICONS_PATH + "text-x-generic-template.png";
     }
 }
