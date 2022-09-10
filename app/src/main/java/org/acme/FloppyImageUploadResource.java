@@ -79,7 +79,11 @@ public class FloppyImageUploadResource {
             ImageType imageType = ImageType.getTypeFromFile(finalImageFile);
             System.out.println("Image type: " + imageType.name());
             if(imageType == ImageType.unknown) {
-                return Response.status(500).entity("Invalid/unsupported file format").build();
+                if(!isAjax) {
+                    return Response.status(500).entity("Invalid/unsupported file format").build();
+                } else {
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+                }
             }
 
             try {

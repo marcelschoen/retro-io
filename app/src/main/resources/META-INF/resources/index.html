@@ -10,7 +10,7 @@
 
 </head>
 <body>
-<div style="margin: 30px;">
+<div style="margin: 20px;">
 
     <img src="/images/retroio-logo-main.png" alt="RetroIO" />
     <img src="/images/floppy-image-loader-logo.png" alt="Floppy Image Loader" />
@@ -200,18 +200,13 @@
 						{
                             window.location.href = data.url;
 						},
-						error: function()
+                        error: function (xhr, ajaxOptions, thrownError)
 						{
-                            alert( 'Error. Please, contact the webmaster!' );
-                            /*
-                            if (data.redirect) {
-                                // data.redirect contains the string URL to redirect to
-                                alert( 'Redirect to:' + data.redirect );
-                                window.location.href = data.redirect;
+                            if(xhr.status == 400) {
+                                alert('Invalid or unsupported image file.')
                             } else {
-                                alert( 'Error. Please, contact the webmaster!' );
+                                alert('Unknown error, image may be invalid.')
                             }
-                             */
 						}
 					});
 				}

@@ -29,7 +29,7 @@ public class BrowseFilesResource {
         body += "  <meta charset=\"UTF-8\">\n";
         body += "  <link rel=\"stylesheet\" href=\"/retroio.css\">\n";
         body += "  <title>RetroIO Floppy Image Browser</title>\n";
-        body += "</head><body>\n";
+        body += "</head><body><div style=\"margin: 20px;\">\n";
         body += createHeaderDiv(path, imageName);
         body += "<h3>Contents</h3>\n";
 
@@ -37,13 +37,16 @@ public class BrowseFilesResource {
         String uuidPathOnly = path.substring(0, path.indexOf("/"));
 
         body += new FolderNode(uuidPathOnly, pathDir, true).getFolderDivTag();
-        body += "</div>";
+        body += "</div></div>";
         body += "</body></html>\n";
         return Response.status(200).entity(body).build();
     }
 
     private String createHeaderDiv(String path, String filename) {
         String headerDiv = "<div>\n";
+
+        headerDiv += "<img src=\"/images/retroio-logo-main.png\" alt=\"RetroIO\" />";
+        headerDiv += "<img src=\"/images/floppy-image-loader-logo.png\" alt=\"Floppy Image Loader \" />";
 
         headerDiv += "<h3>Image: " + filename + "</h3>\n";
 
