@@ -67,6 +67,7 @@ public class FolderNode {
             case "zip":
             case "bz":
             case "lzb":
+            case "lza":
             case "lzh":
                 return ICONS_PATH + "package-x-generic.png";
             case "mod":
