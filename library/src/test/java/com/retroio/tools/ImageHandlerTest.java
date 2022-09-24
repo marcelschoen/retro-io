@@ -84,7 +84,7 @@ public class ImageHandlerTest {
     public void testReadAtariSTImage() throws Exception {
         System.out.println("======== Atari ST image ===========");
         ImageHandler handler = ImageHandlerFactory.get(ImageType.atarist_ST);
-        String image = "007BATMAN.ST";
+        String image = "007BATMAN.st";
 
         Path tempDirectory = Files.createTempDirectory("st");
         java.io.File imageFile = new File(tempDirectory.toFile(), image);
